@@ -93,7 +93,7 @@ class classifier(object):
         #This function scales the data 
         self.data=self.data_unscaled
         #get the unscaled training features as in __init__
-        X_primary_unscaled = data[:math.floor(self.data_unscaled.shape[0]*(1-self.percentage_used_for_validation/100)),:][:,:-1]
+        X_primary_unscaled = self.data[:math.floor(self.data_unscaled.shape[0]*(1-self.percentage_used_for_validation/100)),:][:,:-1]
         scaler = preprocessing.StandardScaler().fit(X_primary_unscaled)
         self.data[:,:-1]=scaler.fit_transform(self.data[:,:-1])
         return scaler
@@ -233,14 +233,14 @@ class classifier(object):
         plt.ylabel('Normalised Frequency')
         plt.title('Probability Predictions Particle Sample BDT')
         plt.savefig('Machine_learning_predictions_particle_BDT.pdf', format='pdf', dpi=300)
-        plt.show()
+        #plt.show()
         n1, bins1, patches1 = plt.hist(self.data_validation_file_1[:,4], bins=bins_probability, normed=True, facecolor='blue', alpha=0.5, label="file_1")
         #plt.axis([0, 1, 0, 0.03])
         plt.xlabel('Probability')
         plt.ylabel('Normalised Frequency')
         plt.title('Probability Predictions CPV2 Sample BDT')
         plt.savefig('Machine_learning_predictions_CPV2_BDT.pdf', format='pdf', dpi=300)
-        plt.show()
+        #plt.show()
         
         
         n0, bins0, patches0 = plt.hist(self.data_validation_file_0[:,4], bins=bins_probability, normed=True, facecolor='red', alpha=0.5, label="Particle")
@@ -251,7 +251,7 @@ class classifier(object):
         plt.ylabel('Normalised Frequency')
         plt.title('Probability Predictions Particle and CPV2 Samples BDT')
         plt.savefig('Machine_learning_predictions_particle_CPV2_BDT.pdf', format='pdf', dpi=3000)
-        plt.show()
+        #plt.show()
         
         
         #Subtract histograms. This is assuming equal bin width
@@ -260,7 +260,7 @@ class classifier(object):
         plt.ylabel('Normalised Frequency (sample 1 - sample 2)')
         plt.title('Differtial Probability Predictions Particle and CPV2 Samples BDT')
         plt.savefig('Machine_learning_predictions_CPV2_minus_particle_BDT.pdf', format='pdf', dpi=3000)
-        plt.show()
+        #plt.show()
         
         #val[numpy.logical_or.reduce([val[:,1] == 1])]
         colorMap = plt.get_cmap('Spectral')

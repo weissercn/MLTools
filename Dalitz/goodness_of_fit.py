@@ -52,7 +52,7 @@ np.random.shuffle(data)
 
 np.savetxt('data.txt', data)
 
-dt_tada=classifier_eval.odt(data,40,2)
+dt_tada=classifier_eval.obdt(data,40,2)
 #dt_tada.get_no_estimators()
 dt_tada.get_results_without_cross_validation()
 
