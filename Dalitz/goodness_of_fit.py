@@ -26,20 +26,20 @@ comp_file_0='data.+.txt'
 comp_file_1='data.cpv.v2.txt'
 
 #extracts data from the files
-samples_0=np.loadtxt(comp_file_0,dtype='d')
-samples_1=np.loadtxt(comp_file_1,dtype='d')
+features_0=np.loadtxt(comp_file_0,dtype='d')
+features_1=np.loadtxt(comp_file_1,dtype='d')
 
 #determine how many data points are in each sample
-no_0=samples_0.shape[0]
-no_1=samples_1.shape[0]
+no_0=features_0.shape[0]
+no_1=features_1.shape[0]
 
-#Give all samples in file 0 the feature 0 and in file 1 the feature 1
-features_0=np.zeros((no_0,1))
-features_1=np.ones((no_1,1))
+#Give all samples in file 0 the label 0 and in file 1 the feature 1
+label_0=np.zeros((no_0,1))
+label_1=np.ones((no_1,1))
 
 #Create an array containing samples and features.
-data_0=np.c_[samples_0,features_0]
-data_1=np.c_[samples_1,features_1]
+data_0=np.c_[features_0,label_0]
+data_1=np.c_[features_1,label_1]
 
 data=np.r_[data_0,data_1]
 
