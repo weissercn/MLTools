@@ -1,3 +1,5 @@
+from __future__ import print_function
+from __future__ import division
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import numpy as np
@@ -208,7 +210,7 @@ class classifier(object):
         # It shouldnt matter if k folding was performed or not. the algorythm should be trained on the whole primary sample.
         #self.train_from_scratch()
         #prediction list: 0 is correct, 1 if wrong prediction
-        pred_validation = abs(self.clf.predict(self.X_val)-self.y_val)
+	pred_validation = abs(self.clf.predict(self.X_val)-self.y_val)
         
         # Use predict_proba to find the probability that a point came from file 1.  
         probability_from_file_1 = self.clf.predict_proba(self.X_val)[:,1]   
@@ -233,14 +235,14 @@ class classifier(object):
         plt.ylabel('Normalised Frequency')
         plt.title('Probability Predictions Particle Sample BDT')
         plt.savefig('Machine_learning_predictions_particle_BDT.pdf', format='pdf', dpi=300)
-        #plt.show()
+        plt.show()
         n1, bins1, patches1 = plt.hist(self.data_validation_file_1[:,4], bins=bins_probability, normed=True, facecolor='blue', alpha=0.5, label="file_1")
         #plt.axis([0, 1, 0, 0.03])
         plt.xlabel('Probability')
         plt.ylabel('Normalised Frequency')
         plt.title('Probability Predictions CPV2 Sample BDT')
         plt.savefig('Machine_learning_predictions_CPV2_BDT.pdf', format='pdf', dpi=300)
-        #plt.show()
+        plt.show()
         
         
         n0, bins0, patches0 = plt.hist(self.data_validation_file_0[:,4], bins=bins_probability, normed=True, facecolor='red', alpha=0.5, label="Particle")
@@ -251,7 +253,7 @@ class classifier(object):
         plt.ylabel('Normalised Frequency')
         plt.title('Probability Predictions Particle and CPV2 Samples BDT')
         plt.savefig('Machine_learning_predictions_particle_CPV2_BDT.pdf', format='pdf', dpi=3000)
-        #plt.show()
+        plt.show()
         
         
         #Subtract histograms. This is assuming equal bin width
@@ -260,7 +262,7 @@ class classifier(object):
         plt.ylabel('Normalised Frequency (sample 1 - sample 2)')
         plt.title('Differtial Probability Predictions Particle and CPV2 Samples BDT')
         plt.savefig('Machine_learning_predictions_CPV2_minus_particle_BDT.pdf', format='pdf', dpi=3000)
-        #plt.show()
+        plt.show()
         
         #val[numpy.logical_or.reduce([val[:,1] == 1])]
         colorMap = plt.get_cmap('Spectral')
