@@ -1,0 +1,29 @@
+Constantin Weisser 02/11/2016 MIT
+
+This folder is for generating 2 dimensional Gaussian data.
+The file generate_gaussian_samples.py generates a single file
+and takes the input (number of data points) (x mean) (x standard 
+deviation) (y mean) (y standard deviation) (label of file)
+The label of the file is an integer that enables us to have 
+multiple files generated from the same gaussians. 
+It is run as follows:
+
+./generate_gaussian_samples.py 10000 0.5 0.1 0.5 0.1 1
+
+or
+
+python generate_gaussian_samples.py 10000 0.5 0.1 0.5 0.1 1
+
+The automate_generate_gaussian_samples.py file is a python
+bash script to generate many files. The input parameters of the
+Gaussians are specified within the file. It is run as follows:
+
+./automate_generate_gaussian_samples.py
+
+or 
+
+python automate_generate_gaussian_samples.py
+
+The output of these programs are text files with two columns 
+containing the x and y data points. These files are stored in 
+the gauss_data subfolder.  
