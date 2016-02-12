@@ -1,13 +1,17 @@
-# source activate python27environment
-# you need to type this line into the terminal to enable the conda environement in which python 2.7 is installed.
-# source deactivate
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# Name:     gof_tf.py 
+#
+# Author:   Constantin Weisser (weisser@mit.edu)
+#
+# Purpose:  A script to find the p value for tensorflow. 
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-# 
+
 from __future__ import division
 import matplotlib.pyplot as plt 
 import numpy as np
 import math
-#from Users/weisser/anaconda/envs/python27environment/lib/python2.7/site-packages/tensorflow/models/image
-#from tensorflow.examples.tutorials.mnist import input_data
-#mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 #file 0 contains the particle, file 1 the antiparticle samples.
 comp_file_0='data.+.txt'

@@ -1,5 +1,17 @@
 #!/usr/bin/env python
-#This is a python script to write a file containing 10000 data points sampled from a 2D Gaussian
+
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# Name:     generate_gaussian_samples.py 
+#
+# Author:   Constantin Weisser (weisser@mit.edu)
+#
+# Purpose:  This is a python script to write a file containing 10000 data points
+#	    sampled from a 2D Gaussian
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-# 
+
+
 #Constantin Weisser
 from __future__ import print_function
 from random import gauss

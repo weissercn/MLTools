@@ -1,3 +1,15 @@
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# Name:     classifier_eval.py 
+#
+# Author:   Constantin Weisser (weisser@mit.edu)
+#
+# Purpose:  This is a class structure to determine the p value for different
+#           scikit-learn algorithms. 
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-# 
+
+
 from __future__ import print_function
 from __future__ import division
 import matplotlib.pyplot as plt

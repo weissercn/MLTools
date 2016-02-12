@@ -1,0 +1,20 @@
+This part of the project focussed on CP violation in Dalitz plots. 
+Samples are either taken from the gaussian_samples directory for
+2 or higher dimensional gaussian distributions or from dpmodel
+for a more sophisticated Dalitz plot model. 
+One should take two data files to compare and call them data.+.txt
+and data.cpv.v2.txt for example and then run
+
+python goodness_of_fit.py
+
+This will produce he following files:
+data_unshuffled.txt
+data.txt
+different Machine_learning_predictions pdfs
+
+
+
+
+
+
+

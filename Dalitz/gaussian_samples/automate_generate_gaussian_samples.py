@@ -1,5 +1,16 @@
 #!/usr/local/bin/python
 
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# Name:     automate_generate_gaussian_samples.py 
+#
+# Author:   Constantin Weisser (weisser@mit.edu)
+#
+# Purpose:  This is a python script to automate writing file containing data points
+#           sampled from a 2D Gaussian
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-# 
+
 from __future__ import print_function
 import os
 

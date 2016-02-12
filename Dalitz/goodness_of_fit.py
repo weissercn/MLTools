@@ -1,3 +1,14 @@
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# Name:     goodness_of_fit.py 
+#
+# Author:   Constantin Weisser (weisser@mit.edu)
+#
+# Purpose:  This is the main file of the Dalitz hirarchy. It takes in two 
+#	    data files and uses either classifier_eval (scikit learn) 
+#	    or tensorflow to compare these two files. 
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
 from __future__ import print_function
 import matplotlib.pyplot as plt
