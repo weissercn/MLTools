@@ -16,6 +16,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import numpy as np
 import math
+import tensorflow as tf
 from sklearn import preprocessing
 from sklearn import tree
 from sklearn.ensemble import AdaBoostClassifier
@@ -56,14 +57,26 @@ class classifier(object):
         self.X_pri = self.data_primary[:,:-1]
         self.no_primary=self.X_pri.shape[0]
         self.y_pri = self.data_primary[:,2:].reshape((self.no_primary,))
+	self.y_pri_tf = np.zeros(( self.no_primary,2))
+
+	for i in range(self.no_primary):
+    		if self.y_pri[i]==1:
+        		self.y_pri_tf[i,1]=1
+    		else:
+        		self.y_pri_tf[i,0]=1	
         
         self.X_val = self.data_validation[:,:-1]
         self.no_validation=self.X_val.shape[0]
         self.y_val = self.data_validation[:,2:].reshape((self.no_validation,))
-        
-        #Creating the classifier from blueprint. The blueprint is provided by the daughter class.
-        self.clf = self.clf_blueprint
-        print(self.clf)
+	self.y_val_tf = np.zeros(( self.no_validation,2))
+
+	for i in range(self.no_validation):
+    		if self.y_val[i]==1:
+        		self.y_val_tf[i,1]=1
+    		else:
+        		self.y_val_tf[i,0]=1
+
+
         self.print_line()
         
         
@@ -80,7 +93,8 @@ class classifier(object):
     def get_results(self):
         # Because this method uses crossvalidation no prior training is required 
         # as this is done in the crossvalidation function.
-        self.get_score()
+        self.clf = self.clf_blueprint
+	self.get_score()
         self.get_percentage_wrong()
         self.get_pvalue_perm(self.no_permutations)
         self.ks()
@@ -95,9 +109,11 @@ class classifier(object):
         self.no_validation=-1
         self.X_pri=-1
         self.y_pri=-1
+	self.y_pri_tf=-1
         self.X_val=-1
         self.y_val=-1
-        self.percentage_wrong_primary=-1
+        self.y_val_tf=-1
+	self.percentage_wrong_primary=-1
         self.percentage_wrong_validation=-1
         self.score_primary=-1
         self.score_validation=-1
@@ -112,13 +128,7 @@ class classifier(object):
         self.data[:,:-1]=scaler.fit_transform(self.data[:,:-1])
         return scaler
     
-    def train_from_scratch(self):
-        self.clf = self.clf_blueprint
-        self.clf = self.clf.fit(self.X_pri, self.y_pri)
-        
-    def train(self):
-        self.clf = self.clf.fit(self.X_pri, self.y_pri)
-        
+       
     def get_percentage_wrong(self):
         """Need to run train_from_scratch or train before this"""
         #Very quick check how well the algorithm did. 
@@ -321,12 +331,70 @@ class classifier(object):
     
     def print_line(self):
         print("---------------------------------------------------------------------------------------------------------------------")
+
+####################################################################################################################################################################
+####################################################################################################################################################################
+####################################################################################################################################################################
         
 
-class odt(classifier):
+class sklearn_classifier(classifier):
+	def train_from_scratch(self):
+        	self.clf = self.clf_blueprint
+        	print(self.clf)
+		self.print_line()
+		self.clf = self.clf.fit(self.X_pri, self.y_pri)
+        
+    	def train(self):
+        	self.clf = self.clf.fit(self.X_pri, self.y_pri)
+	
+	type_of_classifier="sklearn"
+
+class tf_classifier(classifier):
+	type_of_classifier="tensorflow"
+
+####################################################################################################################################################################
+####################################################################################################################################################################
+####################################################################################################################################################################
+
+
+
+
+class softmax_regression_tf(tf_classifier):
+	def train_from_scratch(self):
+		sess = tf.InteractiveSession()
+		x = tf.placeholder("float", shape=[None, 2])
+		y_ = tf.placeholder("float", shape=[None, 2])
+		W = tf.Variable(tf.zeros([2,2]))
+		b = tf.Variable(tf.zeros([2]))
+
+		#print("test2")
+
+		sess.run(tf.initialize_all_variables())
+		y = tf.nn.softmax(tf.matmul(x,W) + b)
+		cross_entropy = -tf.reduce_sum(y_*tf.log(y))
+		train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
+
+		#print("test3")
+		#print(X_pri)
+
+		for i in range(self.no_primary):
+		    #print(X_pri[i,:].reshape(1,2).shape)
+		    #print(y_pri_tf[i,:].reshape(1,2).shape)
+		    train_step.run(feed_dict={x: self.X_pri[i,:].reshape(1,2), y_: self.y_pri_tf[i,:].reshape(1,2)})
+
+		#print("test4")    
+		correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
+		accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+		#print("test5")
+		print("accuracy on validation sample")
+		print(accuracy.eval(feed_dict={x: self.X_val[:,:].reshape(self.no_validation,2), y_: self.y_val_tf[:,:].reshape(self.no_validation,2)}))
+		self.print_line()
+
+
+class dt_sklearn(sklearn_classifier):
     clf_blueprint = tree.DecisionTreeClassifier()
     
-class obdt(classifier):
+class ada_sklearn(sklearn_classifier):
     def __init__(self,data,percentage_used_for_validation,no_permutations=0, no_estimators=1000):
         self.no_estimators = no_estimators
         print("no_estimators: %.4f" % self.no_estimators)
@@ -337,7 +405,7 @@ class obdt(classifier):
     def get_no_estimators(self):
         return self.no_estimators
     
-class osvm(classifier):
+class svm_sklearn(sklearn_classifier):
     def __init__(self,data,percentage_used_for_validation,no_permutations=0, a_cache_size=1000):
         self.cache_size = a_cache_size
         print("cache_size: %.4f" % self.cache_size)
@@ -348,7 +416,7 @@ class osvm(classifier):
     def get_cache_size(self):
         return self.cache_size
     
-class onn(classifier):
+class nn_sklearn(sklearn_classifier):
     def __init__(self,data,percentage_used_for_validation,no_permutations=0):
         self.clf_blueprint = Classifier(
             layers=[
