@@ -138,8 +138,8 @@ class classifier(object):
         #Very quick check how well the algorithm did. 
         
         #prediction list: 0 is correct, 1 if wrong prediction
-        pred_primary = abs(self.clf.predict(self.X_pri)-self.y_pri)
-        pred_validation = abs(self.clf.predict(self.X_val)-self.y_val)
+        pred_primary = abs(self.predict(self.X_pri)-self.y_pri)
+        pred_validation = abs(self.predict(self.X_val)-self.y_val)
 
         # Find the number of wrong predictions and divide by the number of samples. 
         # The result is the percentage of wrong classifications.
@@ -204,6 +204,35 @@ class classifier(object):
         
         self.print_line()
         return self.pvalue
+
+    def get_pvalue_perm_without_cross_validation_percentage_right(self,no_permutations):
+        """Need to run get_score_without_cross_validation before get_pvalue_perm_without_cross_validation"""
+        if(no_permutations==0):
+            print("no_permutations was 0. Terminating")
+            return -1
+    
+	self.print_line()
+        print("Calculating p value from permutation")
+        print("score_list")
+        self.score_list=[]
+        print(self.score_list)
+        print("Performing %f permutations" %self.no_permutations)
+    
+    
+        for i in range(0,no_permutations):
+            y_pri_shuffled=np.random.permutation(self.y_pri)
+            y_val_shuffled=np.random.permutation(self.y_val)
+            clf_shuffled = self.clf_blueprint
+            clf_shuffled = clf_shuffled.fit(self.X_pri, y_pri_shuffled)
+            self.score_list.append(clf_shuffled.score(self.X_val, y_val_shuffled))
+
+        print("Self score: %.4f" % self.score)
+        print(self.score_list)
+        self.pvalue=sum(i > self.score for i in self.score_list)/self.no_permutations
+        print(self.pvalue)
+    
+        self.print_line()
+        return self.pvalue
     
     def get_pvalue_perm(self,no_permutations):
         """Need to run get_score before get_pvalue_perm"""
@@ -236,10 +265,10 @@ class classifier(object):
         # It shouldnt matter if k folding was performed or not. the algorythm should be trained on the whole primary sample.
         #self.train_from_scratch()
         #prediction list: 0 is correct, 1 if wrong prediction
-	pred_validation = abs(self.clf.predict(self.X_val)-self.y_val)
+	pred_validation = abs(self.predict(self.X_val)-self.y_val)
         
         # Use predict_proba to find the probability that a point came from file 1.  
-        probability_from_file_1 = self.clf.predict_proba(self.X_val)[:,1]   
+        probability_from_file_1 = self.predict_proba(self.X_val)[:,1]   
         pred_validation_transposed= np.reshape(pred_validation,(self.no_validation,1))
         probability_from_file_1_transposed= np.reshape(probability_from_file_1,(self.no_validation,1))
 
@@ -358,9 +387,23 @@ class sklearn_classifier(classifier):
     	def train(self):
         	self.clf = self.clf.fit(self.X_pri, self.y_pri)
 	
+	def predict(self, X_val):
+		return self.clf.predict(X_val)
+
+	def predict_proba(self, X_val):
+		return self.clf.predict_proba(X_val)
+
 	type_of_classifier="sklearn"
 
 class tf_classifier(classifier):
+
+	def predict(self, X_val):
+		print("Need to implement the method PREDICT")
+
+	def predict_proba(self, X_val):
+		print("Need to implement the method PREDICT_PROBA")
+
+
 	type_of_classifier="tensorflow"
 
 ####################################################################################################################################################################
