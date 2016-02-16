@@ -1,3 +1,16 @@
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# Name:     cramer_von_mises_2sample.py
+#
+# Author:   Constantin Weisser (weisser@mit.edu)
+#
+# Purpose:  The ks_2samp method was directly taken from numpy and the cvm_2samp
+#           method was implemented using T.W. Andersons "On the distribution
+#	    of the two-sample Cramer von Mises Criterion
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-# 
+
+
 from __future__ import division, print_function
 import numpy as np
 #Taken directly from scipy
@@ -93,6 +106,11 @@ def ks_2samp(data1, data2):
     return d, prob
 
 def cvm_2samp(data1, data2):
+    """
+    Performs the Cramer von Mises two sample test and returns the 
+    U and the T value.
+    """
+ 
     data1, data2 = map(asarray, (data1, data2))
     n1 = data1.shape[0]
     n2 = data2.shape[0]
@@ -122,14 +140,3 @@ def cvm_2samp(data1, data2):
 
 
     return U,T
-
-"""
-    print("len(ranks1)")
-    print(len(ranks1))
-    print("ranks1")
-    print(ranks1)
-    print("ranks2")
-    print(ranks2)
-    print("nothing implemented yet")
-"""
-
