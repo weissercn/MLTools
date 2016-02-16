@@ -17,6 +17,9 @@ import matplotlib.colors as colors
 import numpy as np
 import math
 import tensorflow as tf
+
+from two_sample_tests import cramer_von_mises_2sample as cr
+
 from sklearn import preprocessing
 from sklearn import tree
 from sklearn.ensemble import AdaBoostClassifier
@@ -24,6 +27,7 @@ from sklearn import svm
 from sklearn import cross_validation
 from sknn.mlp import Classifier, Layer
 from scipy import stats
+
 
 class classifier(object):
     """
@@ -307,8 +311,15 @@ class classifier(object):
         print("pred_validation_file_1")
         print(pred_validation_file_1)
         result_KS=stats.ks_2samp(self.data_validation_file_0[:,4], self.data_validation_file_1[:,4])
-        print(result_KS)
-        return result_KS[1]
+        print("KS result (KS statistic, p value)")
+	print(result_KS)
+        
+	result_CvM= cr.cvm_2samp(self.data_validation_file_0[:,4], self.data_validation_file_1[:,4])
+	print("Cramer von Mises result (U value, T value)")
+	print(result_CvM)
+
+
+	return result_KS[1]
         
         
     def set_percentage_used_for_primary(self,percentage_used_for_primary):
