@@ -24,6 +24,7 @@ from sknn.mlp import Classifier, Layer
 from scipy import stats
 import classifier_eval
 
+np.random.seed(100) 
 
 """
 ================================================================
@@ -32,9 +33,15 @@ PREPARING THE DATA
 """
 print(__doc__)
 
+
+name="2Dgauss_1000"
+sample1_name="mean_0_5"
+sample2_name="mean_0_48"
+
 #file 0 contains the particle, file 1 the antiparticle samples.
-comp_file_0='data.+.txt'
-comp_file_1='data.cpv.v2.txt'
+comp_file_0='gaussian_samples/gauss_data/data.2Dgauss_1000_0.5_0.1_0.5_0.1_1.0.txt'
+comp_file_1='gaussian_samples/gauss_data/data.2Dgauss_1000_0.48_0.1_0.48_0.1_1.0.txt'
+
 
 #extracts data from the files
 features_0=np.loadtxt(comp_file_0,dtype='d')
@@ -64,11 +71,19 @@ np.random.shuffle(data)
 
 np.savetxt('data.txt', data)
 
-dt_tada=classifier_eval.dt_sklearn(data,40,2)
-#dt_tada=classifier_eval.softmax_regression_tf(data,40,2)
-dt_tada.get_results_without_cross_validation()
+dt_example=classifier_eval.dt_sklearn(data,40,2,name,sample1_name,sample2_name)
+dt_example.get_results()
 
+#ada_example=classifier_eval.ada_sklearn(data,40,2,1000,name,sample1_name,sample2_name)
+#ada_example.get_results()
 
+#svm_example=classifier_eval.svm_sklearn(data,40,2,1000,name,sample1_name,sample2_name)
+#svm_example.get_results()
 
+#nn_example=classifier_eval.nn_sklearn(data,40,2,name,sample1_name,sample2_name)
+#nn_example.get_results()
+
+#softmax_example=classifier_eval.softmax_regression_tf(data,40,2)
+#softmax_example.get_results()
 
 
