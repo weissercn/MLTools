@@ -28,6 +28,9 @@ from sklearn import cross_validation
 from sknn.mlp import Classifier, Layer
 from scipy import stats
 
+from keras.models import Sequential
+from keras.layers.core import Dense, Activation
+
 
 class classifier(object):
     """
@@ -397,6 +400,9 @@ class sklearn_classifier(classifier):
 
 class tf_classifier(classifier):
 
+	def train_from_scratch(self):
+		print("Need to implement the method TRAIN_FROM_SCRATCH")
+
 	def predict(self, X_val):
 		print("Need to implement the method PREDICT")
 
@@ -405,6 +411,47 @@ class tf_classifier(classifier):
 
 
 	type_of_classifier="tensorflow"
+
+class keras_classifier(classifier):
+
+        def train_from_scratch(self):
+		#Setting up a sequential model rather than a Graph
+		self.model = Sequential()
+
+		#Adding layers
+		self.model.add(Dense(output_dim=20, input_dim=2, init="glorot_uniform"))
+		self.model.add(Activation("relu"))
+		self.model.add(Dense(output_dim=2, init="glorot_uniform"))
+		self.model.add(Activation("softmax"))
+
+		#Compiling (might take longer)
+		self.model.compile(loss='categorical_crossentropy', optimizer='sgd')
+
+		from keras.utils import np_utils, generic_utils
+		self.y_pri_cathegorical=(np_utils.to_categorical(self.y_pri))
+
+		x_delete=np.array([[1, 2], [3, 4],[5, 6]])
+		y_delete=np.array([[1],[3],[5]])
+
+		#training
+		#model.train_on_batch(x_delete, y_delete)
+		self.model.train_on_batch(self.X_pri, self.y_pri_cathegorical)
+
+		#model.fit(self.X_pri, self.y_pri, nb_epoch=10, batch_size=100)
+		
+
+        def predict(self, X_val):
+		return self.model.predict_classes(X_val)
+
+
+        def predict_proba(self, X_val):
+		return self.model.predict_proba(X_val)
+
+	def get_pvalue_perm_score(self,no_permutations):
+		print("get_pvalue_perm_score not implemented, yet")
+
+        type_of_classifier="keras"
+	specific_type_of_classifier="two_layers"
 
 ####################################################################################################################################################################
 ####################################################################################################################################################################

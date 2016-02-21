@@ -71,8 +71,8 @@ np.random.shuffle(data)
 
 np.savetxt('data.txt', data)
 
-dt_example=classifier_eval.dt_sklearn(data,40,2,name,sample1_name,sample2_name)
-dt_example.get_results()
+#dt_example=classifier_eval.dt_sklearn(data,40,2,name,sample1_name,sample2_name)
+#dt_example.get_results()
 
 #ada_example=classifier_eval.ada_sklearn(data,40,2,1000,name,sample1_name,sample2_name)
 #ada_example.get_results()
@@ -86,4 +86,5 @@ dt_example.get_results()
 #softmax_example=classifier_eval.softmax_regression_tf(data,40,2)
 #softmax_example.get_results()
 
-
+keras_example=classifier_eval.keras_classifier(data,40,2,name,sample1_name,sample2_name)
+keras_example.get_results()
