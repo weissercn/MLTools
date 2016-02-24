@@ -16,14 +16,14 @@ import os
 import math
 
 
-number_of_files=10
+number_of_files=100
 log_every_n = number_of_files // 10
 
 
 for i in range(1,number_of_files+1):
 	if(i%log_every_n ==0):
 		print("{0} files have been written so far".format(i))
-	os.system("./generate_gaussian_samples.py 100 0.45 0.1 0.45 0.1 {0}".format(i)) 
+	os.system("./generate_gaussian_samples.py 1000 0.48 0.1 0.48 0.1 {0}".format(i)) 
 
 
 print("{0} files have been generated".format(number_of_files))

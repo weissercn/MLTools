@@ -75,6 +75,16 @@ class classifier(object):
         self.y_pri = self.data_primary[:,2:].reshape((self.no_primary,))
 	self.y_pri_tf = np.zeros(( self.no_primary,2))
 
+	#Primary sample Dalitz Plot
+	#plt.rc('text', usetex=True)
+	#dalitz_pri=plt.figure()
+	#ax_dal=dalitz_pri.add_subplot(1,1,1)
+	#ax_dal.scatter(self.X_pri[:,0],self.X_pri[:,1],s=0.2)
+	#ax_dal.set_xlabel(r'$m_{AB}$')
+	#ax_dal.set_ylabel(r'$m_{AC}$')
+	#ax_dal.set_title("Dalitz plot")
+	#dalitz_pri.savefig("Dalitz_plot")
+
 	for i in range(self.no_primary):
     		if self.y_pri[i]==1:
         		self.y_pri_tf[i,1]=1
@@ -293,7 +303,7 @@ class classifier(object):
         fig_dalitz_color= plt.figure()
 	ax1_dalitz_color= fig_dalitz_color.add_subplot(1,1,1)
         ax1_dalitz_color.scatter( self.data_validation_file_0[:,0],self.data_validation_file_0[:,1],10,self.data_validation_file_0[:,3],cmap=colorMap)
-        fig_dalitz_color.savefig('validation_file_0.pdf', format='pdf', dpi=300)
+        fig_dalitz_color.savefig('graphs/validation_file_0_'+self.name+' '+self.sample1_name+' and '+self.sample2_name+' '+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=300)
         
 	print("self.data_validation_file_0[:,4]")
 	print(self.data_validation_file_0[:,4])
@@ -421,6 +431,11 @@ class keras_classifier(classifier):
 		#Adding layers
 		self.model.add(Dense(output_dim=20, input_dim=2, init="glorot_uniform"))
 		self.model.add(Activation("relu"))
+
+		self.model.add(Dense(output_dim=20, input_dim=20, init="glorot_uniform"))
+                self.model.add(Activation("relu"))
+		self.model.add(Dense(output_dim=20, input_dim=20, init="glorot_uniform"))
+                self.model.add(Activation("relu"))
 		self.model.add(Dense(output_dim=2, init="glorot_uniform"))
 		self.model.add(Activation("softmax"))
 
@@ -451,7 +466,7 @@ class keras_classifier(classifier):
 		print("get_pvalue_perm_score not implemented, yet")
 
         type_of_classifier="keras"
-	specific_type_of_classifier="two_layers"
+	specific_type_of_classifier="two_hidden_layers"
 
 ####################################################################################################################################################################
 ####################################################################################################################################################################

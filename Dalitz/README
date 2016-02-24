@@ -12,9 +12,12 @@ data_unshuffled.txt
 data.txt
 different Machine_learning_predictions pdfs
 
+The definition of the machine learning algorithms is done in
+classifier_eval.py
 
-
-
+The folder two_sample_tests contains a version of the Cramer van Mises
+test I have adapted from R code and the ks_2samp test implemented in 
+python.
 
 
 

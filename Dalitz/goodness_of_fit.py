@@ -39,9 +39,11 @@ sample1_name="mean_0_5"
 sample2_name="mean_0_48"
 
 #file 0 contains the particle, file 1 the antiparticle samples.
-comp_file_0='gaussian_samples/gauss_data/data.2Dgauss_1000_0.5_0.1_0.5_0.1_1.0.txt'
-comp_file_1='gaussian_samples/gauss_data/data.2Dgauss_1000_0.48_0.1_0.48_0.1_1.0.txt'
+#comp_file_0='gaussian_samples/gauss_data/data.2Dgauss_1000_0.5_0.1_0.5_0.1_1.0.txt'
+#comp_file_1='gaussian_samples/gauss_data/data.2Dgauss_1000_0.48_0.1_0.48_0.1_1.0.txt'
 
+comp_file_0='data.+.txt'
+comp_file_1='data.cpv.txt'
 
 #extracts data from the files
 features_0=np.loadtxt(comp_file_0,dtype='d')
