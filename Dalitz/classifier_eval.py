@@ -321,6 +321,9 @@ class classifier(object):
 	print("P value from get_pvalue_perm_score")
 	result_perm = self.get_pvalue_perm_score(self.no_permutations)
 
+	with open("test_statistic_distributions/test_statistics."+self.name+"_"+self.sample1_name+"_"+self.sample2_name, "a") as test_statistics_file:
+		test_statistics_file.write("{0} \t{1} \t{2} \t{3} \n".format(result_CvM[0],result_CvM[1],result_KS[0], result_KS[1]))
+
 	return result_KS[1]
         
         
