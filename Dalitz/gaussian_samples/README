@@ -1,4 +1,15 @@
-Constantin Weisser 02/11/2016 MIT
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# Name:     gaussian_samples 
+#
+# Author:   Constantin Weisser (weisser@mit.edu)
+#
+# Purpose:  In this directory gaussian samples can be produced that can then 
+#	    be analysed by goodness_of_fit.py in the mother directory (Dalitz) 
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+
 
 This folder is for generating 2 dimensional Gaussian data.
 The file generate_gaussian_samples.py generates a single file

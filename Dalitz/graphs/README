@@ -1,0 +1,15 @@
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# Name:     graphs 
+#
+# Author:   Constantin Weisser (weisser@mit.edu)
+#
+# Purpose:  This directory contains all the graphs produced by the analysis
+#	    code in the mother directory (Dalitz) 
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+The naming convention is
+'Machine_learning_predictions_'+name+'_'+sample1_name+'_'+specific_type_of_classifier+'.pdf'
+
+

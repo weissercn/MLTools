@@ -1,11 +1,17 @@
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 #
-# Name:     test_statistic_distributions 
+# Name:     two_sample_test 
 #
 # Author:   Constantin Weisser (weisser@mit.edu)
 #
-# Purpose:  In this directory the p values and test statistics like the 
-#           KS D value or the Cramer van Mises U and T values are recorded 
+# Purpose:  This directory contains a self made implementation of the 
+#	    Cramer van Mises 2 sample test. 
 #
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+It can be tested by running
+python testing_2sample.py
+
+
+
 
