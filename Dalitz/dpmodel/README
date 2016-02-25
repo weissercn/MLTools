@@ -1,0 +1,18 @@
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# Name:     dpmodel 
+#
+# Author:   Mike Williams (mwill@mit.edu)
+#
+# Purpose:  This directory was written to generate data from Dalitz plots.
+#	    It relies on qft++ (http://www-meg.phys.cmu.edu/williams/qft++/index.php/main_page). 
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+to compile type in
+make
+
+
+
+
+

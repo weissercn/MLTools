@@ -1,3 +1,17 @@
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# Name:     Dalitz 
+#
+# Author:   Constantin Weisser (weisser@mit.edu)
+#
+# Purpose:  In this directory the Goodness of fit project is stored. 
+#	    Data from gaussian_samples, Dalitz plots (dpmodel) and
+#	    possibly LIGO will be created, then analyses and the
+#	    p value distributions plotted
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+
 This part of the project focussed on CP violation in Dalitz plots. 
 Samples are either taken from the gaussian_samples directory for
 2 or higher dimensional gaussian distributions or from dpmodel
@@ -5,7 +19,7 @@ for a more sophisticated Dalitz plot model.
 One should take two data files to compare and call them data.+.txt
 and data.cpv.v2.txt for example and then run
 
-python goodness_of_fit.py
+python automate_goodness_of_fit.py
 
 This will produce he following files:
 data_unshuffled.txt
