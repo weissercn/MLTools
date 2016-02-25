@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 #
 # Name:     goodness_of_fit.py 
@@ -44,6 +46,31 @@ sample2_name="mean_0_48"
 
 comp_file_0='data.+.txt'
 comp_file_1='data.cpv.txt'
+
+import sys
+
+#Extracting arguments 
+args = str(sys.argv)
+total = len(sys.argv)
+
+if(total!=7):
+	print("The right arguments were not supplied")
+
+comp_file_0    = str(sys.argv[1])
+comp_file_1    = str(sys.argv[2])
+name           = str(sys.argv[3])
+sample1_name   = str(sys.argv[4])
+sample2_name   = str(sys.argv[5])
+shuffling_seed = int(sys.argv[6])
+np.random.seed(shuffling_seed)
+
+print(comp_file_0)
+print(comp_file_1)
+print(name)
+print(sample1_name)
+print(sample2_name)
+print(shuffling_seed)
+
 
 #extracts data from the files
 features_0=np.loadtxt(comp_file_0,dtype='d')
