@@ -33,5 +33,6 @@ The folder two_sample_tests contains a version of the Cramer van Mises
 test I have adapted from R code and the ks_2samp test implemented in 
 python.
 
-
+If you want to change which classifier to use you have to uncomment
+the classifier you want by hand in goodness_of_fit.py
 

@@ -1,3 +1,15 @@
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# Name:     testing_2sample.py 
+#
+# Author:   Constantin Weisser (weisser@mit.edu)
+#
+# Purpose:  This file is used to test the implementation of 
+#	    cramer_von_mises_2sample.py  
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+
 from scipy import stats
 import numpy as np
 import cramer_von_mises_2sample as cr

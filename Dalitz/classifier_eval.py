@@ -9,6 +9,7 @@
 #
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-# 
 
+# __debug__ = 1 if python is  not started with -o 
 
 from __future__ import print_function
 from __future__ import division
@@ -40,7 +41,7 @@ class classifier(object):
     get_pvalue_perm, ks, set_percentage_used_for_primary, set_no_permutations, 
     get_percentage_used_for_primary , get_no_permutations , get_clf, get_score_list and print_line
     """
-    print(__doc__)
+    if __debug__:print(__doc__)
     #clf = tree.DecisionTreeClassifier()
     
     def __init__(self,data_unscaled,percentage_used_for_validation,no_permutations=0,name="unnamed",sample1_name="sample1",sample2_name="sample2"):
@@ -64,10 +65,11 @@ class classifier(object):
         self.data_primary=self.data[:math.floor(self.data.shape[0]*(1-percentage_used_for_validation/100)),:]
         self.data_validation=self.data[math.floor(self.data.shape[0]*(1-percentage_used_for_validation/100)):,:]
 
-	print("self.data_primary")
-	print(self.data_primary)
-	print("self.data_validation")
-	print(self.data_validation)
+	if __debug__:
+		print("self.data_primary")
+		print(self.data_primary)
+		print("self.data_validation")
+		print(self.data_validation)
 
         #Selecting features (X) and labels (y)
         self.X_pri = self.data_primary[:,:-1]
@@ -158,8 +160,9 @@ class classifier(object):
         self.percentage_wrong_primary= np.sum(pred_primary)/self.no_primary*100
         self.percentage_wrong_validation= np.sum(pred_validation)/self.no_validation*100
 
-        print("Percentage of wrong predictions Training: %.4f%%" % self.percentage_wrong_primary)
-        print("Percentage of wrong predictions Validation: %.4f%%" % self.percentage_wrong_validation)
+	if __debug__:
+        	print("Percentage of wrong predictions Training: %.4f%%" % self.percentage_wrong_primary) 
+        	print("Percentage of wrong predictions Validation: %.4f%%" % self.percentage_wrong_validation)
         
         return (self.percentage_wrong_primary,self.percentage_wrong_validation)
     
@@ -169,14 +172,17 @@ class classifier(object):
             print("no_permutations was 0. Terminating")
             return -1
 
-	self.print_line()	
-	print("get_pvalue_perm_percentage_wrong is not completely implemented.")
-	print(" Need to use get_percentage_wrong functon and be compatible with tf and sklean") 
-        print("Calculating p value from permutation")
-        print("score_list")
+	if __debug__:
+		self.print_line()	
+		print("get_pvalue_perm_percentage_wrong is not completely implemented.")
+		print(" Need to use get_percentage_wrong functon and be compatible with tf and sklean")
+        	print("Calculating p value from permutation")
+        	print("score_list")
         self.score_list=[]
-        print(self.score_list)
-        print("Performing %f permutations" %no_permutations)
+
+	if __debug__:
+        	print(self.score_list)
+        	print("Performing %f permutations" %no_permutations)
     
     
         for i in range(0,no_permutations):
@@ -186,12 +192,13 @@ class classifier(object):
             clf_shuffled = clf_shuffled.fit(self.X_pri, y_pri_shuffled)
             self.score_list.append(clf_shuffled.score(self.X_val, y_val_shuffled))
 
-        print("Self score: %.4f" % self.score)
-        print(self.score_list)
-        self.pvalue=sum(i > self.score for i in self.score_list)/self.no_permutations
-        print(self.pvalue)
-    
-        self.print_line()
+	self.pvalue=sum(i > self.score for i in self.score_list)/self.no_permutations
+
+	if __debug__:
+        	print("Self score: %.4f" % self.score)
+        	print(self.score_list)
+        	print(self.pvalue)
+        	self.print_line()
         return self.pvalue
     
     def ks(self):
@@ -202,126 +209,126 @@ class classifier(object):
 	if(self.specific_type_of_classifier=="nn"):
 		predicted_y_val=np.reshape(predicted_y_val,(1,self.no_validation) )
 	pred_validation = abs(predicted_y_val-self.y_val)
-	
-	print("self.predict(self.X_val)")
-	print(self.predict(self.X_val))
-	print("len(pred_validation)")        
-	print(len(pred_validation))
-	print(pred_validation)
-	print("self.no_validation")
-	print(self.no_validation)
+
+	if __debug__:	
+		print("self.predict(self.X_val)")
+		print(self.predict(self.X_val))
+		print("len(pred_validation)")
+		print(len(pred_validation))
+		print(pred_validation)
+		print("self.no_validation")
+		print(self.no_validation)
  
         # Use predict_proba to find the probability that a point came from file 1.  
         probability_from_file_1 = self.predict_proba(self.X_val)[:,1]   
         pred_validation_transposed= np.reshape(pred_validation,(self.no_validation,1))
         probability_from_file_1_transposed= np.reshape(probability_from_file_1,(self.no_validation,1))
 
-	print("pred_validation_transposed")
-	print(pred_validation_transposed)
-
-	print("probability_from_file_1")
-	print(probability_from_file_1)
+	if __debug__:
+		print("pred_validation_transposed")
+		print(pred_validation_transposed)
+		print("probability_from_file_1")
+		print(probability_from_file_1)
 
 	# colums of self.data_validation: x, y, label, prediction, prediction probability 
         self.data_validation_with_pred = np.c_[self.data_validation, pred_validation_transposed,probability_from_file_1_transposed]
         self.data_validation_file_0 = self.data_validation_with_pred[np.logical_or.reduce([self.data_validation_with_pred[:,2] ==0])]
         self.data_validation_file_1 = self.data_validation_with_pred[np.logical_or.reduce([self.data_validation_with_pred[:,2] ==1])]
 
+	if __debug__:
+		print("self.data_validation")
+		print(self.data_validation)
+        	print("self.data_validation_with_pred")
+        	print(self.data_validation_with_pred)
 
-	print("self.data_validation")
-	print(self.data_validation)
+	        print("self.data_validation_file_0")
+        	print(self.data_validation_file_0)
 
-        print("self.data_validation_with_pred")
-        print(self.data_validation_with_pred)
-
-
-        print("self.data_validation_file_0")
-        print(self.data_validation_file_0)
-
-        print("self.data_validation_file_1")
-        print(self.data_validation_file_1)
+        	print("self.data_validation_file_1")
+        	print(self.data_validation_file_1)
 
         
         pred_validation_file_0=self.data_validation_file_0[:,3]
         pred_validation_file_1=self.data_validation_file_1[:,3]
 
-	print("pred_validation_file_0")
-	print(pred_validation_file_0)
+	if __debug__:
+		print("pred_validation_file_0")
+		print(pred_validation_file_0)
 
-        print("pred_validation_file_1")
-        print(pred_validation_file_1)
+        	print("pred_validation_file_1")
+        	print(pred_validation_file_1)
 
-      
-        bins_probability=np.histogram(np.hstack((self.data_validation_file_0[:,4],self.data_validation_file_1[:,4])), bins=50)[1]
+	if __debug__:
+	        bins_probability=np.histogram(np.hstack((self.data_validation_file_0[:,4],self.data_validation_file_1[:,4])), bins=50)[1]
         
-        # Making a histogram of the probability predictions of the algorithm. 
-        fig_pred_0= plt.figure()
-	ax1_pred_0= fig_pred_0.add_subplot(1, 1, 1)
-	n0, bins0, patches0 = ax1_pred_0.hist(self.data_validation_file_0[:,4], bins=bins_probability, facecolor='red', alpha=0.5, label="file_0")
-        ax1_pred_0.set_xlabel('Probability')
-        ax1_pred_0.set_ylabel('Normalised Frequency')
-        ax1_pred_0.set_title('Probability Predictions '+self.name+' '+self.sample1_name+' '+self.specific_type_of_classifier)
-        fig_pred_0.savefig('graphs/Machine_learning_predictions_'+self.name+'_'+self.sample1_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=300)
-        #ax1_pred_0.show()
+        	# Making a histogram of the probability predictions of the algorithm. 
+        	fig_pred_0= plt.figure()
+		ax1_pred_0= fig_pred_0.add_subplot(1, 1, 1)
+		n0, bins0, patches0 = ax1_pred_0.hist(self.data_validation_file_0[:,4], bins=bins_probability, facecolor='red', alpha=0.5, label="file_0")
+        	ax1_pred_0.set_xlabel('Probability')
+        	ax1_pred_0.set_ylabel('Normalised Frequency')
+        	ax1_pred_0.set_title('Probability Predictions '+self.name+' '+self.sample1_name+' '+self.specific_type_of_classifier)
+        	fig_pred_0.savefig('graphs/Machine_learning_predictions_'+self.name+'_'+self.sample1_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=300)
+        	#ax1_pred_0.show()
         
-	fig_pred_1= plt.figure()
-	ax1_pred_1= fig_pred_1.add_subplot(1, 1, 1)
-	n1, bins1, patches1 = ax1_pred_1.hist(self.data_validation_file_1[:,4], bins=bins_probability, facecolor='blue', alpha=0.5, label="file_1")
-        #plt.axis([0, 1, 0, 0.03])
-        ax1_pred_1.set_xlabel('Probability')
-        ax1_pred_1.set_ylabel('Normalised Frequency')
-        ax1_pred_1.set_title('Probability Predictions '+self.name+' '+self.sample2_name+' '+self.specific_type_of_classifier)
-        fig_pred_1.savefig('graphs/Machine_learning_predictions_'+self.name+'_'+self.sample2_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=300)
-        #ax1_pred_1.show()
+		fig_pred_1= plt.figure()
+		ax1_pred_1= fig_pred_1.add_subplot(1, 1, 1)
+		n1, bins1, patches1 = ax1_pred_1.hist(self.data_validation_file_1[:,4], bins=bins_probability, facecolor='blue', alpha=0.5, label="file_1")
+        	#plt.axis([0, 1, 0, 0.03])
+        	ax1_pred_1.set_xlabel('Probability')
+        	ax1_pred_1.set_ylabel('Normalised Frequency')
+        	ax1_pred_1.set_title('Probability Predictions '+self.name+' '+self.sample2_name+' '+self.specific_type_of_classifier)
+        	fig_pred_1.savefig('graphs/Machine_learning_predictions_'+self.name+'_'+self.sample2_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=300)
+        	#ax1_pred_1.show()
         
-        fig_pred_comp= plt.figure()
-	ax1_pred_comp= fig_pred_comp.add_subplot(1, 1, 1)
-        n0, bins0, patches0 = ax1_pred_comp.hist(self.data_validation_file_0[:,4], bins=bins_probability, facecolor='red', alpha=0.5, label="Particle")
-        n1, bins1, patches1 = ax1_pred_comp.hist(self.data_validation_file_1[:,4], bins=bins_probability, facecolor='blue', alpha=0.5, label="Antiparticle")
-        #plt.axis([0.46, 0.53,0,600])
-        ax1_pred_comp.legend(loc='upper right')
-        ax1_pred_comp.set_xlabel('Probability')
-        ax1_pred_comp.set_ylabel('Normalised Frequency')
-        ax1_pred_comp.set_title('Probability Predictions '+self.name+' '+self.sample1_name+' and '+self.sample2_name+' '+self.specific_type_of_classifier)
-        fig_pred_comp.savefig('graphs/Machine_learning_predictions_'+self.name+'_'+self.sample1_name+'_'+self.sample2_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=3000)
-        #ax1_pred_comp.show()
+        	fig_pred_comp= plt.figure()
+		ax1_pred_comp= fig_pred_comp.add_subplot(1, 1, 1)
+        	n0, bins0, patches0 = ax1_pred_comp.hist(self.data_validation_file_0[:,4], bins=bins_probability, facecolor='red', alpha=0.5, label="Particle")
+        	n1, bins1, patches1 = ax1_pred_comp.hist(self.data_validation_file_1[:,4], bins=bins_probability, facecolor='blue', alpha=0.5, label="Antiparticle")
+        	#plt.axis([0.46, 0.53,0,600])
+        	ax1_pred_comp.legend(loc='upper right')
+        	ax1_pred_comp.set_xlabel('Probability')
+        	ax1_pred_comp.set_ylabel('Normalised Frequency')
+        	ax1_pred_comp.set_title('Probability Predictions '+self.name+' '+self.sample1_name+' and '+self.sample2_name+' '+self.specific_type_of_classifier)
+        	fig_pred_comp.savefig('graphs/Machine_learning_predictions_'+self.name+'_'+self.sample1_name+'_'+self.sample2_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=3000)
+        	#ax1_pred_comp.show()
         
         
-        #Subtract histograms. This is assuming equal bin width
-        fig_subt= plt.figure()
-	ax1_subt= fig_subt.add_subplot(1,1,1)	
+        	#Subtract histograms. This is assuming equal bin width
+        	fig_subt= plt.figure()
+		ax1_subt= fig_subt.add_subplot(1,1,1)	
 
-	ax1_subt.scatter(bins_probability[:-1]+(bins_probability[1]-bins_probability[0])/2,n1-n0,facecolors='blue', edgecolors='blue')
-        ax1_subt.set_xlabel('Probability')
-        ax1_subt.set_ylabel('Normalised Frequency'+self.name+' ( '+self.sample1_name+' - '+ self.sample2_name+' )' )
-        ax1_subt.set_title('Differtial Probability Predictions '+self.name+' '+self.sample1_name+' and '+self.sample2_name+' '+self.specific_type_of_classifier)
-        fig_subt.savefig('graphs/Machine_learning_predictions_'+self.name+'_'+self.sample1_name+'_minus_'+self.sample2_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=3000)
-        #ax1_subt.show()
+		ax1_subt.scatter(bins_probability[:-1]+(bins_probability[1]-bins_probability[0])/2,n1-n0,facecolors='blue', edgecolors='blue')
+        	ax1_subt.set_xlabel('Probability')
+        	ax1_subt.set_ylabel('Normalised Frequency'+self.name+' ( '+self.sample1_name+' - '+ self.sample2_name+' )' )
+        	ax1_subt.set_title('Differtial Probability Predictions '+self.name+' '+self.sample1_name+' and '+self.sample2_name+' '+self.specific_type_of_classifier)
+        	fig_subt.savefig('graphs/Machine_learning_predictions_'+self.name+'_'+self.sample1_name+'_minus_'+self.sample2_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=3000)
+        	#ax1_subt.show()
         
-        #val[numpy.logical_or.reduce([val[:,1] == 1])]
-        colorMap = plt.get_cmap('Spectral')
-        fig_dalitz_color= plt.figure()
-	ax1_dalitz_color= fig_dalitz_color.add_subplot(1,1,1)
-        ax1_dalitz_color.scatter( self.data_validation_file_0[:,0],self.data_validation_file_0[:,1],10,self.data_validation_file_0[:,3],cmap=colorMap)
-        fig_dalitz_color.savefig('graphs/validation_file_0_'+self.name+' '+self.sample1_name+' and '+self.sample2_name+' '+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=300)
+        	#val[numpy.logical_or.reduce([val[:,1] == 1])]
+        	colorMap = plt.get_cmap('Spectral')
+        	fig_dalitz_color= plt.figure()
+		ax1_dalitz_color= fig_dalitz_color.add_subplot(1,1,1)
+        	ax1_dalitz_color.scatter( self.data_validation_file_0[:,0],self.data_validation_file_0[:,1],10,self.data_validation_file_0[:,3],cmap=colorMap)
+        	fig_dalitz_color.savefig('graphs/validation_file_0_'+self.name+' '+self.sample1_name+' and '+self.sample2_name+' '+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=300)
         
-	print("self.data_validation_file_0[:,4]")
-	print(self.data_validation_file_0[:,4])
-	print("self.data_validation_file_1[:,4]")
-	print(self.data_validation_file_1[:,4])
- 
-	print("KS result (KS statistic, p value)")
 	result_KS=stats.ks_2samp(self.data_validation_file_0[:,4], self.data_validation_file_1[:,4])
-	print(result_KS)
-
-	print("Cramer von Mises result (U value, T value)") 
 	result_CvM= cr.cvm_2samp(self.data_validation_file_0[:,4], self.data_validation_file_1[:,4])
-	print(result_CvM)
+	#result_perm = self.get_pvalue_perm_score(self.no_permutations)
 
-	print("P value from get_pvalue_perm_score")
-	result_perm = self.get_pvalue_perm_score(self.no_permutations)
-
-	with open("test_statistic_distributions/test_statistics."+self.name+"_"+self.sample1_name+"_"+self.sample2_name, "a") as test_statistics_file:
+	if __debug__:
+		print("self.data_validation_file_0[:,4]")
+		print(self.data_validation_file_0[:,4])
+		print("self.data_validation_file_1[:,4]")
+		print(self.data_validation_file_1[:,4])
+ 
+		print("KS result (KS statistic, p value)")
+		print(result_KS)
+		print("Cramer von Mises result (U value, T value)") 
+		print(result_CvM)
+		print("P value from get_pvalue_perm_score")
+	
+	with open("test_statistic_distributions/test_statistics."+self.name+"_"+self.sample1_name+"_"+self.sample2_name+"_"+self.type_of_classifier+"_"+self.specific_type_of_classifier, "a") as test_statistics_file:
 		test_statistics_file.write("{0} \t{1} \t{2} \t{3} \n".format(result_CvM[0],result_CvM[1],result_KS[0], result_KS[1]))
 
 	return result_KS[1]
@@ -466,10 +473,10 @@ class keras_classifier(classifier):
 		return self.model.predict_proba(X_val)
 
 	def get_pvalue_perm_score(self,no_permutations):
-		print("get_pvalue_perm_score not implemented, yet")
+		if __debug__: print("get_pvalue_perm_score not implemented, yet")
 
         type_of_classifier="keras"
-	specific_type_of_classifier="two_hidden_layers"
+	specific_type_of_classifier="dense_activation_2_hidden"
 
 ####################################################################################################################################################################
 ####################################################################################################################################################################
@@ -507,28 +514,31 @@ class softmax_regression_tf(tf_classifier):
 		accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
 		#print("test5")
 		correct_prediction_float=tf.cast(correct_prediction, "float")
-		print("correct_prediction_float")
-		print(correct_prediction_float.eval(feed_dict={x: self.X_val[:,:].reshape(self.no_validation,2), y_: self.y_val_tf[:,:].reshape(self.no_validation,2)}))
 
 		prediction = tf.argmax(y,1)
-		print("prediction")
-		print(prediction.eval(feed_dict={x: self.X_val[:,:].reshape(self.no_validation,2)}))
+		
+		if __debug__:
+			print("correct_prediction_float")
+			print(correct_prediction_float.eval(feed_dict={x: self.X_val[:,:].reshape(self.no_validation,2), y_: self.y_val_tf[:,:].reshape(self.no_validation,2)}))
 
-		print("actual")
-		print(self.y_val_tf)
+			print("prediction")
+			print(prediction.eval(feed_dict={x: self.X_val[:,:].reshape(self.no_validation,2)}))
 
-		print("accuracy on validation sample")
-		print(accuracy.eval(feed_dict={x: self.X_val[:,:].reshape(self.no_validation,2), y_: self.y_val_tf[:,:].reshape(self.no_validation,2)}))
-		self.print_line()
+			print("actual")
+			print(self.y_val_tf)
+
+			print("accuracy on validation sample")
+			print(accuracy.eval(feed_dict={x: self.X_val[:,:].reshape(self.no_validation,2), y_: self.y_val_tf[:,:].reshape(self.no_validation,2)}))
+			self.print_line()
 
 		self.save_path = self.saver.save(sess, "/tmp/model.ckpt")
-		print("Model saved in file: ", self.save_path)
+		if __debug__:print("Model saved in file: ", self.save_path)
 
 
 
 	def predict(self, X_val):
 		self.saver.restore(self.sess, "/tmp/model.ckpt")
-		print("Model restored")
+		print("Model restored") 
 		prediction = tf.argmax(y,1)
 		return prediction.eval(feed_dict={x: self.X_val[:,:].reshape(self.no_validation,2)})
 
@@ -543,26 +553,26 @@ class dt_sklearn(sklearn_classifier):
 class ada_sklearn(sklearn_classifier):
     def __init__(self,data,percentage_used_for_validation,no_permutations=0, no_estimators=1000,name="unnamed",sample1_name="sample1",sample2_name="sample2"):
         self.no_estimators = no_estimators
-        print("no_estimators: %.4f" % self.no_estimators)
+        if __debug__:print("no_estimators: %.4f" % self.no_estimators)
         self.clf_blueprint = AdaBoostClassifier(base_estimator=tree.DecisionTreeClassifier(),n_estimators=no_estimators)
-        super( ada_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name)
+        self.specific_type_of_classifier="ada_"+str(self.no_estimators)+"estimators"
+	super( ada_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name)
     def set_no_estimators(self,no_estimators):
         self.no_estimators=no_estimators
     def get_no_estimators(self):
         return self.no_estimators
-    specific_type_of_classifier="ada"
     
 class svm_sklearn(sklearn_classifier):
     def __init__(self,data,percentage_used_for_validation,no_permutations=0, a_cache_size=1000,name="unnamed",sample1_name="sample1",sample2_name="sample2"):
         self.cache_size = a_cache_size
-        print("cache_size: %.4f" % self.cache_size)
+        if __debug__:print("cache_size: %.4f" % self.cache_size)
         self.clf_blueprint = svm.SVC(probability=True,cache_size=a_cache_size)
-        super( svm_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name)
+        self.specific_type_of_classifier="svm"
+	super( svm_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name)
     def set_cache_size(self,a_cache_size):
         self.cache_size=a_cache_size
     def get_cache_size(self):
         return self.cache_size
-    specific_type_of_classifier="svm"
     
 class nn_sklearn(sklearn_classifier):
     def __init__(self,data,percentage_used_for_validation,no_permutations=0,name="unnamed",sample1_name="sample1",sample2_name="sample2"):
@@ -572,8 +582,8 @@ class nn_sklearn(sklearn_classifier):
                 Layer("Softmax")],
             learning_rate=0.001,
             n_iter=1)
-        super( nn_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name)
-    specific_type_of_classifier="nn"
+        self.specific_type_of_classifier="nn_rectifier10_softmax_lr0.001"
+	super( nn_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name)
 
 
 
