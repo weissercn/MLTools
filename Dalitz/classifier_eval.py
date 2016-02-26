@@ -206,7 +206,7 @@ class classifier(object):
         #self.train_from_scratch()
         #prediction list: 0 is correct, 1 if wrong prediction
 	predicted_y_val = self.predict(self.X_val)
-	if(self.specific_type_of_classifier=="nn"):
+	if(self.specific_type_of_classifier.startswith("nn")):
 		predicted_y_val=np.reshape(predicted_y_val,(1,self.no_validation) )
 	pred_validation = abs(predicted_y_val-self.y_val)
 
