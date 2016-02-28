@@ -310,7 +310,7 @@ class classifier(object):
         	fig_dalitz_color= plt.figure()
 		ax1_dalitz_color= fig_dalitz_color.add_subplot(1,1,1)
         	ax1_dalitz_color.scatter( self.data_validation_file_0[:,0],self.data_validation_file_0[:,1],10,self.data_validation_file_0[:,3],cmap=colorMap)
-        	fig_dalitz_color.savefig('graphs/validation_file_0_'+self.name+' '+self.sample1_name+' and '+self.sample2_name+' '+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=300)
+        	fig_dalitz_color.savefig('graphs/validation_file_0_'+self.name+'_'+self.sample1_name+'_and_'+self.sample2_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=300)
         
 	result_KS=stats.ks_2samp(self.data_validation_file_0[:,4], self.data_validation_file_1[:,4])
 	result_CvM= cr.cvm_2samp(self.data_validation_file_0[:,4], self.data_validation_file_1[:,4])
