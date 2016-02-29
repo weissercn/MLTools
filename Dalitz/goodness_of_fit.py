@@ -106,11 +106,11 @@ np.savetxt('data.txt', data)
 #ada_example=classifier_eval.ada_sklearn(data,40,0,1000,name,sample1_name,sample2_name)
 #ada_example.get_results()
 
-svm_example=classifier_eval.svm_sklearn(data,40,0,1000,name,sample1_name,sample2_name)
-svm_example.get_results()
+#svm_example=classifier_eval.svm_sklearn(data,40,0,1000,name,sample1_name,sample2_name)
+#svm_example.get_results()
 
-nn_example=classifier_eval.nn_sklearn(data,40,0,name,sample1_name,sample2_name)
-nn_example.get_results()
+#nn_example=classifier_eval.nn_sklearn(data,40,0,name,sample1_name,sample2_name)
+#nn_example.get_results()
 
 #softmax_example=classifier_eval.softmax_regression_tf(data,40,2)
 #softmax_example.get_results()
