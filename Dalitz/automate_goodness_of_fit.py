@@ -18,11 +18,11 @@ number_of_files=100
 
 name           = "dalitz"
 sample1_name   = "seed_000_0"
-sample2_name   = "seed_200_1"
+sample2_name   = "seed_200_0"
 shuffling_seed = 100
 
-with open("test_statistic_distributions/test_statistics."+name+"_"+sample1_name+"_"+sample2_name, "w") as test_statistics_file:
-	test_statistics_file.write("CvM U \tCvM T \tKS D \tKS p\n")
+#with open("test_statistic_distributions/test_statistics."+name+"_"+sample1_name+"_"+sample2_name, "w") as test_statistics_file:
+	#test_statistics_file.write("CvM U \tCvM T \tKS D \tKS p\n")
 
 for i in range(1,number_of_files+1):
 	# python -O sets __debug__ to 0

@@ -115,5 +115,8 @@ np.savetxt('data.txt', data)
 #softmax_example=classifier_eval.softmax_regression_tf(data,40,2)
 #softmax_example.get_results()
 
-keras_example=classifier_eval.keras_classifier(data,40,2,name,sample1_name,sample2_name)
-keras_example.get_results()
+#keras_example=classifier_eval.keras_classifier(data,40,0,name,sample1_name,sample2_name)
+#keras_example.get_results()
+
+miranda_example=classifier_eval.twodim_miranda(data,40,0,2,2,name,sample1_name,sample2_name)
+miranda_example.get_results()

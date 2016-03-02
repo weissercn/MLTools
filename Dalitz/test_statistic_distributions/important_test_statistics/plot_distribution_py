@@ -14,7 +14,7 @@
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import numpy as np
-
+import os
 
 def histo_plot(U_0,abins,axlabel,aylabel,atitle,aname):
         bins_probability=np.histogram(U_0,bins=abins)[1]
@@ -29,11 +29,16 @@ def histo_plot(U_0,abins,axlabel,aylabel,atitle,aname):
         fig_pred_0.savefig(aname)
         #fig_pred_0.show()
 
+distrib_file= []
+for file in os.listdir("."):
+        if(file.startswith("test_statistics") and not file.endswith(".png")):
+                distrib_file.append(file)
+
 # no cpv
 #distrib_file= ["test_statistics.dalitz_seed_000_0_seed_100_0_sklearn_nn_rectifier10_softmax_lr0.001","test_statistics.dalitz_seed_000_0_seed_100_0_sklearn_ada_1000estimators","test_statistics.dalitz_seed_000_0_seed_100_0_sklearn_dt","test_statistics.dalitz_seed_000_0_seed_100_0_sklearn_svm","test_statistics.dalitz_seed_000_0_seed_100_0_keras_dense_activation_2_hidden"]
 
 # cpv
-distrib_file = ["test_statistics.dalitz_seed_000_0_seed_200_1_keras_dense_activation_2_hidden","test_statistics.dalitz_seed_000_0_seed_200_1_sklearn_ada_1000estimators","test_statistics.dalitz_seed_000_0_seed_200_1_sklearn_dt","test_statistics.dalitz_seed_000_0_seed_200_1_sklearn_svm","test_statistics.dalitz_seed_000_0_seed_200_1_sklearn_nn_rectifier10_softmax_lr0.001" ]
+#distrib_file = ["test_statistics.dalitz_seed_000_0_seed_200_1_keras_dense_activation_2_hidden","test_statistics.dalitz_seed_000_0_seed_200_1_sklearn_ada_1000estimators","test_statistics.dalitz_seed_000_0_seed_200_1_sklearn_dt","test_statistics.dalitz_seed_000_0_seed_200_1_sklearn_svm","test_statistics.dalitz_seed_000_0_seed_200_1_sklearn_nn_rectifier10_softmax_lr0.001" ]
 
 
 no_files=len(distrib_file)
@@ -47,13 +52,14 @@ p_Ks = []
 
 for i in range(no_files):
 	distrib_list.append(np.loadtxt(distrib_file[i],dtype='d'))
+	print(distrib_file[i])
 	assert distrib_list[i].shape[0]==100
 	no.append(distrib_list[i].shape[0])
 	U.append(distrib_list[i][:,0])
 	T.append(distrib_list[i][:,1])
 	D.append(distrib_list[i][:,2])
 	p_Ks.append(distrib_list[i][:,3])
-	histo_plot(p_Ks[i],100,"p value","Frequency","p value distribution",distrib_file[i]+"_p_value.png")
+	histo_plot(p_Ks[i],50,"p value","Frequency","p value distribution",distrib_file[i]+"_p_value.png")
 
 #print(no_0)
 #print(U_0)

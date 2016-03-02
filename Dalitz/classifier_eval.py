@@ -78,14 +78,14 @@ class classifier(object):
 	self.y_pri_tf = np.zeros(( self.no_primary,2))
 
 	#Primary sample Dalitz Plot
-	#plt.rc('text', usetex=True)
-	#dalitz_pri=plt.figure()
-	#ax_dal=dalitz_pri.add_subplot(1,1,1)
-	#ax_dal.scatter(self.X_pri[:,0],self.X_pri[:,1],s=0.2)
-	#ax_dal.set_xlabel(r'$m_{AB}$')
-	#ax_dal.set_ylabel(r'$m_{AC}$')
-	#ax_dal.set_title("Dalitz plot")
-	#dalitz_pri.savefig("Dalitz_plot")
+	plt.rc('text', usetex=True)
+	dalitz_pri=plt.figure()
+	ax_dal=dalitz_pri.add_subplot(1,1,1)
+	ax_dal.scatter(self.X_pri[:,0],self.X_pri[:,1],s=0.2)
+	ax_dal.set_xlabel(r'$m_{AB}^2$')
+	ax_dal.set_ylabel(r'$m_{AC}^2$')
+	ax_dal.set_title("Dalitz plot")
+	dalitz_pri.savefig("Dalitz_plot")
 
 	for i in range(self.no_primary):
     		if self.y_pri[i]==1:
@@ -328,7 +328,7 @@ class classifier(object):
 		print(result_CvM)
 		print("P value from get_pvalue_perm_score")
 	
-	with open("test_statistic_distributions/test_statistics."+self.name+"_"+self.sample1_name+"_"+self.sample2_name+"_"+self.type_of_classifier+"_"+self.specific_type_of_classifier, "a") as test_statistics_file:
+	with open("test_statistic_distributions/test_statistics_"+self.name+"_"+self.sample1_name+"_"+self.sample2_name+"_"+self.type_of_classifier+"_"+self.specific_type_of_classifier, "a") as test_statistics_file:
 		test_statistics_file.write("{0} \t{1} \t{2} \t{3} \n".format(result_CvM[0],result_CvM[1],result_KS[0], result_KS[1]))
 
 	return result_KS[1]
@@ -439,18 +439,22 @@ class keras_classifier(classifier):
 		self.model = Sequential()
 
 		#Adding layers
-		self.model.add(Dense(output_dim=20, input_dim=2, init="glorot_uniform"))
-		self.model.add(Activation("relu"))
+		self.model.add(Dense(output_dim=1000, input_dim=2, init="glorot_uniform",activation='relu'))
 
-		self.model.add(Dense(output_dim=20, input_dim=20, init="glorot_uniform"))
-                self.model.add(Activation("relu"))
-		self.model.add(Dense(output_dim=20, input_dim=20, init="glorot_uniform"))
-                self.model.add(Activation("relu"))
-		self.model.add(Dense(output_dim=2, init="glorot_uniform"))
-		self.model.add(Activation("softmax"))
+                self.model.add(Dense(output_dim=1000, input_dim=1000, init="glorot_uniform",activation='tanh'))
+                self.model.add(Dense(output_dim=1000, input_dim=1000, init="glorot_uniform",activation='tanh'))
+                self.model.add(Dense(output_dim=1000, input_dim=1000, init="glorot_uniform",activation='tanh'))
+                self.model.add(Dense(output_dim=1000, input_dim=1000, init="glorot_uniform",activation='tanh'))
+
+		self.model.add(Dense(output_dim=2, init="glorot_uniform",activation='sigmoid'))
 
 		#Compiling (might take longer)
 		self.model.compile(loss='categorical_crossentropy', optimizer='sgd')
+		
+		#specifying stochastic gradient descent parameters
+                #from keras.optimizers import SGD 
+                #sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
+		#self.model.compile(loss='categorical_crossentropy', optimizer=sgd)
 
 		from keras.utils import np_utils, generic_utils
 		self.y_pri_cathegorical=(np_utils.to_categorical(self.y_pri))
@@ -476,7 +480,66 @@ class keras_classifier(classifier):
 		if __debug__: print("get_pvalue_perm_score not implemented, yet")
 
         type_of_classifier="keras"
-	specific_type_of_classifier="dense_activation_2_hidden"
+	specific_type_of_classifier="dense_activation_4_hidden_1000neurons_tanh"
+
+class twodim_miranda(classifier):
+	def __init__(self,data,percentage_used_for_validation,no_permutations=0, no_binsx=3, no_binsy=3,name="unnamed",sample1_name="sample1",sample2_name="sample2"):
+		self.no_binsx=no_binsx
+		self.no_binsy=no_binsy
+		super( twodim_miranda, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name)
+	def get_results(self):
+		import numpy.matlib
+		self.bins_sample0=np.matlib.zeros((self.no_binsy,self.no_binsx))
+		self.bins_sample1=np.matlib.zeros((self.no_binsy,self.no_binsx))
+		Xx_values=self.data[:,0]
+		Xy_values=self.data[:,1]
+		labels=self.data[:,2]
+		no_binsx=self.no_binsx
+		no_binsy=self.no_binsy
+
+		Xx_max= np.amax(Xx_values)
+		Xx_min= np.amin(Xx_values)
+		Xx_width= (Xx_max-Xx_min)/no_binsx
+		Xy_max= np.amax(Xy_values)
+		Xy_min= np.amin(Xy_values)
+		Xy_width= (Xy_max-Xy_min)/no_binsy
+
+		for i in range(Xx_values.shape[0]):
+			x_bin=int(np.floor((Xx_values[i]-Xx_min)/Xx_width))	
+			y_bin=int(np.floor((Xy_values[i]-Xy_min)/Xy_width))
+			if(x_bin==no_binsx):
+				x_bin -=1
+			if(y_bin==no_binsy):
+				y_bin -=1
+			if(labels[i]==0):
+				self.bins_sample0[y_bin,x_bin] +=1
+			else:
+				self.bins_sample1[y_bin,x_bin] +=1
+
+		print(self.bins_sample0)
+		print(self.bins_sample0[1,1])
+		print(np.sum(self.bins_sample0))
+
+                print(self.bins_sample1)
+                print(self.bins_sample1[1,1])
+                print(np.sum(self.bins_sample1))
+		
+		#element wise subtraction and division
+		Scp2 =  np.divide(np.square(np.subtract(self.bins_sample1,self.bins_sample0)),np.add(self.bins_sample1,self.bins_sample0))
+		print(Scp2)
+		Chi2 = np.nansum(Scp2)
+		print("Chi2")
+		print(Chi2)
+
+		print("Chi2/dof")
+		print(Chi2/(no_binsx*no_binsy-1))
+
+		pvalue= 1 - stats.chi2.cdf(Chi2,(no_binsx*no_binsy-1))
+		print("pvalue")
+		print(pvalue)
+
+		with open("test_statistic_distributions/test_statistics."+self.name+"_"+self.sample1_name+"_"+self.sample2_name+"_miranda_"+str(self.no_binsx)+"_"+str(self.no_binsy), "a") as test_statistics_file:
+			test_statistics_file.write("{0} \t{1} \t{2} \t{3} \n".format(0,0,0,pvalue))
 
 ####################################################################################################################################################################
 ####################################################################################################################################################################
@@ -582,7 +645,7 @@ class nn_sklearn(sklearn_classifier):
                 Layer("Softmax")],
             learning_rate=0.001,
             n_iter=1)
-        self.specific_type_of_classifier="nn_rectifier10_softmax_lr0.001"
+        self.specific_type_of_classifier="nn_rectifier10_softmax_lr0_001"
 	super( nn_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name)
 
 
