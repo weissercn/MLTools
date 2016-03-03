@@ -18,7 +18,7 @@ number_of_files=100
 
 name           = "dalitz"
 sample1_name   = "seed_000_0"
-sample2_name   = "seed_200_0"
+sample2_name   = "seed_200_1"
 shuffling_seed = 100
 
 #with open("test_statistic_distributions/test_statistics."+name+"_"+sample1_name+"_"+sample2_name, "w") as test_statistics_file:

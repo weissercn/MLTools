@@ -13,6 +13,9 @@ The data is in the format
 CvM U   CvM T   KS D    KS p
 
 and the naming is in the format
-"test_statistic_distributions/test_statistics."+self.name+"_"+self.sample1_name+"_"+self.sample2_name+"_"+self.type_of_classifier+"_"+self.specific_type_of_classifier
+"test_statistic_distributions/test_statistics_"+self.name+"_"+self.sample1_name+"_"+self.sample2_name+"_"+self.type_of_classifier+"_"+self.specific_type_of_classifier
+
+the important distributions are shifted to the important_test_statistics folder.
+
 
 
