@@ -36,12 +36,11 @@ def perm_test(T_comp,T_actual):
 	#print("unsorted T_comp")
 	#print(T_comp)
 	T_comp=np.sort(T_comp)
-	print("sorted T_comp")
-	print(T_comp)
-	print("T_actual")
-	print(T_actual)
-
-	return np.divide((n-1-np.searchsorted(T_comp,T_actual)),n)
+	#print("sorted T_comp")
+	#print(T_comp)
+	#print("T_actual")
+	#print(T_actual)
+	return (np.divide((n-1-np.searchsorted(T_comp,T_actual)).astype(float),n))
 		
 
 
@@ -50,7 +49,7 @@ def perm_test(T_comp,T_actual):
 print("Plotting p values directly")
 distrib_file= []
 for file in os.listdir("."):
-        if(file.startswith("test_statistics") and not file.endswith(".png")):
+        if(file.startswith("test_statistics") and not file.endswith(".png") and not file.endswith(".pdf") ):
                 distrib_file.append(file)
 
 # no cpv
@@ -70,8 +69,8 @@ D = []
 p_Ks = []
 
 for i in range(no_files):
-	distrib_list.append(np.loadtxt(distrib_file[i],dtype='d'))
 	print(distrib_file[i])
+	distrib_list.append(np.loadtxt(distrib_file[i],dtype='d'))
 	assert distrib_list[i].shape[0]==100
 	no.append(distrib_list[i].shape[0])
 	U.append(distrib_list[i][:,0])
@@ -88,13 +87,15 @@ for i in range(no_files):
 print("Performing permutation test")
 distrib_file_permtest= []
 for file in os.listdir("."):
-        if(file.startswith("test_statistics_dalitz_seed_000_0_seed_100_0_") and not file.endswith(".png")):
+        if(file.startswith("test_statistics_dalitz_seed_000_0_seed_100_0_") and not ("iranda" in file)  and not file.endswith(".png") and not file.endswith(".pdf")):
                 distrib_file_permtest.append(file)
 
 distrib_list_permtest_comp = []
 distrib_list_permtest_actual = []
 
-for i in range(no_files):
+no_files_permtest=len(distrib_file_permtest)
+
+for i in range(no_files_permtest):
         distrib_list_permtest_comp.append(np.loadtxt(distrib_file_permtest[i],dtype='d'))
 	file_actual = str(np.core.defchararray.replace(distrib_file_permtest[i],"seed_100_0_","seed_200_1_"))
 	print(file_actual)
@@ -118,10 +119,9 @@ for i in range(no_files):
 	ax1_pred_comp.set_title(distrib_file_permtest[i]+'_T_values')
 	fig_pred_comp.savefig(distrib_file_permtest[i]+'_T_values.pdf', format='pdf')
 
-	print(perm_test(-T_comp,-T_actual))
+	p_CvM=(perm_test(T_comp,T_actual))
         
-	#histo_plot(p_Ks[i],50,"p value","Frequency","p value distribution",distrib_file_permtest[i]+"_p_value.png")
-
+	histo_plot(p_CvM,50,"p value","Frequency","p value distribution CvM",distrib_file_permtest[i]+"_p_value_CvM.png")
 
 
 
