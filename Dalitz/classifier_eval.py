@@ -13,6 +13,7 @@
 
 from __future__ import print_function
 from __future__ import division
+import os
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import numpy as np
@@ -85,7 +86,7 @@ class classifier(object):
 	ax_dal.set_xlabel(r'$m_{AB}^2$')
 	ax_dal.set_ylabel(r'$m_{AC}^2$')
 	ax_dal.set_title("Dalitz plot")
-	dalitz_pri.savefig("Dalitz_plot")
+	dalitz_pri.savefig(os.path.expandvars("$MLToolsDir")+"/Dalitz/graphs/Dalitz_plot")
 
 	for i in range(self.no_primary):
     		if self.y_pri[i]==1:
@@ -260,6 +261,8 @@ class classifier(object):
 
 	if __debug__:
 	        bins_probability=np.histogram(np.hstack((self.data_validation_file_0[:,4],self.data_validation_file_1[:,4])), bins=50)[1]
+
+		plt.rc('text', usetex=False)
         
         	# Making a histogram of the probability predictions of the algorithm. 
         	fig_pred_0= plt.figure()
@@ -268,7 +271,7 @@ class classifier(object):
         	ax1_pred_0.set_xlabel('Probability')
         	ax1_pred_0.set_ylabel('Normalised Frequency')
         	ax1_pred_0.set_title('Probability Predictions '+self.name+' '+self.sample1_name+' '+self.specific_type_of_classifier)
-        	fig_pred_0.savefig('graphs/Machine_learning_predictions_'+self.name+'_'+self.sample1_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=300)
+        	fig_pred_0.savefig(os.path.expandvars("$MLToolsDir")+'/Dalitz/graphs/Machine_learning_predictions_'+self.name+'_'+self.sample1_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=300)
         	#ax1_pred_0.show()
         
 		fig_pred_1= plt.figure()
@@ -278,7 +281,7 @@ class classifier(object):
         	ax1_pred_1.set_xlabel('Probability')
         	ax1_pred_1.set_ylabel('Normalised Frequency')
         	ax1_pred_1.set_title('Probability Predictions '+self.name+' '+self.sample2_name+' '+self.specific_type_of_classifier)
-        	fig_pred_1.savefig('graphs/Machine_learning_predictions_'+self.name+'_'+self.sample2_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=300)
+        	fig_pred_1.savefig(os.path.expandvars("$MLToolsDir")+'/Dalitz/graphs/Machine_learning_predictions_'+self.name+'_'+self.sample2_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=300)
         	#ax1_pred_1.show()
         
         	fig_pred_comp= plt.figure()
@@ -290,9 +293,8 @@ class classifier(object):
         	ax1_pred_comp.set_xlabel('Probability')
         	ax1_pred_comp.set_ylabel('Normalised Frequency')
         	ax1_pred_comp.set_title('Probability Predictions '+self.name+' '+self.sample1_name+' and '+self.sample2_name+' '+self.specific_type_of_classifier)
-        	fig_pred_comp.savefig('graphs/Machine_learning_predictions_'+self.name+'_'+self.sample1_name+'_'+self.sample2_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=3000)
+        	fig_pred_comp.savefig(os.path.expandvars("$MLToolsDir")+'/Dalitz/graphs/Machine_learning_predictions_'+self.name+'_'+self.sample1_name+'_'+self.sample2_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=3000)
         	#ax1_pred_comp.show()
-        
         
         	#Subtract histograms. This is assuming equal bin width
         	fig_subt= plt.figure()
@@ -302,7 +304,7 @@ class classifier(object):
         	ax1_subt.set_xlabel('Probability')
         	ax1_subt.set_ylabel('Normalised Frequency'+self.name+' ( '+self.sample1_name+' - '+ self.sample2_name+' )' )
         	ax1_subt.set_title('Differtial Probability Predictions '+self.name+' '+self.sample1_name+' and '+self.sample2_name+' '+self.specific_type_of_classifier)
-        	fig_subt.savefig('graphs/Machine_learning_predictions_'+self.name+'_'+self.sample1_name+'_minus_'+self.sample2_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=3000)
+        	fig_subt.savefig(os.path.expandvars("$MLToolsDir")+'/Dalitz/graphs/Machine_learning_predictions_'+self.name+'_'+self.sample1_name+'_minus_'+self.sample2_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=3000)
         	#ax1_subt.show()
         
         	#val[numpy.logical_or.reduce([val[:,1] == 1])]
@@ -310,7 +312,7 @@ class classifier(object):
         	fig_dalitz_color= plt.figure()
 		ax1_dalitz_color= fig_dalitz_color.add_subplot(1,1,1)
         	ax1_dalitz_color.scatter( self.data_validation_file_0[:,0],self.data_validation_file_0[:,1],10,self.data_validation_file_0[:,3],cmap=colorMap)
-        	fig_dalitz_color.savefig('graphs/validation_file_0_'+self.name+'_'+self.sample1_name+'_and_'+self.sample2_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=300)
+        	fig_dalitz_color.savefig(os.path.expandvars("$MLToolsDir")+'/Dalitz/graphs/validation_file_0_'+self.name+'_'+self.sample1_name+'_and_'+self.sample2_name+'_'+self.specific_type_of_classifier+'.pdf', format='pdf', dpi=300)
         
 	result_KS=stats.ks_2samp(self.data_validation_file_0[:,4], self.data_validation_file_1[:,4])
 	result_CvM= cr.cvm_2samp(self.data_validation_file_0[:,4], self.data_validation_file_1[:,4])
@@ -328,7 +330,7 @@ class classifier(object):
 		print(result_CvM)
 		print("P value from get_pvalue_perm_score")
 	
-	with open("test_statistic_distributions/test_statistics_"+self.name+"_"+self.sample1_name+"_"+self.sample2_name+"_"+self.type_of_classifier+"_"+self.specific_type_of_classifier, "a") as test_statistics_file:
+	with open(os.path.expandvars("$MLToolsDir")+"/Dalitz/test_statistic_distributions/test_statistics_"+self.name+"_"+self.sample1_name+"_"+self.sample2_name+"_"+self.type_of_classifier+"_"+self.specific_type_of_classifier, "a") as test_statistics_file:
 		test_statistics_file.write("{0} \t{1} \t{2} \t{3} \n".format(result_CvM[0],result_CvM[1],result_KS[0], result_KS[1]))
 
 	return result_KS[1]
@@ -538,7 +540,7 @@ class twodim_miranda(classifier):
 		print("pvalue")
 		print(pvalue)
 
-		with open("test_statistic_distributions/test_statistics_"+self.name+"_"+self.sample1_name+"_"+self.sample2_name+"_miranda_"+str(self.no_binsx)+"_"+str(self.no_binsy), "a") as test_statistics_file:
+		with open(os.path.expandvars("$MLToolsDir")+"/Dalitz/test_statistic_distributions/test_statistics_"+self.name+"_"+self.sample1_name+"_"+self.sample2_name+"_miranda_"+str(self.no_binsx)+"_"+str(self.no_binsy), "a") as test_statistics_file:
 			test_statistics_file.write("{0} \t{1} \t{2} \t{3} \n".format(0,0,0,pvalue))
 
 
@@ -592,7 +594,7 @@ class twodim_energy_test(classifier):
 
 		T = T_1st_contrib + T_2nd_contrib +  T_3rd_contrib
 
-                with open("test_statistic_distributions/test_statistics_"+self.name+"_"+self.sample1_name+"_"+self.sample2_name+"_energy_test_"+str(self.sigma), "a") as test_statistics_file:
+                with open(os.path.expandvars("$MLToolsDir")+"/Dalitz/test_statistic_distributions/test_statistics_"+self.name+"_"+self.sample1_name+"_"+self.sample2_name+"_energy_test_"+str(self.sigma), "a") as test_statistics_file:
                         test_statistics_file.write("{0} \t{1} \t{2} \t{3} \t{4} \n".format(0,0,0,0,T))
 
 
@@ -650,7 +652,7 @@ class softmax_regression_tf(tf_classifier):
 			print(accuracy.eval(feed_dict={x: self.X_val[:,:].reshape(self.no_validation,2), y_: self.y_val_tf[:,:].reshape(self.no_validation,2)}))
 			self.print_line()
 
-		self.save_path = self.saver.save(sess, "/tmp/model.ckpt")
+		self.save_path = self.saver.save(sess, os.path.expandvars("$MLToolsDir")+"/Dalitz/tmp/model.ckpt")
 		if __debug__:print("Model saved in file: ", self.save_path)
 
 

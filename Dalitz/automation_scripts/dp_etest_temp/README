@@ -1,0 +1,18 @@
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# Name:     Dalitz/automation_scripts/dp 
+#
+# Author:   Constantin Weisser (weisser@mit.edu)
+#
+# Purpose:  In this directory automation scripts should be stored
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+The automation scripts are used to automatically analyse samples and record 
+the results.
+
+Specifically this directory contains scripts to analyse 300 samples, 200 from 
+the same distribution and 100 from another. 
+
+
+

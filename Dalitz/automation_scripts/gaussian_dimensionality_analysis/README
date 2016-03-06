@@ -1,0 +1,18 @@
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# Name:     Dalitz/automation_scripts/gaussian_dimensionality_analysis 
+#
+# Author:   Constantin Weisser (weisser@mit.edu)
+#
+# Purpose:  In this directory automation scripts should be stored
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+The automation scripts are used to automatically analyse samples and record 
+the results.
+
+Specifically, in this directory a script is stored that studies how the 
+dimensionality of the problem changes how sensitive the algorithms are.
+
+
+

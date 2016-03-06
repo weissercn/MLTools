@@ -24,6 +24,9 @@ from sklearn import svm
 from sklearn import cross_validation
 from sknn.mlp import Classifier, Layer
 from scipy import stats
+import sys
+#sys.path.append("$MLToolsDir")
+sys.path.append("../..")
 import classifier_eval
 
 np.random.seed(100) 
@@ -118,8 +121,8 @@ np.savetxt('data.txt', data)
 #keras_example=classifier_eval.keras_classifier(data,40,0,name,sample1_name,sample2_name)
 #keras_example.get_results()
 
-miranda_example=classifier_eval.twodim_miranda(data,40,0,10,10,name,sample1_name,sample2_name)
-miranda_example.get_results()
+#miranda_example=classifier_eval.twodim_miranda(data,40,0,10,10,name,sample1_name,sample2_name)
+#miranda_example.get_results()
 
-#energy_test_example=classifier_eval.twodim_energy_test(data,40,0,0.15,features_0,features_1,name,sample1_name,sample2_name)
-#energy_test_example.get_results()
+energy_test_example=classifier_eval.twodim_energy_test(data,40,0,0.15,features_0,features_1,name,sample1_name,sample2_name)
+energy_test_example.get_results()

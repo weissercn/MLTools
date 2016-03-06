@@ -1,0 +1,17 @@
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# Name:     Dalitz/automation_scripts/gaussian 
+#
+# Author:   Constantin Weisser (weisser@mit.edu)
+#
+# Purpose:  In this directory automation scripts should be stored
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+The automation scripts are used to automatically analyse samples and record 
+the results.
+
+Specifically, in this directory 2D gaussians should be analysed 
+
+
+
