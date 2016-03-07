@@ -109,8 +109,8 @@ np.savetxt('data.txt', data)
 #ada_example=classifier_eval.ada_sklearn(data,40,0,1000,name,sample1_name,sample2_name)
 #ada_example.get_results()
 
-svm_example=classifier_eval.svm_sklearn(data,40,0,1000,name,sample1_name,sample2_name)
-svm_example.get_results()
+#svm_example=classifier_eval.svm_sklearn(data,40,0,1000,name,sample1_name,sample2_name)
+#svm_example.get_results()
 
 #nn_example=classifier_eval.nn_sklearn(data,40,0,name,sample1_name,sample2_name)
 #nn_example.get_results()
@@ -121,8 +121,8 @@ svm_example.get_results()
 #keras_example=classifier_eval.keras_classifier(data,40,0,name,sample1_name,sample2_name)
 #keras_example.get_results()
 
-#miranda_example=classifier_eval.twodim_miranda(data,40,0,10,10,name,sample1_name,sample2_name)
-#miranda_example.get_results()
+miranda_example=classifier_eval.twodim_miranda(data,40,0,10,10,name,sample1_name,sample2_name)
+miranda_example.get_results()
 
 #energy_test_example=classifier_eval.twodim_energy_test(data,40,0,0.15,features_0,features_1,name,sample1_name,sample2_name)
 #energy_test_example.get_results()
