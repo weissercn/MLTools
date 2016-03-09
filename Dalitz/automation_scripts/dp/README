@@ -4,7 +4,8 @@
 #
 # Author:   Constantin Weisser (weisser@mit.edu)
 #
-# Purpose:  In this directory automation scripts should be stored
+# Purpose:  In this directory automation scripts for the Dalitz plot samples
+#	    should be stored
 #
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
@@ -14,5 +15,6 @@ the results.
 Specifically this directory contains scripts to analyse 300 samples, 200 from 
 the same distribution and 100 from another. 
 
-
+The results are stored in Dalitz/test_statistic_distributions and 
+Dalitz/graphs.
 

@@ -33,8 +33,15 @@ from scipy import stats
 from keras.models import Sequential
 from keras.layers.core import Dense, Activation
 
+#This is the class structure of goodness of fit tests.
+#The overall parent class is called gof_test
+#Directly derived from that are twodim_miranda an
+#twodim_etest, keras_classifier, tf_classifier and 
+#sklearn classifier. The last class then has a few
+#subclasses of itself.
 
-class classifier(object):
+
+class gof_test(object):
     """
     A class that prepares the data, trains a classifier on it and returns the success of it. 
     Its methods are __init__, get_results, get_results_without_cross_validation, reset, scale_data, 
@@ -42,7 +49,8 @@ class classifier(object):
     get_pvalue_perm, ks, set_percentage_used_for_primary, set_no_permutations, 
     get_percentage_used_for_primary , get_no_permutations , get_clf, get_score_list and print_line
     """
-    if __debug__:print(__doc__)
+    if __debug__:
+        print(__doc__)
     #clf = tree.DecisionTreeClassifier()
     
     def __init__(self,data_unscaled,percentage_used_for_validation,no_permutations=0,name="unnamed",sample1_name="sample1",sample2_name="sample2"):
@@ -71,7 +79,7 @@ class classifier(object):
 		print(self.data_primary)
 		print("self.data_validation")
 		print(self.data_validation)
-
+	
         #Selecting features (X) and labels (y)
         self.X_pri = self.data_primary[:,:-1]
         self.no_primary=self.X_pri.shape[0]
@@ -79,14 +87,15 @@ class classifier(object):
 	self.y_pri_tf = np.zeros(( self.no_primary,2))
 
 	#Primary sample Dalitz Plot
-	plt.rc('text', usetex=True)
-	dalitz_pri=plt.figure()
-	ax_dal=dalitz_pri.add_subplot(1,1,1)
-	ax_dal.scatter(self.X_pri[:,0],self.X_pri[:,1],s=0.2)
-	ax_dal.set_xlabel(r'$m_{AB}^2$')
-	ax_dal.set_ylabel(r'$m_{AC}^2$')
-	ax_dal.set_title("Dalitz plot")
-	dalitz_pri.savefig(os.path.expandvars("$MLToolsDir")+"/Dalitz/graphs/Dalitz_plot")
+	if __debug__:
+		plt.rc('text', usetex=True)
+		dalitz_pri=plt.figure()
+		ax_dal=dalitz_pri.add_subplot(1,1,1)
+		ax_dal.scatter(self.X_pri[:,0],self.X_pri[:,1],s=0.2)
+		ax_dal.set_xlabel(r'$m_{AB}^2$')
+		ax_dal.set_ylabel(r'$m_{AC}^2$')
+		ax_dal.set_title("Dalitz plot")
+		dalitz_pri.savefig(os.path.expandvars("$MLToolsDir")+"/Dalitz/graphs/Dalitz_plot")
 
 	for i in range(self.no_primary):
     		if self.y_pri[i]==1:
@@ -362,7 +371,7 @@ class classifier(object):
 ####################################################################################################################################################################
         
 
-class sklearn_classifier(classifier):
+class sklearn_classifier(gof_test):
 	def train_from_scratch(self):
         	self.clf = self.clf_blueprint
         	print(self.clf)
@@ -420,7 +429,7 @@ class sklearn_classifier(classifier):
 
 	type_of_classifier="sklearn"
 
-class tf_classifier(classifier):
+class tf_classifier(gof_test):
 
 	def train_from_scratch(self):
 		print("Need to implement the method TRAIN_FROM_SCRATCH")
@@ -434,7 +443,7 @@ class tf_classifier(classifier):
 
 	type_of_classifier="tensorflow"
 
-class keras_classifier(classifier):
+class keras_classifier(gof_test):
 
         def train_from_scratch(self):
 		#Setting up a sequential model rather than a Graph
@@ -484,7 +493,7 @@ class keras_classifier(classifier):
         type_of_classifier="keras"
 	specific_type_of_classifier="dense_activation_4_hidden_1000neurons_tanh"
 
-class twodim_miranda(classifier):
+class twodim_miranda(gof_test):
 	def __init__(self,data,percentage_used_for_validation,no_permutations=0, no_binsx=3, no_binsy=3,name="unnamed",sample1_name="sample1",sample2_name="sample2"):
 		self.no_binsx=no_binsx
 		self.no_binsy=no_binsy
@@ -509,6 +518,7 @@ class twodim_miranda(classifier):
 		for i in range(Xx_values.shape[0]):
 			x_bin=int(np.floor((Xx_values[i]-Xx_min)/Xx_width))	
 			y_bin=int(np.floor((Xy_values[i]-Xy_min)/Xy_width))
+			#eliminate boundary effects
 			if(x_bin==no_binsx):
 				x_bin -=1
 			if(y_bin==no_binsy):
@@ -530,6 +540,8 @@ class twodim_miranda(classifier):
 		Scp2 =  np.divide(np.square(np.subtract(self.bins_sample1,self.bins_sample0)),np.add(self.bins_sample1,self.bins_sample0))
 		if __debug__:
 			print(Scp2)
+
+		#nansum ignores all the contributions that are Not A Number (NAN)
 		Chi2 = np.nansum(Scp2)
 		if __debug__:
 			print("Chi2")
@@ -547,7 +559,7 @@ class twodim_miranda(classifier):
 			test_statistics_file.write("{0} \t{1} \t{2} \t{3} \n".format(0,0,0,pvalue))
 
 
-class twodim_energy_test(classifier):
+class twodim_energy_test(gof_test):
         def __init__(self,data,percentage_used_for_validation,no_permutations, sigma,features_0,features_1,name="unnamed",sample1_name="sample1",sample2_name="sample2"):
                 self.sigma=sigma
 		self.features_0=features_0

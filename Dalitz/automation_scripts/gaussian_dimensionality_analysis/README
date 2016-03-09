@@ -4,7 +4,8 @@
 #
 # Author:   Constantin Weisser (weisser@mit.edu)
 #
-# Purpose:  In this directory automation scripts should be stored
+# Purpose:  In this directory automation scripts for higher dimensional gaussian
+#	    data should be stored
 #
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
@@ -14,5 +15,6 @@ the results.
 Specifically, in this directory a script is stored that studies how the 
 dimensionality of the problem changes how sensitive the algorithms are.
 
-
+The results are stored in Dalitz/test_statistic_distributions and 
+Dalitz/graphs.
 

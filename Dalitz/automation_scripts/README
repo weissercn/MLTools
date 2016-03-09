@@ -4,12 +4,12 @@
 #
 # Author:   Constantin Weisser (weisser@mit.edu)
 #
-# Purpose:  In this directory all automation scripts should be stored
+# Purpose:  In this directory scripts are stored to analyse data. Those scripts
+#	    rely on Dalitz/classifier_eval.py 
 #
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
-The automation scripts are used to automatically analyse samples and record 
-the results.
-
-
+To analyse Dalitz plot data change directory to dp, for 2D gaussian data go
+to gaussian and for higher dimensional gaussian data go to gaussian_dimensionality_analysis
+ 
 

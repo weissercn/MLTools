@@ -17,7 +17,8 @@ Samples are either taken from the gaussian_samples directory for
 2 or higher dimensional gaussian distributions or from dpmodel
 for a more sophisticated Dalitz plot model. 
 One should take two data files to compare and call them data.+.txt
-and data.cpv.v2.txt for example and then run
+and data.cpv.v2.txt for example and then go to the corresponding 
+automation_scripts directory (e.g. automation_scripts/dp) and run
 
 python automate_goodness_of_fit.py
 
@@ -35,4 +36,7 @@ python.
 
 If you want to change which classifier to use you have to uncomment
 the classifier you want by hand in goodness_of_fit.py
+
+The results of the analysis are stored in Dalitz/graphs and 
+Dalitz/test_statistic_distributions
 
