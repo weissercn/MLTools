@@ -53,7 +53,7 @@ while len(y_values) < no_points:
     if 0 < y_value < 1:
         y_values.append(y_value)
 
-fo = open("gauss_data/data.2Dgauss_"+str(no_points)+"_"+str(x_mean)+"_"+str(x_std)+"_"+str(y_mean)+"_"+str(y_std)+"_"+str(label_no)+  ".txt", "w")
+fo = open("gauss_data/data_2Dgauss_"+str(no_points)+"_"+str(x_mean)+"_"+str(x_std)+"_"+str(y_mean)+"_"+str(y_std)+"_"+str(label_no)+  ".txt", "w")
 
 for i in range(len(x_values)):
 	print(str(x_values[i]) + "  " + str(y_values[i]), file=fo)

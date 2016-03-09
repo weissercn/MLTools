@@ -517,28 +517,31 @@ class twodim_miranda(classifier):
 				self.bins_sample0[y_bin,x_bin] +=1
 			else:
 				self.bins_sample1[y_bin,x_bin] +=1
+		if __debug__:
+			print(self.bins_sample0)
+			print(self.bins_sample0[1,1])
+			print(np.sum(self.bins_sample0))
 
-		print(self.bins_sample0)
-		print(self.bins_sample0[1,1])
-		print(np.sum(self.bins_sample0))
-
-                print(self.bins_sample1)
-                print(self.bins_sample1[1,1])
-                print(np.sum(self.bins_sample1))
+			print(self.bins_sample1)
+			print(self.bins_sample1[1,1])
+			print(np.sum(self.bins_sample1))
 		
 		#element wise subtraction and division
 		Scp2 =  np.divide(np.square(np.subtract(self.bins_sample1,self.bins_sample0)),np.add(self.bins_sample1,self.bins_sample0))
-		print(Scp2)
+		if __debug__:
+			print(Scp2)
 		Chi2 = np.nansum(Scp2)
-		print("Chi2")
-		print(Chi2)
+		if __debug__:
+			print("Chi2")
+			print(Chi2)
 
-		print("Chi2/dof")
-		print(Chi2/(no_binsx*no_binsy-1))
+			print("Chi2/dof")
+			print(Chi2/(no_binsx*no_binsy-1))
 
 		pvalue= 1 - stats.chi2.cdf(Chi2,(no_binsx*no_binsy-1))
-		print("pvalue")
-		print(pvalue)
+		if __debug__:
+			print("pvalue")
+			print(pvalue)
 
 		with open(os.path.expandvars("$MLToolsDir")+"/Dalitz/test_statistic_distributions/test_statistics_"+self.name+"_"+self.sample1_name+"_"+self.sample2_name+"_miranda_"+str(self.no_binsx)+"_"+str(self.no_binsy), "a") as test_statistics_file:
 			test_statistics_file.write("{0} \t{1} \t{2} \t{3} \n".format(0,0,0,pvalue))
