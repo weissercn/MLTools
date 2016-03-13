@@ -56,7 +56,7 @@ import sys
 args = str(sys.argv)
 total = len(sys.argv)
 
-if(total!=7):
+if(total!=8):
 	print("The right arguments were not supplied")
 
 comp_file_0    = str(sys.argv[1])
@@ -65,6 +65,7 @@ name           = str(sys.argv[3])
 sample1_name   = str(sys.argv[4])
 sample2_name   = str(sys.argv[5])
 shuffling_seed = int(sys.argv[6])
+classifier_name= str(sys.argv[7])
 np.random.seed(shuffling_seed)
 
 print(comp_file_0)
@@ -73,6 +74,7 @@ print(name)
 print(sample1_name)
 print(sample2_name)
 print(shuffling_seed)
+print(classifier_name)
 
 
 #extracts data from the files
@@ -103,26 +105,33 @@ np.random.shuffle(data)
 
 np.savetxt('data.txt', data)
 
-#dt_example=classifier_eval.dt_sklearn(data,40,0,name,sample1_name,sample2_name)
-#dt_example.get_results()
+######################################################################################
+##########################         Classifiers        ################################
+######################################################################################
 
-#ada_example=classifier_eval.ada_sklearn(data,40,0,1000,name,sample1_name,sample2_name)
-#ada_example.get_results()
-
-#svm_example=classifier_eval.svm_sklearn(data,40,0,1000,name,sample1_name,sample2_name)
-#svm_example.get_results()
-
-#nn_example=classifier_eval.nn_sklearn(data,40,0,name,sample1_name,sample2_name)
-#nn_example.get_results()
-
-#softmax_example=classifier_eval.softmax_regression_tf(data,40,2)
-#softmax_example.get_results()
-
-#keras_example=classifier_eval.keras_classifier(data,40,0,name,sample1_name,sample2_name)
-#keras_example.get_results()
-
-miranda_example=classifier_eval.twodim_miranda(data,40,0,10,10,name,sample1_name,sample2_name)
-miranda_example.get_results()
-
-#energy_test_example=classifier_eval.twodim_energy_test(data,40,0,0.15,features_0,features_1,name,sample1_name,sample2_name)
-#energy_test_example.get_results()
+if "dectree" in classifier_name:
+	dt_example=classifier_eval.dt_sklearn(data,40,0,name,sample1_name,sample2_name)
+	dt_example.get_results()
+elif "adaboost" in classifier_name:
+	ada_example=classifier_eval.ada_sklearn(data,40,0,1000,name,sample1_name,sample2_name)
+	ada_example.get_results()
+elif "svm" in classifier_name:
+	svm_example=classifier_eval.svm_sklearn(data,40,0,1000,name,sample1_name,sample2_name)
+	svm_example.get_results()
+elif "neuralnet" in classifier_name:
+	nn_example=classifier_eval.nn_sklearn(data,40,0,name,sample1_name,sample2_name)
+	nn_example.get_results()
+elif "softmax" in classifier_name:
+	softmax_example=classifier_eval.softmax_regression_tf(data,40,2)
+	softmax_example.get_results()
+elif "keras" in classifier_name:
+	keras_example=classifier_eval.keras_classifier(data,40,0,name,sample1_name,sample2_name)
+	keras_example.get_results()
+elif "miranda" in classifier_name:
+	miranda_example=classifier_eval.twodim_miranda(data,40,0,3,name,sample1_name,sample2_name)
+	miranda_example.get_results()
+elif "etest" in classifier_name:
+	energy_test_example=classifier_eval.twodim_energy_test(data,40,0,0.15,features_0,features_1,name,sample1_name,sample2_name)
+	energy_test_example.get_results()
+else:
+	print("No classifier found")

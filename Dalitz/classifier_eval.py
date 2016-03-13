@@ -30,9 +30,6 @@ from sklearn import cross_validation
 from sknn.mlp import Classifier, Layer
 from scipy import stats
 
-from keras.models import Sequential
-from keras.layers.core import Dense, Activation
-
 #This is the class structure of goodness of fit tests.
 #The overall parent class is called gof_test
 #Directly derived from that are twodim_miranda an
@@ -65,7 +62,7 @@ class gof_test(object):
         # Scaling the data in case the typical distance of the origin of the Dalitz plot is not of order 1
         self.data=self.data_unscaled
         #self.scale_data()
-    	
+
 	self.no_dim = self.data.shape[1]-1
 	print("Number of dimensions: {0}".format(str(self.no_dim)))	
 
@@ -197,10 +194,23 @@ class classifier(gof_test):
 	#probabilities for the two labels. 
 
 	#First establish a prediction list: 0 is correct, 1 if wrong prediction
-	predicted_y_val = self.predict(self.X_val)
+	#predicted_y_val = self.predict(self.X_val)
+	if self.type_of_classifier=="not_keras":
+		print(self.y_pri_cathegorical)
+		print("This is a Keras classifier -> use cathegorical input")
+		from keras.utils import np_utils, generic_utils
+		predicted_y_val_cathegorial = self.predict(self.X_val)
+		print(predicted_y_val)
+		#predicted_y_val = np_utils.to_categorical
+	else:
+		predicted_y_val = self.predict(self.X_val)
 	if(self.specific_type_of_classifier.startswith("nn")):
 		predicted_y_val=np.reshape(predicted_y_val,(1,self.no_val) )
 	pred_validation = abs(predicted_y_val-self.y_val_row)
+
+	print(self.X_val)
+	print(self.y_val_row)
+	print(predicted_y_val)
 
 	if __debug__:	
 		print("self.predict(self.X_val)")
@@ -325,7 +335,8 @@ class classifier(gof_test):
 		print("P value from get_pvalue_perm_score")
 
 	print("KS result (KS statistic, p value):{0}".format(str(result_KS)))
-	
+
+	print(os.path.expandvars("$MLToolsDir")+"/Dalitz/test_statistic_distributions/test_statistics_"+self.name+"_"+self.sample1_name+"_"+self.sample2_name+"_"+self.type_of_classifier+"_"+self.specific_type_of_classifier)	
 	with open(os.path.expandvars("$MLToolsDir")+"/Dalitz/test_statistic_distributions/test_statistics_"+self.name+"_"+self.sample1_name+"_"+self.sample2_name+"_"+self.type_of_classifier+"_"+self.specific_type_of_classifier, "a") as test_statistics_file:
 		test_statistics_file.write("{0} \t{1} \t{2} \t{3} \n".format(result_CvM[0],result_CvM[1],result_KS[0], result_KS[1]))
 	self.print_line()
@@ -604,15 +615,24 @@ class keras_classifier(classifier):
 
         def train_from_scratch(self):
 		#Setting up a sequential model rather than a Graph
+		from keras.models import Sequential
+		from keras.layers.core import Dense, Activation
+		from keras.layers import Dropout
+
 		self.model = Sequential()
 
 		#Adding layers
-		self.model.add(Dense(output_dim=1000, input_dim=2, init="glorot_uniform",activation='relu'))
-
-                self.model.add(Dense(output_dim=1000, input_dim=1000, init="glorot_uniform",activation='tanh'))
-                self.model.add(Dense(output_dim=1000, input_dim=1000, init="glorot_uniform",activation='tanh'))
-                self.model.add(Dense(output_dim=1000, input_dim=1000, init="glorot_uniform",activation='tanh'))
-                self.model.add(Dense(output_dim=1000, input_dim=1000, init="glorot_uniform",activation='tanh'))
+		self.model.add(Dense(output_dim=1000, input_dim=self.no_dim, init="glorot_uniform",activation='relu'))
+		self.model.add(Dropout(0.5))
+                
+		self.model.add(Dense(output_dim=1000, input_dim=1000, init="glorot_uniform",activation='tanh'))
+                self.model.add(Dropout(0.5))
+		self.model.add(Dense(output_dim=1000, input_dim=1000, init="glorot_uniform",activation='tanh'))
+                self.model.add(Dropout(0.5))
+		self.model.add(Dense(output_dim=1000, input_dim=1000, init="glorot_uniform",activation='tanh'))
+                self.model.add(Dropout(0.5))
+		self.model.add(Dense(output_dim=1000, input_dim=1000, init="glorot_uniform",activation='tanh'))
+		self.model.add(Dropout(0.5))
 
 		self.model.add(Dense(output_dim=2, init="glorot_uniform",activation='sigmoid'))
 
@@ -627,8 +647,9 @@ class keras_classifier(classifier):
 		from keras.utils import np_utils, generic_utils
 		self.y_pri_cathegorical=(np_utils.to_categorical(self.y_pri_row))
 
-		x_delete=np.array([[1, 2], [3, 4],[5, 6]])
-		y_delete=np.array([[1],[3],[5]])
+		print(self.X_pri)
+		print(self.y_pri_row)
+		print(self.y_pri_cathegorical)
 
 		#training
 		#model.train_on_batch(x_delete, y_delete)
@@ -648,7 +669,7 @@ class keras_classifier(classifier):
 		if __debug__: print("get_pvalue_perm_score not implemented, yet")
 
         type_of_classifier="keras"
-	specific_type_of_classifier="dense_activation_4_hidden_1000neurons_tanh"
+	specific_type_of_classifier="dense_activation_4_hidden_1000neurons_tanh_0_5_dropout"
 
 
 ####################################################################################################################################################################
