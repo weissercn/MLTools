@@ -114,7 +114,7 @@ class gof_test(object):
 
 
         #Primary sample Dalitz Plot
-        if __debug__:
+        if __debug__ and self.no_dim==2:
                 plt.rc('text', usetex=True)
                 dalitz_pri=plt.figure()
                 ax_dal=dalitz_pri.add_subplot(1,1,1)
@@ -195,22 +195,14 @@ class classifier(gof_test):
 
 	#First establish a prediction list: 0 is correct, 1 if wrong prediction
 	#predicted_y_val = self.predict(self.X_val)
-	if self.type_of_classifier=="not_keras":
-		print(self.y_pri_cathegorical)
-		print("This is a Keras classifier -> use cathegorical input")
-		from keras.utils import np_utils, generic_utils
-		predicted_y_val_cathegorial = self.predict(self.X_val)
-		print(predicted_y_val)
-		#predicted_y_val = np_utils.to_categorical
-	else:
-		predicted_y_val = self.predict(self.X_val)
+	predicted_y_val = self.predict(self.X_val)
+	print(predicted_y_val)
+	print(predicted_y_val.shape)
 	if(self.specific_type_of_classifier.startswith("nn")):
 		predicted_y_val=np.reshape(predicted_y_val,(1,self.no_val) )
 	pred_validation = abs(predicted_y_val-self.y_val_row)
 
-	print(self.X_val)
-	print(self.y_val_row)
-	print(predicted_y_val)
+	print(sum(predicted_y_val))
 
 	if __debug__:	
 		print("self.predict(self.X_val)")
@@ -231,6 +223,8 @@ class classifier(gof_test):
         probability_from_file_1_transposed= np.reshape(probability_from_file_1,(self.no_val,1))
 
 	if __debug__:
+		print("self.predict_proba(self.X_val)")
+		print(self.predict_proba(self.X_val))
 		print("pred_validation_transposed")
 		print(pred_validation_transposed)
 		print("probability_from_file_1")
@@ -618,23 +612,48 @@ class keras_classifier(classifier):
 		from keras.models import Sequential
 		from keras.layers.core import Dense, Activation
 		from keras.layers import Dropout
+		from keras.utils import np_utils, generic_utils
+		
+		X = self.X_pri
+		y = self.y_pri_column
 
-		self.model = Sequential()
+		# Get dimensions of input and output
+		dimof_input = X.shape[1]
+		dimof_output = len(set(y.flat))
 
-		#Adding layers
-		self.model.add(Dense(output_dim=1000, input_dim=self.no_dim, init="glorot_uniform",activation='relu'))
-		self.model.add(Dropout(0.5))
-                
-		self.model.add(Dense(output_dim=1000, input_dim=1000, init="glorot_uniform",activation='tanh'))
-                self.model.add(Dropout(0.5))
-		self.model.add(Dense(output_dim=1000, input_dim=1000, init="glorot_uniform",activation='tanh'))
-                self.model.add(Dropout(0.5))
-		self.model.add(Dense(output_dim=1000, input_dim=1000, init="glorot_uniform",activation='tanh'))
-                self.model.add(Dropout(0.5))
-		self.model.add(Dense(output_dim=1000, input_dim=1000, init="glorot_uniform",activation='tanh'))
-		self.model.add(Dropout(0.5))
+		# Set y categorical
+		y = np_utils.to_categorical(y, dimof_output)
 
-		self.model.add(Dense(output_dim=2, init="glorot_uniform",activation='sigmoid'))
+		# Set constants
+		batch_size = 1
+		dimof_middle = 100
+		dropout = 0.5
+		countof_epoch = 5
+		verbose = 0
+		if __debug__:
+			print('dimof_input: ', dimof_input)
+                	print('dimof_output: ', dimof_output)
+			print('batch_size: ', batch_size)
+			print('dimof_middle: ', dimof_middle)
+			print('dropout: ', dropout)
+			print('countof_epoch: ', countof_epoch)
+			print('verbose: ', verbose)
+			print()
+		# Set model
+		self.model = Sequential() 
+		self.model.add(Dense(input_dim=dimof_input, output_dim=dimof_middle, init="glorot_uniform",activation='tanh'))
+		self.model.add(Dropout(dropout))
+
+		self.model.add(Dense(input_dim=dimof_middle, output_dim=dimof_middle, init="glorot_uniform",activation='tanh'))
+                self.model.add(Dropout(dropout))
+		self.model.add(Dense(input_dim=dimof_middle, output_dim=dimof_middle, init="glorot_uniform",activation='tanh'))
+                self.model.add(Dropout(dropout))
+		self.model.add(Dense(input_dim=dimof_middle, output_dim=dimof_middle, init="glorot_uniform",activation='tanh'))
+                self.model.add(Dropout(dropout))
+		self.model.add(Dense(input_dim=dimof_middle, output_dim=dimof_middle, init="glorot_uniform",activation='tanh'))
+		self.model.add(Dropout(dropout))
+
+		self.model.add(Dense(input_dim=dimof_middle, output_dim=dimof_output, init="glorot_uniform",activation='sigmoid'))
 
 		#Compiling (might take longer)
 		self.model.compile(loss='categorical_crossentropy', optimizer='sgd')
@@ -644,18 +663,14 @@ class keras_classifier(classifier):
                 #sgd = SGD(lr=0.1, decay=1e-6, momentum=0.9, nesterov=True)
 		#self.model.compile(loss='categorical_crossentropy', optimizer=sgd)
 
-		from keras.utils import np_utils, generic_utils
-		self.y_pri_cathegorical=(np_utils.to_categorical(self.y_pri_row))
-
-		print(self.X_pri)
-		print(self.y_pri_row)
-		print(self.y_pri_cathegorical)
-
+		# Train
+		self.model.fit(
+		    X, y,
+		    show_accuracy=True, validation_split=0.2,
+		    batch_size=batch_size, nb_epoch=countof_epoch, verbose=verbose)
 		#training
-		#model.train_on_batch(x_delete, y_delete)
-		self.model.train_on_batch(self.X_pri, self.y_pri_cathegorical)
+		#self.model.train_on_batch(self.X_pri, self.y_pri_cathegorical)
 
-		#model.fit(self.X_pri, self.y_pri_row, nb_epoch=10, batch_size=100)
 		
 
         def predict(self, X_val):
@@ -663,13 +678,15 @@ class keras_classifier(classifier):
 
 
         def predict_proba(self, X_val):
-		return self.model.predict_proba(X_val)
+		temp = self.model.predict_proba(X_val)
+		assert (not (np.isnan(np.sum(temp))))
+		return temp 
 
 	def get_pvalue_perm_score(self,no_permutations):
 		if __debug__: print("get_pvalue_perm_score not implemented, yet")
 
         type_of_classifier="keras"
-	specific_type_of_classifier="dense_activation_4_hidden_1000neurons_tanh_0_5_dropout"
+	specific_type_of_classifier="dense_activation_{0}_hidden_{1}neurons_tanh_0_5_dropout_{2}_epochs".format(str(int(4)),str(int(1000)),str(int(5)))
 
 
 ####################################################################################################################################################################

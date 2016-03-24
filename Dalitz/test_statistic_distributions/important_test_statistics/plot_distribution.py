@@ -68,10 +68,13 @@ def perm_test(T_comp,T_actual):
 
 #Plotting p values directly
 print("Plotting p values directly")
+#specifying which files to operate on
 distrib_name= []
 for file in os.listdir("."):
         if(file.startswith("test_statistics") and not file.endswith(".png") and not file.endswith(".pdf") ):
                 distrib_name.append(file)
+
+#distrib_name= ["test_statistics_gaussian_samples_mean_0_5_mean_0_48_miranda_10_10"]
 
 # no cpv
 #distrib_name= ["test_statistics.dalitz_seed_000_0_seed_100_0_sklearn_nn_rectifier10_softmax_lr0.001","test_statistics.dalitz_seed_000_0_seed_100_0_sklearn_ada_1000estimators","test_statistics.dalitz_seed_000_0_seed_100_0_sklearn_dt","test_statistics.dalitz_seed_000_0_seed_100_0_sklearn_svm","test_statistics.dalitz_seed_000_0_seed_100_0_keras_dense_activation_2_hidden"]

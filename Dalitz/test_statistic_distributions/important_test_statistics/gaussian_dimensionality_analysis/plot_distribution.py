@@ -11,6 +11,7 @@
 #
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 from __future__ import division
+from __future__ import print_function
 import matplotlib.pyplot as plt
 import matplotlib.colors as colors
 import numpy as np
@@ -70,7 +71,7 @@ def perm_test(T_comp,T_actual):
 print("Plotting p values directly")
 distrib_name= []
 for file in os.listdir("."):
-        if(file.startswith("test_statistics") and "dropout" in file and not file.endswith(".png") and not file.endswith(".pdf") ):
+        if(file.startswith("test_statistics") and "dropout_5_epochs" in file and not file.endswith(".png") and not file.endswith(".pdf") ):
                 distrib_name.append(file)
 
 # no cpv
@@ -79,7 +80,7 @@ for file in os.listdir("."):
 # cpv
 #distrib_name = ["test_statistics.dalitz_seed_000_0_seed_200_1_keras_dense_activation_2_hidden","test_statistics.dalitz_seed_000_0_seed_200_1_sklearn_ada_1000estimators","test_statistics.dalitz_seed_000_0_seed_200_1_sklearn_dt","test_statistics.dalitz_seed_000_0_seed_200_1_sklearn_svm","test_statistics.dalitz_seed_000_0_seed_200_1_sklearn_nn_rectifier10_softmax_lr0.001" ]
 
-
+print("Using the files ",distrib_name)
 no_files=len(distrib_name)
 
 distrib_files = []
@@ -89,7 +90,9 @@ T = []
 D = []
 p_Ks = []
 
-f = open('gaussian_dimensionality_analysis_nn', 'w')
+f_name='gaussian_dimensionality_analysis_nn'
+f = open(f_name, 'w')
+print("Writing to file ",f_name)
 
 for i in range(no_files):
 	print(distrib_name[i])
@@ -150,26 +153,33 @@ for i in range(no_files_permtest):
 
 p_mir = np.loadtxt('gaussian_dimensionality_analysis_miranda')
 p_nn  = np.loadtxt('gaussian_dimensionality_analysis_nn')
-print p_mir
-print p_mir[:,0]
+print(p_mir)
+print(p_mir[:,0])
 
 #Sorting the dimensions
 dimensions= np.array([10,1,2,3,4,5,6,7,8,9])
 p = dimensions.argsort()
+print(p)
+q = p[1::2]
+print(q) 
+print(p_nn[q,0])
 
 fig = plt.figure()
 ax  = fig.add_subplot(1,1,1)
-ax.plot(dimensions[p],p_mir[p,0],label="Miranda 1$\sigma$")
-ax.plot(dimensions[p],p_mir[p,1],label="Miranda 2$\sigma$")
-ax.plot(dimensions[p],p_mir[p,2],label="Miranda 3$\sigma$")
+ax.plot(dimensions[p],p_mir[p,0],label="Miranda 1$\sigma$",color='darkblue')
+ax.plot(dimensions[p],p_mir[p,1],label="Miranda 2$\sigma$",color='blue')
+ax.plot(dimensions[p],p_mir[p,2],label="Miranda 3$\sigma$",color='cyan')
 
-ax.plot(dimensions[p],p_nn[p,0],label="Neural Net 1$\sigma$")
-ax.plot(dimensions[p],p_nn[p,1],label="Neural Net 2$\sigma$")
-ax.plot(dimensions[p],p_nn[p,2],label="Neural Net 3$\sigma$")
+ax.plot(dimensions[p],p_nn[p,0],label="Neural Net 1$\sigma$",color='darkred')
+ax.plot(dimensions[p],p_nn[p,1],label="Neural Net 2$\sigma$",color='red')
+ax.plot(dimensions[p],p_nn[p,2],label="Neural Net 3$\sigma$",color='tomato')
 
 ax.set_xlabel("Number of dimensions")
 ax.set_ylabel("Number of samples")
 ax.set_title("Dimensionality analysis")
-ax.legend(loc='upper right')
-fig.savefig("dimensionality_analysis")
+ax.legend(loc='lower right')
+fig_name="dimensionality_analysis"
+fig.savefig(fig_name)
+print("Saved the figure as" , fig_name+".png")
+
 

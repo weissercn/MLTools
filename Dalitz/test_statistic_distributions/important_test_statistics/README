@@ -1,6 +1,6 @@
 #-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 #
-# Name:     Dalitz/test_statistic_distributions/important_test_statistics
+# Name:     test_statistic_distributions 
 #
 # Author:   Constantin Weisser (weisser@mit.edu)
 #
@@ -17,5 +17,5 @@ and the naming is in the format
 
 the important distributions should be moved to the important_test_statistics folder.
 
-Once can plot the p value distributions for all distributions using plot_distribution.py.
+Once can selectively plot the p value distribution for single distributions using plot_distribution.py.
 
