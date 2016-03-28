@@ -27,7 +27,7 @@ from sklearn import tree
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn import svm
 from sklearn import cross_validation
-from sknn.mlp import Classifier, Layer
+#from sknn.mlp import Classifier, Layer
 from scipy import stats
 
 #This is the class structure of goodness of fit tests.
@@ -41,19 +41,19 @@ from scipy import stats
 
 class gof_test(object):
     """
-    A class that prepares the data, trains a classifier on it and returns the success of it. 
+    This class is the mother class for all goodness of fit methods. It takes in the data, scales it and makes it availble to machine learning algorithms and statistical gof methods alike.
     """
     if __debug__:
         print(__doc__)
 
-    def __init__(self,data_unscaled,percentage_used_for_validation,no_permutations=0,name="unnamed",sample1_name="sample1",sample2_name="sample2"):
+    def __init__(self,data_unscaled,percentage_used_for_validation,no_permutations=0,name="unnamed",sample1_name="sample1",sample2_name="sample2",used_for_optimisation=False):
         #Reset everything, because I don't really understand destructors in python. Just to be sure.
         self.reset()
 
         self.name=name
         self.sample1_name=sample1_name
         self.sample2_name=sample2_name
-
+	self.used_for_optimisation=used_for_optimisation
         #Make the inputs class variables
         self.percentage_used_for_validation = percentage_used_for_validation
         self.no_permutations = no_permutations
@@ -178,7 +178,11 @@ class gof_test(object):
 
 #2nd order of class hirarchy. Machine learning algorithms
 class classifier(gof_test):   
-         
+    
+    """ 
+    A class that prepares the data, trains a classifier on it and returns the success of it. 
+    """
+
     def get_results(self):
         # This is called to train the algorithm and judge its success. 
         # Training is not needed as it is included in the score function
@@ -469,6 +473,8 @@ class twodim_miranda(gof_test):
 		self.print_line()
 		self.print_line()
 
+
+
 class twodim_energy_test(gof_test):
         def __init__(self,data,percentage_used_for_validation,no_permutations, sigma,features_0,features_1,name="unnamed",sample1_name="sample1",sample2_name="sample2"):
                 self.sigma=sigma
@@ -524,7 +530,62 @@ class twodim_energy_test(gof_test):
 		self.print_line()
 		self.print_line()
 
+class twodim_energy_test_C(gof_test):
+        def __init__(self,data,percentage_used_for_validation,no_permutations, sigma,features_0,features_1,name="unnamed",sample1_name="sample1",sample2_name="sample2"):
+                self.sigma=sigma
+                self.features_0=features_0
+                self.features_1=features_1
+                super( twodim_energy_test_C, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name)
 
+        def weighting_function(self,dx):
+                return np.exp(-np.square(dx)/(2*np.square(self.sigma)))
+
+        def distance_squared(self,features_0,features_1,i,j):
+                dx2=0
+                assert features_0.shape[1]==features_1.shape[1]
+                for d in range(features_0.shape[1]):
+                        dx2 += np.square(features_1[j,d]-features_0[i,d])
+                dx=np.sqrt(dx2)
+                return self.weighting_function(dx2)
+
+        def get_results(self):
+		#from KSModule import *
+		print ("Result from myOtherFunction(4.0, 5.0):", KS_loop(4.0, 5.0))
+                features_0=self.features_0
+                features_1=self.features_1
+
+                no_0=features_0.shape[0]
+                no_1=features_1.shape[0]
+                T_1st_contrib=0
+
+                for i in range(no_0):
+                        for j in range(i+1,no_0):
+                                T_1st_contrib += self.distance_squared(features_0,features_0,i,j)
+                T_1st_contrib = T_1st_contrib/(no_0*(no_0-1))
+
+                T_2nd_contrib=0
+
+                for i in range(no_1):
+                        for j in range(i+1,no_1):
+                                T_2nd_contrib += self.distance_squared(features_1,features_1,i,j)
+                T_2nd_contrib = T_2nd_contrib/(no_1*(no_1-1))
+
+
+                T_3rd_contrib=0
+
+                no_2=no_0+no_1
+
+                for i in range(no_0):
+                        for j in range(no_1):
+                                T_3rd_contrib += self.distance_squared(features_0,features_1,i,j)
+                T_3rd_contrib = T_3rd_contrib/(no_2*(no_2-1))
+
+                T = T_1st_contrib + T_2nd_contrib +  T_3rd_contrib
+
+                with open(os.path.expandvars("$MLToolsDir")+"/Dalitz/test_statistic_distributions/test_statistics_"+self.name+"_"+self.sample1_name+"_"+self.sample2_name+"_energy_test_"+str(self.sigma), "a") as test_statistics_file:
+                        test_statistics_file.write("{0} \t{1} \t{2} \t{3} \t{4} \n".format(0,0,0,0,T))
+                self.print_line()
+                self.print_line()
 
 
 ####################################################################################################################################################################
@@ -759,43 +820,45 @@ class softmax_regression_tf(tf_classifier):
 		print("Need to implement the method PREDICT_PROBA")
 
 class dt_sklearn(sklearn_classifier):
-    clf_blueprint = tree.DecisionTreeClassifier()
-    specific_type_of_classifier="dt"
-    
+    def __init__(self,data,percentage_used_for_validation,no_permutations=0,name="unnamed",sample1_name="sample1",sample2_name="sample2",used_for_optimisation=False):
+	self.clf_blueprint = tree.DecisionTreeClassifier('gini','best')
+        self.specific_type_of_classifier="dt"
+        super( dt_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name,used_for_optimisation)
+
 class ada_sklearn(sklearn_classifier):
-    def __init__(self,data,percentage_used_for_validation,no_permutations=0, no_estimators=1000,name="unnamed",sample1_name="sample1",sample2_name="sample2"):
+    def __init__(self,data,percentage_used_for_validation,no_permutations=0, no_estimators=1000,name="unnamed",sample1_name="sample1",sample2_name="sample2",used_for_optimisation=False):
         self.no_estimators = no_estimators
         if __debug__:print("no_estimators: %.4f" % self.no_estimators)
         self.clf_blueprint = AdaBoostClassifier(base_estimator=tree.DecisionTreeClassifier(),n_estimators=no_estimators)
         self.specific_type_of_classifier="ada_"+str(self.no_estimators)+"estimators"
-	super( ada_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name)
+	super( ada_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name,used_for_optimisation)
     def set_no_estimators(self,no_estimators):
         self.no_estimators=no_estimators
     def get_no_estimators(self):
         return self.no_estimators
     
 class svm_sklearn(sklearn_classifier):
-    def __init__(self,data,percentage_used_for_validation,no_permutations=0, a_cache_size=1000,name="unnamed",sample1_name="sample1",sample2_name="sample2"):
+    def __init__(self,data,percentage_used_for_validation,no_permutations=0, a_cache_size=1000,name="unnamed",sample1_name="sample1",sample2_name="sample2",used_for_optimisation=False):
         self.cache_size = a_cache_size
         if __debug__:print("cache_size: %.4f" % self.cache_size)
         self.clf_blueprint = svm.SVC(probability=True,cache_size=a_cache_size)
         self.specific_type_of_classifier="svm"
-	super( svm_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name)
+	super( svm_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name,used_for_optimisation)
     def set_cache_size(self,a_cache_size):
         self.cache_size=a_cache_size
     def get_cache_size(self):
         return self.cache_size
     
-class nn_sklearn(sklearn_classifier):
-    def __init__(self,data,percentage_used_for_validation,no_permutations=0,name="unnamed",sample1_name="sample1",sample2_name="sample2"):
-        self.clf_blueprint = Classifier(
-            layers=[
-                Layer("Rectifier", units=10),
-                Layer("Softmax")],
-            learning_rate=0.001,
-            n_iter=1)
-        self.specific_type_of_classifier="nn_rectifier10_softmax_lr0_001"
-	super( nn_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name)
+#class nn_sklearn(sklearn_classifier):
+    #def __init__(self,data,percentage_used_for_validation,no_permutations=0,name="unnamed",sample1_name="sample1",sample2_name="sample2",used_for_optimisation=False):
+        #self.clf_blueprint = Classifier(
+            #layers=[
+                #Layer("Rectifier", units=10),
+                #Layer("Softmax")],
+            #learning_rate=0.001,
+            #n_iter=1)
+        #self.specific_type_of_classifier="nn_rectifier10_softmax_lr0_001"
+	#super( nn_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name,used_for_optimisation)
 
 
 

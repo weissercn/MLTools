@@ -1,0 +1,20 @@
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+#
+# Name:     Dalitz/automation_scripts/optimisation 
+#
+# Author:   Constantin Weisser (weisser@mit.edu)
+#
+# Purpose:  In this directory automation scripts for the Dalitz plot samples
+#	    should be stored. This is a script for optimising the classifiers
+#
+#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+The automation scripts are used to automatically analyse samples and record 
+the results.
+
+Specifically this directory contains scripts to analyse 300 samples, 200 from 
+the same distribution and 100 from another. 
+
+The results are stored in Dalitz/test_statistic_distributions and 
+Dalitz/graphs.
+

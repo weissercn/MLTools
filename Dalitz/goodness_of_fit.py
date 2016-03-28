@@ -22,7 +22,7 @@ from sklearn import tree
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn import svm
 from sklearn import cross_validation
-from sknn.mlp import Classifier, Layer
+#from sknn.mlp import Classifier, Layer
 from scipy import stats
 import sys
 #sys.path.append("$MLToolsDir")
