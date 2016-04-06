@@ -46,14 +46,13 @@ class gof_test(object):
     if __debug__:
         print(__doc__)
 
-    def __init__(self,data_unscaled,percentage_used_for_validation,no_permutations=0,name="unnamed",sample1_name="sample1",sample2_name="sample2",used_for_optimisation=False):
+    def __init__(self,data_unscaled,percentage_used_for_validation,no_permutations=0,name="unnamed",sample1_name="sample1",sample2_name="sample2"):
         #Reset everything, because I don't really understand destructors in python. Just to be sure.
         self.reset()
 
         self.name=name
         self.sample1_name=sample1_name
         self.sample2_name=sample2_name
-	self.used_for_optimisation=used_for_optimisation
         #Make the inputs class variables
         self.percentage_used_for_validation = percentage_used_for_validation
         self.no_permutations = no_permutations
@@ -820,37 +819,70 @@ class softmax_regression_tf(tf_classifier):
 		print("Need to implement the method PREDICT_PROBA")
 
 class dt_sklearn(sklearn_classifier):
-    def __init__(self,data,percentage_used_for_validation,no_permutations=0,name="unnamed",sample1_name="sample1",sample2_name="sample2",used_for_optimisation=False):
-	self.clf_blueprint = tree.DecisionTreeClassifier('gini','best')
+    def __init__(self,data,percentage_used_for_validation,no_permutations=0,name="unnamed",sample1_name="sample1",sample2_name="sample2",optimisation_args=[]):
+	max_depth=None
+	min_samples_split=None
+	print(optimisation_args)
+	if len(optimisation_args)>0:
+		max_depth=int(optimisation_args[0])
+		if len(optimisation_args)>1:
+			if optimisation_args[1]=="None":
+				min_samples_split=None
+			else:
+				min_samples_split=int(optimisation_args[1])
+	self.clf_blueprint = tree.DecisionTreeClassifier('gini','best',max_depth, min_samples_split, 1, 0.0, None)
         self.specific_type_of_classifier="dt"
-        super( dt_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name,used_for_optimisation)
+        super( dt_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name)
 
 class ada_sklearn(sklearn_classifier):
-    def __init__(self,data,percentage_used_for_validation,no_permutations=0, no_estimators=1000,name="unnamed",sample1_name="sample1",sample2_name="sample2",used_for_optimisation=False):
-        self.no_estimators = no_estimators
+    def __init__(self,data,percentage_used_for_validation,no_permutations=0, name="unnamed",sample1_name="sample1",sample2_name="sample2",optimisation_args=[]):
         if __debug__:print("no_estimators: %.4f" % self.no_estimators)
-        self.clf_blueprint = AdaBoostClassifier(base_estimator=tree.DecisionTreeClassifier(),n_estimators=no_estimators)
-        self.specific_type_of_classifier="ada_"+str(self.no_estimators)+"estimators"
-	super( ada_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name,used_for_optimisation)
-    def set_no_estimators(self,no_estimators):
-        self.no_estimators=no_estimators
-    def get_no_estimators(self):
-        return self.no_estimators
+	max_depth=None
+        min_samples_split=None
+	alearning_rate=1.0
+	ano_estimators=1000
+	print(optimisation_args)
+        if len(optimisation_args)>0:
+                max_depth=int(optimisation_args[0])
+                if len(optimisation_args)>1:
+                        if optimisation_args[1]=="None":
+                                min_samples_split=None
+			else:
+				min_samples_split=int(optimisation_args[1])
+			if len(optimisation_args)>2:
+				lrn_rate = float(optimisation_args[2])
+				if len(optimisation_args)>3:
+					ano_estimators=int(optimisation_args[3])
+        self.clf_blueprint = AdaBoostClassifier(base_estimator=tree.DecisionTreeClassifier('gini','best',max_depth, min_samples_split, 1, 0.0, None),learning_rate=lrn_rate,n_estimators=ano_estimators)
+        #self.specific_type_of_classifier="ada_"+str(max_depth)+"_"+str(min_samples_split)+"_"+str(alearning_rate)+"_"+str(ano_estimators)
+	self.specific_type_of_classifier="ada"
+	super( ada_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name)
     
 class svm_sklearn(sklearn_classifier):
-    def __init__(self,data,percentage_used_for_validation,no_permutations=0, a_cache_size=1000,name="unnamed",sample1_name="sample1",sample2_name="sample2",used_for_optimisation=False):
-        self.cache_size = a_cache_size
-        if __debug__:print("cache_size: %.4f" % self.cache_size)
-        self.clf_blueprint = svm.SVC(probability=True,cache_size=a_cache_size)
+    def __init__(self,data,percentage_used_for_validation,no_permutations=0, name="unnamed",sample1_name="sample1",sample2_name="sample2",optimisation_args=[]):
+        svm_C=1.0
+	acoef0=0.0
+	agamma="auto"
+
+	if len(optimisation_args)>0:
+                svm_C=float(optimisation_args[0])
+                if len(optimisation_args)>1:
+                        acoef0=float(optimisation_args[1])
+                        if len(optimisation_args)>2:
+			        if optimisation_args[2]=="auto":
+                        	        agamma = optimisation_args[2]
+                        	else:
+					agamma = float(optimisation_args[2])
+	self.clf_blueprint = svm.SVC(probability=True,C=svm_C, coef0=acoef0, gamma=agamma)
         self.specific_type_of_classifier="svm"
-	super( svm_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name,used_for_optimisation)
+	super( svm_sklearn, self ).__init__(data,percentage_used_for_validation,no_permutations,name,sample1_name,sample2_name)
     def set_cache_size(self,a_cache_size):
         self.cache_size=a_cache_size
     def get_cache_size(self):
         return self.cache_size
     
 #class nn_sklearn(sklearn_classifier):
-    #def __init__(self,data,percentage_used_for_validation,no_permutations=0,name="unnamed",sample1_name="sample1",sample2_name="sample2",used_for_optimisation=False):
+    #def __init__(self,data,percentage_used_for_validation,no_permutations=0,name="unnamed",sample1_name="sample1",sample2_name="sample2"):
         #self.clf_blueprint = Classifier(
             #layers=[
                 #Layer("Rectifier", units=10),

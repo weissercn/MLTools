@@ -56,8 +56,8 @@ import sys
 args = str(sys.argv)
 total = len(sys.argv)
 
-if(total!=8):
-	print("The right arguments were not supplied")
+#if(total!=8):
+	#print("The right arguments were not supplied")
 
 comp_file_0    = str(sys.argv[1])
 comp_file_1    = str(sys.argv[2])
@@ -66,6 +66,14 @@ sample1_name   = str(sys.argv[4])
 sample2_name   = str(sys.argv[5])
 shuffling_seed = int(sys.argv[6])
 classifier_name= str(sys.argv[7])
+
+optimisation_args = []
+
+for i in range(8,total):
+	optimisation_args.append(sys.argv[i])
+
+ 
+
 np.random.seed(shuffling_seed)
 
 print(comp_file_0)
@@ -75,7 +83,7 @@ print(sample1_name)
 print(sample2_name)
 print(shuffling_seed)
 print(classifier_name)
-
+print(optimisation_args)
 
 #extracts data from the files
 features_0=np.loadtxt(comp_file_0,dtype='d')
@@ -110,13 +118,13 @@ np.savetxt('data.txt', data)
 ######################################################################################
 
 if "dectree" in classifier_name:
-	dt_example=classifier_eval.dt_sklearn(data,40,0,name,sample1_name,sample2_name)
+	dt_example=classifier_eval.dt_sklearn(data,40,0,name,sample1_name,sample2_name,optimisation_args)
 	dt_example.get_results()
 elif "adaboost" in classifier_name:
-	ada_example=classifier_eval.ada_sklearn(data,40,0,1000,name,sample1_name,sample2_name)
+	ada_example=classifier_eval.ada_sklearn(data,40,0,name,sample1_name,sample2_name,optimisation_args)
 	ada_example.get_results()
 elif "svm" in classifier_name:
-	svm_example=classifier_eval.svm_sklearn(data,40,0,1000,name,sample1_name,sample2_name)
+	svm_example=classifier_eval.svm_sklearn(data,40,0,name,sample1_name,sample2_name,optimisation_args)
 	svm_example.get_results()
 elif "neuralnet" in classifier_name:
 	nn_example=classifier_eval.nn_sklearn(data,40,0,name,sample1_name,sample2_name)
