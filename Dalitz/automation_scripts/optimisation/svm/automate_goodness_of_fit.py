@@ -17,7 +17,7 @@ import math
 
 number_of_files=1
 
-name           = "dalitz_coef0_optimisation"
+name           = "dalitz_gamma_optimisation"
 sample1_name   = "seed_000_0"
 # You might have to change this to "seed_100_0"
 sample2_name   = "seed_200_1"
@@ -27,7 +27,7 @@ classifier_name= "svm"
 
 #min_samples_split_options=["auto","sqrt","log2",None]
 #min_samples_split_options=["best","random"]
-hyperparameter_options= [x / 10 for x in range(1,21)]
+hyperparameter_options= [x / 20 for x in range(1,21)]
 
 svm_C=0.4
 coef0=0.0
