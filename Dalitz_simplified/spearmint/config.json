@@ -1,0 +1,23 @@
+{
+    "language"        : "PYTHON",
+    "main-file"       : "classifier_eval_callable.py",
+    "experiment-name" : "First_experiment",
+    "likelihood"      : "NOISELESS",
+    "variables" : { 
+        "aC" : { 
+            "type" : "FLOAT",
+            "size" : 1,
+            "min"  : 0.1, 
+            "max"  : 10e10
+        },  
+        "agamma" : { 
+            "type" : "FLOAT",
+            "size" : 1,
+            "min"  : 10e-08,
+            "max"  : 1000
+        }   
+    }   
+}
+
+
+
