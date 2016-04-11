@@ -2,9 +2,9 @@
 #adapted from the example at http://scikit-learn.org/stable/auto_examples/svm/plot_rbf_parameters.html
 """
 This script can be used to get the p value for classifiers. It takes input files with column vectors corresponding to features and lables. 
-Then there are two different routes one can go down. When optimise_hyperparam_mode is enabled (1), then a grid search will be performed on 
-one set of input files. When the mode is turned off (0), then the p value is computed for multiple sets of input files and the p value 
-distribution is plotted.  
+Then there are two different routes one can go down. When mode has a value of 1, then a grid search will be performed on 
+one set of input files. If it is 2, then the hyperparemeter search is performed by spearmint. When the mode is turned off (0), 
+then the p value is computed for multiple sets of input files and the p value distribution is plotted.  
 """
 
 print(__doc__)
@@ -35,7 +35,7 @@ class MidpointNormalize(Normalize):
         x, y = [self.vmin, self.midpoint, self.vmax], [0, 0.5, 1]
         return np.ma.masked_array(np.interp(value, x, y)) 
 
-def classifier_eval_simplified(aC,agamma):
+def classifier_eval(aC,agamma,mode):
 	##############################################################################
 	# Setting parameters
 	#
@@ -46,12 +46,22 @@ def classifier_eval_simplified(aC,agamma):
 
 	shuffling_seed = 100
 
-	cv_n_iter = 5
+	#mode =0 if you want evaluation of a model =1 if grid hyperparameter search =2 if spearmint hyperparameter search
+	mode=2
 
-	optimise_hyperparam_mode=0
+        if mode==0:
+                #For standard evaluation
+                clf = SVC(C=aC,gamma=agamma,probability=True, cache_size=7000)
+                comp_file_list=[]
 
-	if optimise_hyperparam_mode==1:
-		#For optimise_hyperparam_mode=1
+                for i in range(1,100):
+                        comp_file_list.append((os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.{0}.0.txt".format(i), os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.2{0}.1.txt".format(str(i).zfill(2))))
+                print(comp_file_list)
+                score_list=[]
+	        cv_n_iter = 5
+
+	elif mode==1:
+		#For grid search
 		comp_file_0 = os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.0.0.txt"
 		comp_file_1 = os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.200.1.txt"
 
@@ -60,17 +70,21 @@ def classifier_eval_simplified(aC,agamma):
 		C_range = np.logspace(-2, 10, 13)
 		gamma_range = np.logspace(-9, 3, 13)
 		param_grid = dict(gamma=gamma_range, C=C_range)
+		cv_n_iter = 2
+
+	elif mode==2:
+		#For spearmint hyperparameter search
+		clf = SVC(C=aC,gamma=agamma,probability=True, cache_size=7000)
+                comp_file_0 = os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.0.0.txt"
+                comp_file_1 = os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.200.1.txt"
+
+                comp_file_list = [(comp_file_0, comp_file_1)]
+		cv_n_iter = 2
 
 	else:
-		#For optimise_hyperparam_mode=0
-		clf = SVC(C=aC,gamma=agamma,probability=True)
-		comp_file_list=[]
-
-		for i in range(1,100):
-			comp_file_list.append((os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.{0}.0.txt".format(i), os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.2{0}.1.txt".format(str(i).zfill(2))))
-		print(comp_file_list)
-		score_list=[]
-
+		print("No valid mode chosen")
+		return 1
+	
 
 	##############################################################################
 	# Load and prepare data set
@@ -105,7 +119,7 @@ def classifier_eval_simplified(aC,agamma):
 		y=data[:,-1]
 
 
-		cv = StratifiedShuffleSplit(y, n_iter=cv_n_iter, test_size=0.2, random_state=42)
+		acv = StratifiedShuffleSplit(y, n_iter=cv_n_iter, test_size=0.2, random_state=42)
 
 		print(X)
 		print(y)
@@ -118,8 +132,10 @@ def classifier_eval_simplified(aC,agamma):
 		scaler = StandardScaler()
 		X = scaler.fit_transform(X)
 
-		if optimise_hyperparam_mode==1:
+		if mode==1:
 			##############################################################################
+			# Grid Search
+			#
 			# Train classifiers
 			#
 			# For an initial search, a logarithmic grid with basis
@@ -195,25 +211,28 @@ def classifier_eval_simplified(aC,agamma):
 			plt.yticks(np.arange(len(C_range)), C_range)
 			plt.title('Validation accuracy')
 			plt.savefig('Heat_map.png')
-		else:
-			scores = cross_validation.cross_val_score(clf,X,y,cv=cv_n_iter,scoring=p_value_scoring_object.p_value_scoring_object)	
+		elif mode==0:
+			scores = cross_validation.cross_val_score(clf,X,y,cv=acv,scoring=p_value_scoring_object.p_value_scoring_object)	
 			print(scores)
 			score_list.append(np.mean(scores))
-
+		elif mode==2:
+			scores = cross_validation.cross_val_score(clf,X,y,cv=acv,scoring=p_value_scoring_object.p_value_scoring_object)
+			print(scores)
+			return (-1)* np.mean(scores)
 
 	############################################################################################################################################################
 	###############################################################  Evaluation of results  ####################################################################
 	############################################################################################################################################################
 
 
-	if optimise_hyperparam_mode==0:
+	if mode==0:
 		# The score list has been computed. Let's plot the distribution
 		print(score_list)
-
+		print("I havent implemented plotting of the distribution")
 
 
 if __name__ == "__main__":
 	print("Executing classifier_eval_simplified as a stand-alone script")
 	print()
 	#classifier_eval_simplified(aC,agamma)
-	classifier_eval_simplified(1,0.1)
+	classifier_eval(1,0.1,0)

@@ -1,0 +1,58 @@
+2016-04-11T09:21:53.994-0400 I CONTROL  [initandlisten] MongoDB starting : pid=98985 port=27017 dbpath=/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz_simplified/spearmint 64-bit host=dhcp-18-111-68-19.dyn.mit.edu
+2016-04-11T09:21:53.994-0400 I CONTROL  [initandlisten] db version v3.2.4
+2016-04-11T09:21:53.994-0400 I CONTROL  [initandlisten] git version: e2ee9ffcf9f5a94fad76802e28cc978718bb7a30
+2016-04-11T09:21:53.994-0400 I CONTROL  [initandlisten] allocator: system
+2016-04-11T09:21:53.994-0400 I CONTROL  [initandlisten] modules: none
+2016-04-11T09:21:53.994-0400 I CONTROL  [initandlisten] build environment:
+2016-04-11T09:21:53.994-0400 I CONTROL  [initandlisten]     distarch: x86_64
+2016-04-11T09:21:53.994-0400 I CONTROL  [initandlisten]     target_arch: x86_64
+2016-04-11T09:21:53.995-0400 I CONTROL  [initandlisten] options: { processManagement: { fork: true }, storage: { dbPath: "/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz_simplified/spearmint" }, systemLog: { destination: "file", path: "/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz_simplified/spearmint/example.log" } }
+2016-04-11T09:21:53.998-0400 I -        [initandlisten] Detected data files in /Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz_simplified/spearmint created by the 'wiredTiger' storage engine, so setting the active storage engine to 'wiredTiger'.
+2016-04-11T09:21:53.998-0400 I STORAGE  [initandlisten] wiredtiger_open config: create,cache_size=9G,session_max=20000,eviction=(threads_max=4),config_base=false,statistics=(fast),log=(enabled=true,archive=true,path=journal,compressor=snappy),file_manager=(close_idle_time=100000),checkpoint=(wait=60,log_size=2GB),statistics_log=(wait=0),
+2016-04-11T09:21:54.748-0400 I CONTROL  [initandlisten] 
+2016-04-11T09:21:54.748-0400 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. Number of files is 256, should be at least 1000
+2016-04-11T09:21:54.758-0400 I NETWORK  [HostnameCanonicalizationWorker] Starting hostname canonicalization worker
+2016-04-11T09:21:54.758-0400 I FTDC     [initandlisten] Initializing full-time diagnostic data capture with directory '/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz_simplified/spearmint/diagnostic.data'
+2016-04-11T09:21:54.759-0400 I NETWORK  [initandlisten] waiting for connections on port 27017
+2016-04-11T09:22:00.256-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62731 #1 (1 connection now open)
+2016-04-11T09:22:00.257-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62732 #2 (2 connections now open)
+2016-04-11T09:22:00.841-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62733 #3 (3 connections now open)
+2016-04-11T09:22:00.842-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62734 #4 (4 connections now open)
+2016-04-11T09:22:03.166-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62736 #5 (5 connections now open)
+2016-04-11T09:22:34.475-0400 I NETWORK  [conn3] end connection 127.0.0.1:62733 (4 connections now open)
+2016-04-11T09:22:34.475-0400 I NETWORK  [conn4] end connection 127.0.0.1:62734 (4 connections now open)
+2016-04-11T09:22:36.122-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62737 #6 (4 connections now open)
+2016-04-11T09:22:36.122-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62738 #7 (5 connections now open)
+2016-04-11T09:34:46.108-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62799 #8 (6 connections now open)
+2016-04-11T09:34:46.111-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62800 #9 (7 connections now open)
+2016-04-11T09:34:46.916-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62801 #10 (8 connections now open)
+2016-04-11T09:34:46.918-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62802 #11 (9 connections now open)
+2016-04-11T09:36:46.680-0400 I NETWORK  [conn10] end connection 127.0.0.1:62801 (8 connections now open)
+2016-04-11T09:36:46.680-0400 I NETWORK  [conn11] end connection 127.0.0.1:62802 (8 connections now open)
+2016-04-11T09:36:52.252-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62812 #12 (8 connections now open)
+2016-04-11T09:36:52.255-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62813 #13 (9 connections now open)
+2016-04-11T10:10:18.378-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62987 #14 (10 connections now open)
+2016-04-11T10:10:18.385-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62988 #15 (11 connections now open)
+2016-04-11T10:13:42.533-0400 I NETWORK  [conn14] end connection 127.0.0.1:62987 (10 connections now open)
+2016-04-11T10:13:42.534-0400 I NETWORK  [conn15] end connection 127.0.0.1:62988 (10 connections now open)
+2016-04-11T10:14:05.654-0400 I CONTROL  [signalProcessingThread] got signal 15 (Terminated: 15), will terminate after current cmd ends
+2016-04-11T10:14:05.656-0400 I FTDC     [signalProcessingThread] Shutting down full-time diagnostic data capture
+2016-04-11T10:14:05.672-0400 I CONTROL  [signalProcessingThread] now exiting
+2016-04-11T10:14:05.672-0400 I NETWORK  [signalProcessingThread] shutdown: going to close listening sockets...
+2016-04-11T10:14:05.672-0400 I NETWORK  [signalProcessingThread] closing listening socket: 6
+2016-04-11T10:14:05.672-0400 I NETWORK  [signalProcessingThread] closing listening socket: 7
+2016-04-11T10:14:05.672-0400 I NETWORK  [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2016-04-11T10:14:05.673-0400 I NETWORK  [signalProcessingThread] shutdown: going to flush diaglog...
+2016-04-11T10:14:05.673-0400 I NETWORK  [signalProcessingThread] shutdown: going to close sockets...
+2016-04-11T10:14:05.673-0400 I NETWORK  [conn9] end connection 127.0.0.1:62800 (8 connections now open)
+2016-04-11T10:14:05.673-0400 I STORAGE  [signalProcessingThread] WiredTigerKVEngine shutting down
+2016-04-11T10:14:05.674-0400 I NETWORK  [conn8] end connection 127.0.0.1:62799 (8 connections now open)
+2016-04-11T10:14:05.674-0400 I NETWORK  [conn6] end connection 127.0.0.1:62737 (8 connections now open)
+2016-04-11T10:14:05.674-0400 I NETWORK  [conn1] end connection 127.0.0.1:62731 (8 connections now open)
+2016-04-11T10:14:05.674-0400 I NETWORK  [conn2] end connection 127.0.0.1:62732 (8 connections now open)
+2016-04-11T10:14:05.674-0400 I NETWORK  [conn5] end connection 127.0.0.1:62736 (8 connections now open)
+2016-04-11T10:14:05.675-0400 I NETWORK  [conn12] end connection 127.0.0.1:62812 (8 connections now open)
+2016-04-11T10:14:05.677-0400 I NETWORK  [conn7] end connection 127.0.0.1:62738 (1 connection now open)
+2016-04-11T10:14:05.677-0400 I NETWORK  [conn13] end connection 127.0.0.1:62813 (0 connections now open)
+2016-04-11T10:14:05.829-0400 I STORAGE  [signalProcessingThread] shutdown: removing fs lock...
+2016-04-11T10:14:05.833-0400 I CONTROL  [signalProcessingThread] dbexit:  rc: 0

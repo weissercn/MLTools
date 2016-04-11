@@ -1,0 +1,120 @@
+2016-04-10T20:20:10.769-0400 I CONTROL  [initandlisten] MongoDB starting : pid=94637 port=27017 dbpath=/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz_simplified/spearmint 64-bit host=dhcp-18-111-116-70.dyn.mit.edu
+2016-04-10T20:20:10.770-0400 I CONTROL  [initandlisten] db version v3.2.4
+2016-04-10T20:20:10.770-0400 I CONTROL  [initandlisten] git version: e2ee9ffcf9f5a94fad76802e28cc978718bb7a30
+2016-04-10T20:20:10.770-0400 I CONTROL  [initandlisten] allocator: system
+2016-04-10T20:20:10.770-0400 I CONTROL  [initandlisten] modules: none
+2016-04-10T20:20:10.770-0400 I CONTROL  [initandlisten] build environment:
+2016-04-10T20:20:10.770-0400 I CONTROL  [initandlisten]     distarch: x86_64
+2016-04-10T20:20:10.770-0400 I CONTROL  [initandlisten]     target_arch: x86_64
+2016-04-10T20:20:10.770-0400 I CONTROL  [initandlisten] options: { processManagement: { fork: true }, storage: { dbPath: "/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz_simplified/spearmint" }, systemLog: { destination: "file", path: "/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz_simplified/spearmint/example.log" } }
+2016-04-10T20:20:10.771-0400 I -        [initandlisten] Detected data files in /Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz_simplified/spearmint created by the 'wiredTiger' storage engine, so setting the active storage engine to 'wiredTiger'.
+2016-04-10T20:20:10.772-0400 I STORAGE  [initandlisten] wiredtiger_open config: create,cache_size=9G,session_max=20000,eviction=(threads_max=4),config_base=false,statistics=(fast),log=(enabled=true,archive=true,path=journal,compressor=snappy),file_manager=(close_idle_time=100000),checkpoint=(wait=60,log_size=2GB),statistics_log=(wait=0),
+2016-04-10T20:20:11.629-0400 I CONTROL  [initandlisten] 
+2016-04-10T20:20:11.629-0400 I CONTROL  [initandlisten] ** WARNING: soft rlimits too low. Number of files is 256, should be at least 1000
+2016-04-10T20:20:11.630-0400 I FTDC     [initandlisten] Initializing full-time diagnostic data capture with directory '/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz_simplified/spearmint/diagnostic.data'
+2016-04-10T20:20:11.630-0400 I NETWORK  [HostnameCanonicalizationWorker] Starting hostname canonicalization worker
+2016-04-10T20:20:11.631-0400 I NETWORK  [initandlisten] waiting for connections on port 27017
+2016-04-10T20:20:17.614-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61886 #1 (1 connection now open)
+2016-04-10T20:20:17.615-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61887 #2 (2 connections now open)
+2016-04-10T20:20:18.187-0400 I NETWORK  [conn1] end connection 127.0.0.1:61886 (1 connection now open)
+2016-04-10T20:20:18.187-0400 I NETWORK  [conn2] end connection 127.0.0.1:61887 (1 connection now open)
+2016-04-10T20:20:42.135-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61891 #3 (1 connection now open)
+2016-04-10T20:20:42.135-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61892 #4 (2 connections now open)
+2016-04-10T20:20:42.655-0400 I NETWORK  [conn4] end connection 127.0.0.1:61892 (1 connection now open)
+2016-04-10T20:20:42.655-0400 I NETWORK  [conn3] end connection 127.0.0.1:61891 (1 connection now open)
+2016-04-10T20:22:07.643-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61895 #5 (1 connection now open)
+2016-04-10T20:22:07.644-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61896 #6 (2 connections now open)
+2016-04-10T20:22:11.435-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61897 #7 (3 connections now open)
+2016-04-10T20:22:11.436-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61898 #8 (4 connections now open)
+2016-04-10T20:22:11.442-0400 I NETWORK  [conn8] end connection 127.0.0.1:61898 (3 connections now open)
+2016-04-10T20:22:11.442-0400 I NETWORK  [conn7] end connection 127.0.0.1:61897 (3 connections now open)
+2016-04-10T20:22:19.963-0400 I NETWORK  [conn6] end connection 127.0.0.1:61896 (1 connection now open)
+2016-04-10T20:22:19.963-0400 I NETWORK  [conn5] end connection 127.0.0.1:61895 (1 connection now open)
+2016-04-10T20:23:33.134-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61911 #9 (1 connection now open)
+2016-04-10T20:23:33.135-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61912 #10 (2 connections now open)
+2016-04-10T20:23:37.635-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61913 #11 (3 connections now open)
+2016-04-10T20:23:37.639-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61914 #12 (4 connections now open)
+2016-04-10T20:23:37.644-0400 I NETWORK  [conn11] end connection 127.0.0.1:61913 (3 connections now open)
+2016-04-10T20:23:37.644-0400 I NETWORK  [conn12] end connection 127.0.0.1:61914 (3 connections now open)
+2016-04-10T20:23:46.354-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61915 #13 (3 connections now open)
+2016-04-10T20:23:46.354-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61916 #14 (4 connections now open)
+2016-04-10T20:23:46.363-0400 I NETWORK  [conn13] end connection 127.0.0.1:61915 (3 connections now open)
+2016-04-10T20:23:46.363-0400 I NETWORK  [conn14] end connection 127.0.0.1:61916 (3 connections now open)
+2016-04-10T20:23:55.568-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61917 #15 (3 connections now open)
+2016-04-10T20:23:55.569-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61918 #16 (4 connections now open)
+2016-04-10T20:23:55.575-0400 I NETWORK  [conn15] end connection 127.0.0.1:61917 (3 connections now open)
+2016-04-10T20:23:55.575-0400 I NETWORK  [conn16] end connection 127.0.0.1:61918 (3 connections now open)
+2016-04-10T20:24:04.167-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61921 #17 (3 connections now open)
+2016-04-10T20:24:04.168-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61922 #18 (4 connections now open)
+2016-04-10T20:24:04.173-0400 I NETWORK  [conn17] end connection 127.0.0.1:61921 (3 connections now open)
+2016-04-10T20:24:04.173-0400 I NETWORK  [conn18] end connection 127.0.0.1:61922 (3 connections now open)
+2016-04-10T20:24:13.441-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61939 #19 (3 connections now open)
+2016-04-10T20:24:13.442-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61940 #20 (4 connections now open)
+2016-04-10T20:24:13.447-0400 I NETWORK  [conn19] end connection 127.0.0.1:61939 (3 connections now open)
+2016-04-10T20:24:13.447-0400 I NETWORK  [conn20] end connection 127.0.0.1:61940 (3 connections now open)
+2016-04-10T20:24:22.325-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61947 #21 (3 connections now open)
+2016-04-10T20:24:22.326-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61948 #22 (4 connections now open)
+2016-04-10T20:24:22.331-0400 I NETWORK  [conn21] end connection 127.0.0.1:61947 (3 connections now open)
+2016-04-10T20:24:22.331-0400 I NETWORK  [conn22] end connection 127.0.0.1:61948 (3 connections now open)
+2016-04-10T20:24:31.444-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61959 #23 (3 connections now open)
+2016-04-10T20:24:31.445-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61960 #24 (4 connections now open)
+2016-04-10T20:24:31.450-0400 I NETWORK  [conn23] end connection 127.0.0.1:61959 (3 connections now open)
+2016-04-10T20:24:31.450-0400 I NETWORK  [conn24] end connection 127.0.0.1:61960 (3 connections now open)
+2016-04-10T20:24:43.411-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61961 #25 (3 connections now open)
+2016-04-10T20:24:43.412-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61962 #26 (4 connections now open)
+2016-04-10T20:24:43.418-0400 I NETWORK  [conn25] end connection 127.0.0.1:61961 (3 connections now open)
+2016-04-10T20:24:43.418-0400 I NETWORK  [conn26] end connection 127.0.0.1:61962 (3 connections now open)
+2016-04-10T20:24:54.894-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61963 #27 (3 connections now open)
+2016-04-10T20:24:54.897-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61964 #28 (4 connections now open)
+2016-04-10T20:24:54.903-0400 I NETWORK  [conn28] end connection 127.0.0.1:61964 (3 connections now open)
+2016-04-10T20:24:54.903-0400 I NETWORK  [conn27] end connection 127.0.0.1:61963 (3 connections now open)
+2016-04-10T20:25:24.860-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61967 #29 (3 connections now open)
+2016-04-10T20:25:24.862-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61968 #30 (4 connections now open)
+2016-04-10T20:25:25.375-0400 I NETWORK  [conn30] end connection 127.0.0.1:61968 (3 connections now open)
+2016-04-10T20:25:25.375-0400 I NETWORK  [conn29] end connection 127.0.0.1:61967 (3 connections now open)
+2016-04-10T20:25:55.134-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61971 #31 (3 connections now open)
+2016-04-10T20:25:55.135-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61972 #32 (4 connections now open)
+2016-04-10T20:26:01.468-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61973 #33 (5 connections now open)
+2016-04-10T20:26:01.469-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:61974 #34 (6 connections now open)
+2016-04-10T20:26:01.476-0400 I NETWORK  [conn33] end connection 127.0.0.1:61973 (5 connections now open)
+2016-04-10T20:26:01.476-0400 I NETWORK  [conn34] end connection 127.0.0.1:61974 (5 connections now open)
+2016-04-10T20:26:10.303-0400 I NETWORK  [conn31] end connection 127.0.0.1:61971 (3 connections now open)
+2016-04-10T20:26:10.303-0400 I NETWORK  [conn32] end connection 127.0.0.1:61972 (3 connections now open)
+2016-04-10T20:30:04.287-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62018 #35 (3 connections now open)
+2016-04-10T20:30:04.288-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62019 #36 (4 connections now open)
+2016-04-10T20:30:08.897-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62020 #37 (5 connections now open)
+2016-04-10T20:30:08.898-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62021 #38 (6 connections now open)
+2016-04-10T20:30:08.903-0400 I NETWORK  [conn38] end connection 127.0.0.1:62021 (5 connections now open)
+2016-04-10T20:30:08.903-0400 I NETWORK  [conn37] end connection 127.0.0.1:62020 (5 connections now open)
+2016-04-10T20:31:50.058-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62037 #39 (5 connections now open)
+2016-04-10T20:31:50.058-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62038 #40 (6 connections now open)
+2016-04-10T20:31:50.623-0400 I NETWORK  [conn40] end connection 127.0.0.1:62038 (5 connections now open)
+2016-04-10T20:31:50.623-0400 I NETWORK  [conn39] end connection 127.0.0.1:62037 (5 connections now open)
+2016-04-10T20:39:52.605-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62057 #41 (5 connections now open)
+2016-04-10T20:39:52.606-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62058 #42 (6 connections now open)
+2016-04-10T20:39:57.670-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62059 #43 (7 connections now open)
+2016-04-10T20:39:57.671-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62060 #44 (8 connections now open)
+2016-04-10T20:39:57.676-0400 I NETWORK  [conn43] end connection 127.0.0.1:62059 (7 connections now open)
+2016-04-10T20:39:57.676-0400 I NETWORK  [conn44] end connection 127.0.0.1:62060 (7 connections now open)
+2016-04-10T20:40:08.155-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62062 #45 (7 connections now open)
+2016-04-10T20:40:08.156-0400 I NETWORK  [initandlisten] connection accepted from 127.0.0.1:62063 #46 (8 connections now open)
+2016-04-10T20:40:08.162-0400 I NETWORK  [conn46] end connection 127.0.0.1:62063 (7 connections now open)
+2016-04-10T20:40:08.162-0400 I NETWORK  [conn45] end connection 127.0.0.1:62062 (7 connections now open)
+2016-04-10T20:40:42.915-0400 I CONTROL  [signalProcessingThread] got signal 15 (Terminated: 15), will terminate after current cmd ends
+2016-04-10T20:40:42.915-0400 I FTDC     [signalProcessingThread] Shutting down full-time diagnostic data capture
+2016-04-10T20:40:42.920-0400 I CONTROL  [signalProcessingThread] now exiting
+2016-04-10T20:40:42.920-0400 I NETWORK  [signalProcessingThread] shutdown: going to close listening sockets...
+2016-04-10T20:40:42.921-0400 I NETWORK  [signalProcessingThread] closing listening socket: 6
+2016-04-10T20:40:42.922-0400 I NETWORK  [signalProcessingThread] closing listening socket: 7
+2016-04-10T20:40:42.923-0400 I NETWORK  [signalProcessingThread] removing socket file: /tmp/mongodb-27017.sock
+2016-04-10T20:40:42.924-0400 I NETWORK  [signalProcessingThread] shutdown: going to flush diaglog...
+2016-04-10T20:40:42.924-0400 I NETWORK  [signalProcessingThread] shutdown: going to close sockets...
+2016-04-10T20:40:42.925-0400 I NETWORK  [conn9] end connection 127.0.0.1:61911 (5 connections now open)
+2016-04-10T20:40:42.925-0400 I NETWORK  [conn35] end connection 127.0.0.1:62018 (5 connections now open)
+2016-04-10T20:40:42.925-0400 I STORAGE  [signalProcessingThread] WiredTigerKVEngine shutting down
+2016-04-10T20:40:42.925-0400 I NETWORK  [conn10] end connection 127.0.0.1:61912 (5 connections now open)
+2016-04-10T20:40:42.925-0400 I NETWORK  [conn42] end connection 127.0.0.1:62058 (5 connections now open)
+2016-04-10T20:40:42.925-0400 I NETWORK  [conn41] end connection 127.0.0.1:62057 (5 connections now open)
+2016-04-10T20:40:42.925-0400 I NETWORK  [conn36] end connection 127.0.0.1:62019 (5 connections now open)
+2016-04-10T20:40:43.008-0400 I STORAGE  [signalProcessingThread] shutdown: removing fs lock...
+2016-04-10T20:40:43.009-0400 I CONTROL  [signalProcessingThread] dbexit:  rc: 0

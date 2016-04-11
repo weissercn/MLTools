@@ -1,24 +1,31 @@
-Job launching after 0.26 seconds in submission.
+Job launching after 0.52 seconds in submission.
 Running python job.
 Changed into dir /Users/weisser/Dropbox (MIT)/MIT/Research/MLTools/Dalitz_simplified/spearmint
-Importing classifier_eval_callable.py
-Running classifier_eval_callable.main()
-Traceback (most recent call last):
-  File "/Users/weisser/Documents/Spearmint-master/spearmint/launcher.py", line 243, in launch
-    result = python_launcher(job)
-  File "/Users/weisser/Documents/Spearmint-master/spearmint/launcher.py", line 327, in python_launcher
-    result = module.main(job['id'], params)
-  File "/Users/weisser/Dropbox (MIT)/MIT/Research/MLTools/Dalitz_simplified/spearmint/classifier_eval_callable.py", line 9, in main
-    return classifier_eval_simplified(params['aC'], params['agamma'])
-TypeError: 'module' object is not callable
-Problem executing the function
-Job failed in 0.65 seconds.
+Importing classifier_eval_wrapper.py
+Running classifier_eval_wrapper.main()
+/usr/local/lib/python2.7/site-packages/sklearn/svm/base.py:176: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  (self.gamma == 'auto')):
+/usr/local/lib/python2.7/site-packages/sklearn/svm/base.py:179: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
+  elif self.gamma == 'auto':
+Got result -1.0
+Completed successfully in 170.85 seconds. [{u'main': -1.0}]
 
 This script can be used to get the p value for classifiers. It takes input files with column vectors corresponding to features and lables. 
-Then there are two different routes one can go down. When optimise_hyperparam_mode is enabled (1), then a grid search will be performed on 
-one set of input files. When the mode is turned off (0), then the p value is computed for multiple sets of input files and the p value 
-distribution is plotted.  
+Then there are two different routes one can go down. When mode has a value of 1, then a grid search will be performed on 
+one set of input files. If it is 2, then the hyperparemeter search is performed by spearmint. When the mode is turned off (0), 
+then the p value is computed for multiple sets of input files and the p value distribution is plotted.  
 
 Anything printed here will end up in the output directory for job #4
-{u'aC': array([ 0.1]), u'agamma': array([  1.00000000e-07])}
-(<type 'exceptions.TypeError'>, TypeError("'module' object is not callable",), <traceback object at 0x112dc5fc8>)
+{u'aC': array([ 0.01]), u'agamma': array([ 100.])}
+Operating of files :/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data.0.0.txt   /Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data.200.1.txt
+[[ 0.104454  0.197643]
+ [ 0.458007  0.446154]
+ [ 0.06913   0.547657]
+ ..., 
+ [ 0.221922  0.52636 ]
+ [ 0.301663  0.603791]
+ [ 0.76325   0.168024]]
+[ 0.  0.  1. ...,  1.  1.  1.]
+Ks_2sampResult(statistic=0.0, pvalue=1.0)
+Ks_2sampResult(statistic=0.0, pvalue=1.0)
+[-1. -1.]

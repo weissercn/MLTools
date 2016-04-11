@@ -1,0 +1,21 @@
+{
+    "language"        : "PYTHON",
+    "main-file"       : "classifier_eval_wrapper.py",
+    "experiment-name" : "exp20",
+    "likelihood"      : "NOISELESS",
+    "variables" : {
+        "aC" : {
+            "type" : "FLOAT",
+            "size" : 1,
+            "min"  : 0.01,
+            "max"  : 10000000000
+        },
+        "agamma" : {
+            "type" : "FLOAT",
+            "size" : 1,
+            "min"  : 1e-09,
+            "max"  : 1000
+        }
+    }
+}
+

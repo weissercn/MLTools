@@ -1,23 +1,21 @@
 {
     "language"        : "PYTHON",
-    "main-file"       : "classifier_eval_callable.py",
-    "experiment-name" : "First_experiment",
+    "main-file"       : "classifier_eval_wrapper.py",
+    "experiment-name" : "exp27",
     "likelihood"      : "NOISELESS",
-    "variables" : { 
-        "aC" : { 
+    "variables" : {
+        "aC" : {
             "type" : "FLOAT",
             "size" : 1,
-            "min"  : 0.1, 
-            "max"  : 10e10
-        },  
-        "agamma" : { 
+            "min"  : 0.01,
+            "max"  : 10
+        },
+        "agamma" : {
             "type" : "FLOAT",
             "size" : 1,
-            "min"  : 10e-08,
-            "max"  : 1000
-        }   
-    }   
+            "min"  : 1e-06,
+            "max"  : 100
+        }
+    }
 }
-
-
 

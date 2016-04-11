@@ -1,0 +1,27 @@
+Job launching after 0.27 seconds in submission.
+Running python job.
+Changed into dir /Users/weisser/Dropbox (MIT)/MIT/Research/MLTools/Dalitz_simplified/spearmint/delete_example2
+Importing branin.py
+Running branin.main()
+Got result 0.808456926879
+Completed successfully in 37.05 seconds. [{u'main': 0.80845692687934867}]
+
+This script can be used to get the p value for classifiers. It takes input files with column vectors corresponding to features and lables. 
+Then there are two different routes one can go down. When mode has a value of 1, then a grid search will be performed on 
+one set of input files. If it is 2, then the hyperparemeter search is performed by spearmint. When the mode is turned off (0), 
+then the p value is computed for multiple sets of input files and the p value distribution is plotted.  
+
+Anything printed here will end up in the output directory for job #1
+{u'y': array([ 0.]), u'x': array([-5.])}
+Operating of files :/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data.0.0.txt   /Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data.200.1.txt
+[[ 0.656724   0.132151 ]
+ [ 0.140399   0.401942 ]
+ [ 0.0643299  0.719448 ]
+ ..., 
+ [ 0.293973   0.455956 ]
+ [ 0.128208   0.783229 ]
+ [ 0.537088   0.427581 ]]
+[ 0.  0.  1. ...,  0.  1.  0.]
+Ks_2sampResult(statistic=0.013600000000000001, pvalue=0.7415062627297917)
+Ks_2sampResult(statistic=0.011800000000000005, pvalue=0.87540759102890575)
+[-0.74150626 -0.87540759]
