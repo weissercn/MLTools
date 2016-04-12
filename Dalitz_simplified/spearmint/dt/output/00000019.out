@@ -1,0 +1,29 @@
+Job launching after 0.42 seconds in submission.
+Running python job.
+Changed into dir /Users/weisser/Dropbox (MIT)/MIT/Research/MLTools/Dalitz_simplified/spearmint/dt
+Importing classifier_eval_wrapper.py
+Running classifier_eval_wrapper.main()
+Got result 0.50369318653
+Completed successfully in 2.01 seconds. [{u'main': 0.50369318652985939}]
+
+This script can be used to get the p value for classifiers. It takes input files with column vectors corresponding to features and lables. 
+Then there are two different routes one can go down. When mode has a value of 1, then a grid search will be performed on 
+one set of input files. If it is 2, then the hyperparemeter search is performed by spearmint. When the mode is turned off (0), 
+then the p value is computed for multiple sets of input files and the p value distribution is plotted.  
+
+Anything printed here will end up in the output directory for job #19
+{u'min_samples_split': array([ 51.02075444]), u'max_depth': array([ 53.16795859])}
+[('/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.0.0.txt', '/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.200.1.txt')]
+spearmint hyperparameter search mode
+Operating of files :/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.0.0.txt   /Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.200.1.txt
+[[ 0.0604165  0.541002 ]
+ [ 0.671541   0.238444 ]
+ [ 0.284723   0.594869 ]
+ ..., 
+ [ 0.44159    0.0490102]
+ [ 0.158909   0.132908 ]
+ [ 0.133482   0.161221 ]]
+[ 0.  0.  1. ...,  0.  0.  1.]
+Ks_2sampResult(statistic=0.026500000000000079, pvalue=0.47866777561492529)
+Ks_2sampResult(statistic=0.025500000000000023, pvalue=0.52871859744479355)
+[-0.47866778 -0.5287186 ]
