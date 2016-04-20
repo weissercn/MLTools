@@ -1,7 +1,7 @@
 {
     "language"        : "PYTHON",
     "main-file"       : "classifier_eval_wrapper.py",
-    "experiment-name" : "bdt_stumps_exp1",
+    "experiment-name" : "bdt_stumps_exp2",
     "likelihood"      : "NOISELESS",
     "variables" : {
         "lrn_rate" : {

@@ -1,0 +1,69 @@
+Job launching after 0.27 seconds in submission.
+Running python job.
+Changed into dir /Users/weisser/Dropbox (MIT)/MIT/Research/MLTools/Dalitz_simplified/spearmint/nn
+Importing classifier_eval_wrapper.py
+Using Theano backend.
+/usr/local/lib/python2.7/site-packages/theano/tensor/signal/downsample.py:6: UserWarning: downsample module has been moved to the theano.tensor.signal.pool module.
+  "downsample module has been moved to the theano.tensor.signal.pool module.")
+Running classifier_eval_wrapper.main()
+/usr/local/lib/python2.7/site-packages/keras/initializations.py:13: VisibleDeprecationWarning: converting an array with ndim > 0 to an index will result in an error in the future
+  return K.variable(np.random.uniform(low=-scale, high=scale, size=shape),
+/usr/local/lib/python2.7/site-packages/keras/backend/theano_backend.py:70: VisibleDeprecationWarning: converting an array with ndim > 0 to an index will result in an error in the future
+  return variable(np.zeros(shape), dtype, name)
+Traceback (most recent call last):
+  File "/Users/weisser/Documents/Spearmint-master/spearmint/launcher.py", line 243, in launch
+    result = python_launcher(job)
+  File "/Users/weisser/Documents/Spearmint-master/spearmint/launcher.py", line 327, in python_launcher
+    result = module.main(job['id'], params)
+  File "/Users/weisser/Dropbox (MIT)/MIT/Research/MLTools/Dalitz_simplified/spearmint/nn/classifier_eval_wrapper.py", line 23, in main
+    result= classifier_eval_simplified.classifier_eval(2,1,args)
+  File "../../classifier_eval_simplified.py", line 309, in classifier_eval
+    model.fit(X_train, y_train,show_accuracy=True,batch_size=batch_size, nb_epoch=countof_epoch, verbose=0)
+  File "/usr/local/lib/python2.7/site-packages/keras/models.py", line 646, in fit
+    shuffle=shuffle, metrics=metrics)
+  File "/usr/local/lib/python2.7/site-packages/keras/models.py", line 280, in _fit
+    outs = f(ins_batch)
+  File "/usr/local/lib/python2.7/site-packages/keras/backend/theano_backend.py", line 384, in __call__
+    return self.function(*inputs)
+  File "/usr/local/lib/python2.7/site-packages/theano/compile/function_module.py", line 859, in __call__
+    outputs = self.fn()
+  File "/usr/local/lib/python2.7/site-packages/theano/gof/op.py", line 912, in rval
+    r = p(n, [x[0] for x in i], o)
+  File "/usr/local/lib/python2.7/site-packages/theano/tensor/blas.py", line 1823, in perform
+    z[0] = numpy.asarray(scalar * numpy.dot(x, y))
+KeyboardInterrupt
+Problem executing the function
+Job failed in 55.91 seconds.
+
+This script can be used to get the p value for classifiers. It takes input files with column vectors corresponding to features and lables. 
+Then there are two different routes one can go down. When mode has a value of 1, then a grid search will be performed on 
+one set of input files. If it is 2, then the hyperparemeter search is performed by spearmint. When the mode is turned off (0), 
+then the p value is computed for multiple sets of input files and the p value distribution is plotted. One sets all the valiables 
+including the classifier in the "args" list. The classifier provided is ignored if keras_mode is on (1) in which case a keras neural 
+network is used.   
+
+Anything printed here will end up in the output directory for job #8
+{u'n_hidden_layers': array([5]), u'dimof_middle': array([200])}
+[('/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.0.0.txt', '/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.200.1.txt')]
+spearmint hyperparameter search mode
+Operating of files :/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.0.0.txt   /Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.200.1.txt
+X :  [[ 0.0976938  0.156058 ]
+ [ 0.284075   0.551744 ]
+ [ 0.702736   0.152831 ]
+ ..., 
+ [ 0.245648   0.523557 ]
+ [ 0.657162   0.0650127]
+ [ 0.300066   0.455855 ]]
+y :  [ 1.  1.  0. ...,  1.  0.  0.]
+Finished with setting up samples
+dimof_input :  2 dimof_output :  1
+Cross validation run  1
+X_train :  [[-1.02958408 -1.10033997]
+ [-0.15861686  1.07549584]
+ [ 1.79780369 -1.1180849 ]
+ ..., 
+ [-0.73573291 -0.23169051]
+ [-1.25885896  0.59463396]
+ [-0.07801155 -0.3700757 ]]
+y_train :  [ 1.  1.  0. ...,  1.  1.  0.]
+(<type 'exceptions.KeyboardInterrupt'>, KeyboardInterrupt(), <traceback object at 0x108aea7e8>)

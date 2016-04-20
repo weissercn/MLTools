@@ -1,0 +1,57 @@
+Job launching after 0.22 seconds in submission.
+Running python job.
+Changed into dir /Users/weisser/Dropbox (MIT)/MIT/Research/MLTools/Dalitz_simplified/spearmint/nn
+Importing classifier_eval_wrapper.py
+Using Theano backend.
+/usr/local/lib/python2.7/site-packages/theano/tensor/signal/downsample.py:6: UserWarning: downsample module has been moved to the theano.tensor.signal.pool module.
+  "downsample module has been moved to the theano.tensor.signal.pool module.")
+Running classifier_eval_wrapper.main()
+/usr/local/lib/python2.7/site-packages/keras/initializations.py:13: VisibleDeprecationWarning: converting an array with ndim > 0 to an index will result in an error in the future
+  return K.variable(np.random.uniform(low=-scale, high=scale, size=shape),
+/usr/local/lib/python2.7/site-packages/keras/backend/theano_backend.py:70: VisibleDeprecationWarning: converting an array with ndim > 0 to an index will result in an error in the future
+  return variable(np.zeros(shape), dtype, name)
+
+This script can be used to get the p value for classifiers. It takes input files with column vectors corresponding to features and lables. 
+Then there are two different routes one can go down. When mode has a value of 1, then a grid search will be performed on 
+one set of input files. If it is 2, then the hyperparemeter search is performed by spearmint. When the mode is turned off (0), 
+then the p value is computed for multiple sets of input files and the p value distribution is plotted. One sets all the valiables 
+including the classifier in the "args" list. The classifier provided is ignored if keras_mode is on (1) in which case a keras neural 
+network is used.   
+
+Anything printed here will end up in the output directory for job #2
+{u'n_hidden_layers': array([3]), u'dimof_middle': array([105])}
+[('/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.0.0.txt', '/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.200.1.txt')]
+spearmint hyperparameter search mode
+Operating of files :/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.0.0.txt   /Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.200.1.txt
+X :  [[ 0.268136  0.225469]
+ [ 0.722821  0.142112]
+ [ 0.422557  0.286482]
+ ..., 
+ [ 0.156062  0.162312]
+ [ 0.293524  0.252801]
+ [ 0.103594  0.804662]]
+y :  [ 1.  0.  1. ...,  0.  1.  0.]
+Finished with setting up samples
+dimof_input :  2 dimof_output :  1
+Cross validation run  1
+X_train :  [[-0.23310048 -0.71865616]
+ [ 1.89166174 -1.17702756]
+ [ 0.48851538 -0.38315207]
+ ..., 
+ [-1.08531011  1.49750304]
+ [-1.24324586  0.6884836 ]
+ [ 0.24364329  0.61056426]]
+y_train :  [ 1.  0.  1. ...,  1.  0.  1.]
+ 128/4000 [..............................] - ETA: 0s 256/4000 [>.............................] - ETA: 0s 384/4000 [=>............................] - ETA: 0s 512/4000 [==>...........................] - ETA: 0s 640/4000 [===>..........................] - ETA: 0s 768/4000 [====>.........................] - ETA: 0s 896/4000 [=====>........................] - ETA: 0s1024/4000 [======>.......................] - ETA: 0s1152/4000 [=======>......................] - ETA: 0s1280/4000 [========>.....................] - ETA: 0s1408/4000 [=========>....................] - ETA: 0s1536/4000 [==========>...................] - ETA: 0s1664/4000 [===========>..................] - ETA: 0s1792/4000 [============>.................] - ETA: 0s1920/4000 [=============>................] - ETA: 0s2048/4000 [==============>...............] - ETA: 0s2176/4000 [===============>..............] - ETA: 0s2304/4000 [================>.............] - ETA: 0s2432/4000 [=================>............] - ETA: 0s2560/4000 [==================>...........] - ETA: 0s2688/4000 [===================>..........] - ETA: 0s2816/4000 [====================>.........] - ETA: 0s2944/4000 [=====================>........] - ETA: 0s3072/4000 [======================>.......] - ETA: 0s3200/4000 [=======================>......] - ETA: 0s3328/4000 [=======================>......] - ETA: 0s3456/4000 [========================>.....] - ETA: 0s3584/4000 [=========================>....] - ETA: 0s3712/4000 [==========================>...] - ETA: 0s3840/4000 [===========================>..] - ETA: 0s3968/4000 [============================>.] - ETA: 0s4000/4000 [==============================] - 0s     Got result 0.834423608445
+Completed successfully in 47.34 seconds. [{u'main': 0.83442360844473162}]
+
+prob_pred :  [[ 0.48383692]
+ [ 0.50325763]
+ [ 0.5377906 ]
+ ..., 
+ [ 0.5949831 ]
+ [ 0.53586185]
+ [ 0.46753368]]
+Plot
+Ks_2sampResult(statistic=0.019581958195819593, pvalue=0.83442360844473162)
+scores :  [0.83442360844473162]

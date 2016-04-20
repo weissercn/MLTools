@@ -15,10 +15,18 @@ fig= plt.figure()
 ax1= fig.add_subplot(1, 1, 1)
 
 sc = ax1.scatter(x,y,c=z,s=35,cmap=cm)
+
+print("z : ",z)
+index = np.argmin(z)
+print("index of max : ",index)
+print("values of max : ",x[index],y[index],z[index])
+ax1.scatter(x[index],y[index],c=z[index],s=50,cmap=cm)
+
+
 cb=plt.colorbar(sc)
 
 cb.set_label('p value')
-ax1.set_xlabel('max_depth')
-ax1.set_ylabel('min_samples_split')
-ax1.set_title('optimisation of hyperparameters for dt')
-fig.savefig("optimisation_values.png")
+ax1.set_xlabel('learning_rate')
+ax1.set_ylabel('n_estimators')
+ax1.set_title('optimisation of hyperparameters for bdt')
+fig.savefig("bdt_optimisation_values.png")

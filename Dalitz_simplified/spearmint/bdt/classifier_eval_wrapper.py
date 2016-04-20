@@ -18,7 +18,7 @@ def main(job_id, params):
 
     args=["dalitz","particle","antiparticle",100,comp_file_list,2,clf,np.logspace(-2, 10, 13),np.logspace(-9, 3, 13)]
 
-    result= classifier_eval_simplified.classifier_eval(2,args)
+    result= classifier_eval_simplified.classifier_eval(2,0,args)
 
     with open("optimisation_values.txt", "a") as myfile:
         myfile.write(str(params['lrn_rate'][0])+"\t"+ str(params['ano_estimators'][0])+"\t"+str(result)+"\n")

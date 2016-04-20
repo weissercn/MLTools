@@ -1,7 +1,7 @@
 {
     "language"        : "PYTHON",
     "main-file"       : "classifier_eval_wrapper.py",
-    "experiment-name" : "exp27",
+    "experiment-name" : "exp30",
     "likelihood"      : "NOISELESS",
     "variables" : {
         "aC" : {

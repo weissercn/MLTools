@@ -1,0 +1,33 @@
+Job launching after 0.39 seconds in submission.
+Running python job.
+Changed into dir /Users/weisser/Dropbox (MIT)/MIT/Research/MLTools/Dalitz_simplified/spearmint/bdt
+Importing classifier_eval_wrapper.py
+Running classifier_eval_wrapper.main()
+/usr/local/lib/python2.7/site-packages/sklearn/ensemble/weight_boosting.py:132: VisibleDeprecationWarning: using a non-integer number instead of an integer will result in an error in the future
+  self.estimator_weights_ = np.zeros(self.n_estimators, dtype=np.float)
+/usr/local/lib/python2.7/site-packages/numpy/core/numeric.py:190: VisibleDeprecationWarning: using a non-integer number instead of an integer will result in an error in the future
+  a = empty(shape, dtype, order)
+Got result 0.319535989175
+Completed successfully in 21.55 seconds. [{u'main': 0.31953598917528414}]
+
+This script can be used to get the p value for classifiers. It takes input files with column vectors corresponding to features and lables. 
+Then there are two different routes one can go down. When mode has a value of 1, then a grid search will be performed on 
+one set of input files. If it is 2, then the hyperparemeter search is performed by spearmint. When the mode is turned off (0), 
+then the p value is computed for multiple sets of input files and the p value distribution is plotted.  
+
+Anything printed here will end up in the output directory for job #59
+{u'ano_estimators': array([ 35.48303223]), u'lrn_rate': array([ 0.41543559])}
+[('/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.0.0.txt', '/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.200.1.txt')]
+spearmint hyperparameter search mode
+Operating of files :/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.0.0.txt   /Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.200.1.txt
+[[ 0.191326   0.157356 ]
+ [ 0.268099   0.565864 ]
+ [ 0.248417   0.302913 ]
+ ..., 
+ [ 0.331611   0.425291 ]
+ [ 0.121786   0.465544 ]
+ [ 0.0849641  0.155135 ]]
+[ 0.  0.  1. ...,  1.  1.  0.]
+Ks_2sampResult(statistic=0.03350000000000003, pvalue=0.20803576261192819)
+Ks_2sampResult(statistic=0.027500000000000024, pvalue=0.43103621573864009)
+[-0.20803576 -0.43103622]

@@ -4,9 +4,12 @@
 This script can be used to get the p value for classifiers. It takes input files with column vectors corresponding to features and lables. 
 Then there are two different routes one can go down. When mode has a value of 1, then a grid search will be performed on 
 one set of input files. If it is 2, then the hyperparemeter search is performed by spearmint. When the mode is turned off (0), 
-then the p value is computed for multiple sets of input files and the p value distribution is plotted.  
+then the p value is computed for multiple sets of input files and the p value distribution is plotted. One sets all the valiables 
+including the classifier in the "args" list. The classifier provided is ignored if keras_mode is on (1) in which case a keras neural 
+network is used.   
 """
 
+from __future__ import print_function
 print(__doc__)
 import os
 import p_value_scoring_object
@@ -20,6 +23,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.datasets import load_iris
 from sklearn.cross_validation import StratifiedShuffleSplit
 from sklearn.grid_search import GridSearchCV
+from scipy import stats
+import math
 
 ##############################################################################
 # Utility function to move the midpoint of a colormap to be around
@@ -35,52 +40,94 @@ class MidpointNormalize(Normalize):
         x, y = [self.vmin, self.midpoint, self.vmax], [0, 0.5, 1]
         return np.ma.masked_array(np.interp(value, x, y)) 
 
-def classifier_eval(aC,agamma,mode):
+class Counter(object):
+    # Creating a counter object to be able to perform cross validation with only one split
+    def __init__(self, list1,list2):
+        self.current = 1 
+        self.list1 =list1
+        self.list2 =list2
+
+    def __iter__(self):
+        'Returns itself as an iterator object'
+        return self
+
+    def __next__(self):
+        'Returns the next value till current is lower than high'
+        if self.current > 1:
+            raise StopIteration
+        else:
+            self.current += 1
+            return self.list1,self.list2 
+    next = __next__ #python2 
+
+def histo_plot_pvalue(U_0,abins,axlabel,aylabel,atitle,aname):
+        bins_probability=np.histogram(U_0,bins=abins)[1]
+
+        #Finding the p values corresponding to 1,2 and 3 sigma significance.
+        no_one_std_dev=sum(i < (1-0.6827) for i in U_0) 
+        no_two_std_dev=sum(i < (1-0.9545) for i in U_0)
+        no_three_std_dev=sum(i < (1-0.9973) for i in U_0)
+
+        print(no_one_std_dev,no_two_std_dev,no_three_std_dev)
+
+        #plt.rc('text', usetex=True)
+        textstr = '$1\sigma=%i$\n$2\sigma=%i$\n$3\sigma=%i$'%(no_one_std_dev, no_two_std_dev, no_three_std_dev)
+
+
+        # Making a histogram of the probability predictions of the algorithm. 
+        fig_pred_0= plt.figure()
+        ax1_pred_0= fig_pred_0.add_subplot(1, 1, 1)
+        n0, bins0, patches0 = ax1_pred_0.hist(U_0, bins=bins_probability, facecolor='red', alpha=0.5)
+        ax1_pred_0.set_xlabel(axlabel)
+        ax1_pred_0.set_ylabel(aylabel)
+        ax1_pred_0.set_title(atitle)
+        plt.xlim([0,1])
+
+        # these are matplotlib.patch.Patch properties
+        props = dict(boxstyle='round', facecolor='wheat', alpha=0.5)
+
+        # place a text box in upper left in axes coords
+        ax1_pred_0.text(0.85, 0.95, textstr, transform=ax1_pred_0.transAxes, fontsize=14,
+        verticalalignment='top', bbox=props)
+
+        fig_pred_0.savefig(aname+".png")
+        #fig_pred_0.show()
+        plt.close(fig_pred_0) 
+
+
+def classifier_eval(mode,keras_mode,args):
 	##############################################################################
 	# Setting parameters
 	#
 
-	name="dalitz"
-	sample1_name="particle"
-	sample2_name="antiparticle"
 
-	shuffling_seed = 100
+	name=args[0]
+	sample1_name= args[1]
+	sample2_name= args[2]
+
+	shuffling_seed = args[3]
 
 	#mode =0 if you want evaluation of a model =1 if grid hyperparameter search =2 if spearmint hyperparameter search
-	mode=2
+	comp_file_list=args[4]
+	print(comp_file_list)
+	cv_n_iter = args[5]
+	clf = args[6]
+	C_range = args[7]
+	gamma_range = args[8]
 
         if mode==0:
                 #For standard evaluation
-                clf = SVC(C=aC,gamma=agamma,probability=True, cache_size=7000)
-                comp_file_list=[]
-
-                for i in range(1,100):
-                        comp_file_list.append((os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.{0}.0.txt".format(i), os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.2{0}.1.txt".format(str(i).zfill(2))))
-                print(comp_file_list)
                 score_list=[]
-	        cv_n_iter = 5
-
+		print("standard evaluation mode")
 	elif mode==1:
 		#For grid search
-		comp_file_0 = os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.0.0.txt"
-		comp_file_1 = os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.200.1.txt"
-
-		comp_file_list = [(comp_file_0, comp_file_1)]
-
-		C_range = np.logspace(-2, 10, 13)
-		gamma_range = np.logspace(-9, 3, 13)
+		print("grid hyperparameter search mode")
 		param_grid = dict(gamma=gamma_range, C=C_range)
-		cv_n_iter = 2
 
 	elif mode==2:
 		#For spearmint hyperparameter search
-		clf = SVC(C=aC,gamma=agamma,probability=True, cache_size=7000)
-                comp_file_0 = os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.0.0.txt"
-                comp_file_1 = os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.200.1.txt"
-
-                comp_file_list = [(comp_file_0, comp_file_1)]
-		cv_n_iter = 2
-
+		score_list=[]
+		print("spearmint hyperparameter search mode")
 	else:
 		print("No valid mode chosen")
 		return 1
@@ -102,7 +149,7 @@ def classifier_eval(aC,agamma,mode):
 		#determine how many data points are in each sample
 		no_0=features_0.shape[0]
 		no_1=features_1.shape[0]
-
+		no_tot=no_0+no_1
 		#Give all samples in file 0 the label 0 and in file 1 the feature 1
 		label_0=np.zeros((no_0,1))
 		label_1=np.ones((no_1,1))
@@ -117,12 +164,20 @@ def classifier_eval(aC,agamma,mode):
 
 		X=data[:,:-1]
 		y=data[:,-1]
+		print("X : ",X)
+		print("y : ",y)
+		atest_size=0.2
+		if cv_n_iter==1:
+			train_range = range(int(math.floor(no_tot*(1-atest_size))))
+			test_range  = range(int(math.ceil(no_tot*(1-atest_size))),no_tot)
+			#print("train_range : ", train_range)
+			#print("test_range : ", test_range)
+			acv = Counter(train_range,test_range)
+			#print(acv)
+		else:
+			acv = StratifiedShuffleSplit(y, n_iter=cv_n_iter, test_size=atest_size, random_state=42)
 
-
-		acv = StratifiedShuffleSplit(y, n_iter=cv_n_iter, test_size=0.2, random_state=42)
-
-		print(X)
-		print(y)
+		print("Finished with setting up samples")
 
 		# It is usually a good idea to scale the data for SVM training.
 		# We are cheating a bit in this example in scaling all of the data,
@@ -143,7 +198,7 @@ def classifier_eval(aC,agamma,mode):
 			# tuning can be achieved but at a much higher cost.
 
 
-			grid = GridSearchCV(SVC(probability=True), scoring=p_value_scoring_object.p_value_scoring_object ,param_grid=param_grid, cv=cv)
+			grid = GridSearchCV(clf, scoring=p_value_scoring_object.p_value_scoring_object ,param_grid=param_grid, cv=acv)
 			grid.fit(X, y)
 
 			print("The best parameters are %s with a score of %0.2f"
@@ -211,14 +266,70 @@ def classifier_eval(aC,agamma,mode):
 			plt.yticks(np.arange(len(C_range)), C_range)
 			plt.title('Validation accuracy')
 			plt.savefig('Heat_map.png')
-		elif mode==0:
-			scores = cross_validation.cross_val_score(clf,X,y,cv=acv,scoring=p_value_scoring_object.p_value_scoring_object)	
-			print(scores)
+		else:
+			if keras_mode==1:
+				from keras.models import Sequential
+				from keras.layers.core import Dense, Activation
+				from keras.layers import Dropout
+				from keras.utils import np_utils, generic_utils
+
+				dimof_input = X.shape[1]
+				dimof_output =1
+				
+				print("dimof_input : ",dimof_input, "dimof_output : ", dimof_output)				
+				#y = np_utils.to_categorical(y, dimof_output)
+				scores = []
+				counter = 1
+				for train_index, test_index in acv:
+					print("Cross validation run ", counter)
+					X_train, X_test = X[train_index], X[test_index]
+					y_train, y_test = y[train_index], y[test_index]
+					
+					print("X_train : ",X_train)
+					print("y_train : ",y_train)
+
+					batch_size = 1 
+					dimof_middle = args[9] 
+					dropout = 0.5 
+					countof_epoch = 5 
+					n_hidden_layers = args[10]
+
+					model = Sequential() 
+					model.add(Dense(input_dim=dimof_input, output_dim=dimof_middle, init="glorot_uniform",activation='tanh'))
+					model.add(Dropout(dropout))
+
+					for n in range(n_hidden_layers):
+						model.add(Dense(input_dim=dimof_middle, output_dim=dimof_middle, init="glorot_uniform",activation='tanh'))
+						model.add(Dropout(dropout))
+							
+					model.add(Dense(input_dim=dimof_middle, output_dim=dimof_output, init="glorot_uniform",activation='sigmoid'))
+
+					#Compiling (might take longer)
+					model.compile(loss='categorical_crossentropy', optimizer='sgd')
+					model.fit(X_train, y_train,show_accuracy=True,batch_size=batch_size, nb_epoch=countof_epoch, verbose=0)
+					prob_pred = model.predict_proba(X_test)
+					print("prob_pred : ", prob_pred)
+					assert (not (np.isnan(np.sum(prob_pred))))
+				
+					#Just like in p_value_scoring_strategy.py
+				        y_test         = np.reshape(y_test,(1,y_test.shape[0]))
+					prob_pred = np.reshape(prob_pred,(1,prob_pred.shape[0]))
+					prob_0    = prob_pred[np.logical_or.reduce([y_test==0])]
+					prob_1    = prob_pred[np.logical_or.reduce([y_test==1])]
+					if __debug__:
+						print("Plot")
+					p_KS=stats.ks_2samp(prob_0,prob_1)
+					print(p_KS)
+					scores.append(p_KS[1])
+					counter +=1
+	
+					
+			else:
+				scores = (-1)*cross_validation.cross_val_score(clf,X,y,cv=acv,scoring=p_value_scoring_object.p_value_scoring_object)	
+			print("scores : ",scores)
 			score_list.append(np.mean(scores))
-		elif mode==2:
-			scores = cross_validation.cross_val_score(clf,X,y,cv=acv,scoring=p_value_scoring_object.p_value_scoring_object)
-			print(scores)
-			return (-1)* np.mean(scores)
+			if mode==2:
+				return np.mean(scores)
 
 	############################################################################################################################################################
 	###############################################################  Evaluation of results  ####################################################################
@@ -229,10 +340,20 @@ def classifier_eval(aC,agamma,mode):
 		# The score list has been computed. Let's plot the distribution
 		print(score_list)
 		print("I havent implemented plotting of the distribution")
-
+		with open(name+"_p_values",'w') as p_value_file:
+			for item in score_list:
+				p_value_file.write(str(item)+'\n')
+		histo_plot_pvalue(score_list,50,"p value","Frequency","p value distribution",name+"_p_values_plot")
+	
 
 if __name__ == "__main__":
 	print("Executing classifier_eval_simplified as a stand-alone script")
 	print()
+        comp_file_list=[]
+	for i in range(100):
+		comp_file_list.append((os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.{0}.0.txt".format(i), os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.2{0}.1.txt".format(str(i).zfill(2))))
+
+	clf = SVC(C=100,gamma=0.1,probability=True, cache_size=7000)
+	args=["dalitz_svc","particle","antiparticle",100,comp_file_list,1,clf,np.logspace(-2, 10, 13),np.logspace(-9, 3, 13)]
 	#classifier_eval_simplified(aC,agamma)
-	classifier_eval(1,0.1,0)
+	classifier_eval(0,0,args)

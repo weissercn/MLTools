@@ -1,0 +1,78 @@
+Job launching after 0.35 seconds in submission.
+Running python job.
+Changed into dir /Users/weisser/Dropbox (MIT)/MIT/Research/MLTools/Dalitz_simplified/spearmint/bdt_stumps_more_estimators
+Importing classifier_eval_wrapper.py
+Running classifier_eval_wrapper.main()
+/usr/local/lib/python2.7/site-packages/sklearn/ensemble/weight_boosting.py:132: VisibleDeprecationWarning: using a non-integer number instead of an integer will result in an error in the future
+  self.estimator_weights_ = np.zeros(self.n_estimators, dtype=np.float)
+/usr/local/lib/python2.7/site-packages/numpy/core/numeric.py:190: VisibleDeprecationWarning: using a non-integer number instead of an integer will result in an error in the future
+  a = empty(shape, dtype, order)
+Traceback (most recent call last):
+  File "/Users/weisser/Documents/Spearmint-master/spearmint/launcher.py", line 243, in launch
+    result = python_launcher(job)
+  File "/Users/weisser/Documents/Spearmint-master/spearmint/launcher.py", line 327, in python_launcher
+    result = module.main(job['id'], params)
+  File "/Users/weisser/Dropbox (MIT)/MIT/Research/MLTools/Dalitz_simplified/spearmint/bdt_stumps_more_estimators/classifier_eval_wrapper.py", line 21, in main
+    result= classifier_eval_simplified.classifier_eval(2,args)
+  File "../../classifier_eval_simplified.py", line 206, in classifier_eval
+    scores = cross_validation.cross_val_score(clf,X,y,cv=acv,scoring=p_value_scoring_object.p_value_scoring_object)
+  File "/usr/local/lib/python2.7/site-packages/sklearn/cross_validation.py", line 1433, in cross_val_score
+    for train, test in cv)
+  File "/usr/local/lib/python2.7/site-packages/sklearn/externals/joblib/parallel.py", line 800, in __call__
+    while self.dispatch_one_batch(iterator):
+  File "/usr/local/lib/python2.7/site-packages/sklearn/externals/joblib/parallel.py", line 658, in dispatch_one_batch
+    self._dispatch(tasks)
+  File "/usr/local/lib/python2.7/site-packages/sklearn/externals/joblib/parallel.py", line 566, in _dispatch
+    job = ImmediateComputeBatch(batch)
+  File "/usr/local/lib/python2.7/site-packages/sklearn/externals/joblib/parallel.py", line 180, in __init__
+    self.results = batch()
+  File "/usr/local/lib/python2.7/site-packages/sklearn/externals/joblib/parallel.py", line 72, in __call__
+    return [func(*args, **kwargs) for func, args, kwargs in self.items]
+  File "/usr/local/lib/python2.7/site-packages/sklearn/cross_validation.py", line 1531, in _fit_and_score
+    estimator.fit(X_train, y_train, **fit_params)
+  File "/usr/local/lib/python2.7/site-packages/sklearn/ensemble/weight_boosting.py", line 405, in fit
+    return super(AdaBoostClassifier, self).fit(X, y, sample_weight)
+  File "/usr/local/lib/python2.7/site-packages/sklearn/ensemble/weight_boosting.py", line 140, in fit
+    sample_weight)
+  File "/usr/local/lib/python2.7/site-packages/sklearn/ensemble/weight_boosting.py", line 462, in _boost
+    return self._boost_real(iboost, X, y, sample_weight)
+  File "/usr/local/lib/python2.7/site-packages/sklearn/ensemble/weight_boosting.py", line 469, in _boost_real
+    estimator = self._make_estimator()
+  File "/usr/local/lib/python2.7/site-packages/sklearn/ensemble/base.py", line 76, in _make_estimator
+    estimator = clone(self.base_estimator_)
+  File "/usr/local/lib/python2.7/site-packages/sklearn/base.py", line 49, in clone
+    new_object_params = estimator.get_params(deep=False)
+  File "/usr/local/lib/python2.7/site-packages/sklearn/base.py", line 214, in get_params
+    for key in self._get_param_names():
+  File "/usr/local/lib/python2.7/site-packages/sklearn/base.py", line 184, in _get_param_names
+    init_signature = signature(init)
+  File "/usr/local/lib/python2.7/site-packages/sklearn/externals/funcsigs.py", line 69, in signature
+    parameters=(first,) + tuple(sig.parameters.values())[1:])
+  File "/usr/local/lib/python2.7/site-packages/sklearn/externals/funcsigs.py", line 609, in replace
+    return_annotation=return_annotation)
+  File "/usr/local/lib/python2.7/site-packages/sklearn/externals/funcsigs.py", line 487, in __init__
+    for idx, param in enumerate(parameters):
+KeyboardInterrupt
+Problem executing the function
+Job failed in 25.13 seconds.
+
+This script can be used to get the p value for classifiers. It takes input files with column vectors corresponding to features and lables. 
+Then there are two different routes one can go down. When mode has a value of 1, then a grid search will be performed on 
+one set of input files. If it is 2, then the hyperparemeter search is performed by spearmint. When the mode is turned off (0), 
+then the p value is computed for multiple sets of input files and the p value distribution is plotted.  
+
+Anything printed here will end up in the output directory for job #55
+{u'ano_estimators': array([ 999.51189859]), u'lrn_rate': array([ 1.76582509])}
+[('/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.0.0.txt', '/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.200.1.txt')]
+spearmint hyperparameter search mode
+Operating of files :/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.0.0.txt   /Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.200.1.txt
+[[ 0.13681    0.157121 ]
+ [ 0.0692371  0.409785 ]
+ [ 0.395875   0.0549939]
+ ..., 
+ [ 0.763698   0.155132 ]
+ [ 0.403115   0.0727972]
+ [ 0.439777   0.0512654]]
+[ 0.  1.  1. ...,  0.  0.  0.]
+Ks_2sampResult(statistic=0.024000000000000021, pvalue=0.60715761502421783)
+(<type 'exceptions.KeyboardInterrupt'>, KeyboardInterrupt(), <traceback object at 0x10a93eab8>)

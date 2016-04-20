@@ -7,8 +7,8 @@ Running classifier_eval_wrapper.main()
   self.estimator_weights_ = np.zeros(self.n_estimators, dtype=np.float)
 /usr/local/lib/python2.7/site-packages/numpy/core/numeric.py:190: VisibleDeprecationWarning: using a non-integer number instead of an integer will result in an error in the future
   a = empty(shape, dtype, order)
-Got result 0.267013671271
-Completed successfully in 2.03 seconds. [{u'main': 0.2670136712707819}]
+Got result 0.999943357564
+Completed successfully in 1.56 seconds. [{u'main': 0.99994335756419661}]
 
 This script can be used to get the p value for classifiers. It takes input files with column vectors corresponding to features and lables. 
 Then there are two different routes one can go down. When mode has a value of 1, then a grid search will be performed on 
@@ -20,14 +20,14 @@ Anything printed here will end up in the output directory for job #1
 [('/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.0.0.txt', '/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.200.1.txt')]
 spearmint hyperparameter search mode
 Operating of files :/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.0.0.txt   /Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.200.1.txt
-[[ 0.662215  0.154137]
- [ 0.17468   0.509442]
- [ 0.21769   0.277173]
+[[ 0.635212  0.158107]
+ [ 0.32992   0.438835]
+ [ 0.519874  0.150361]
  ..., 
- [ 0.415288  0.430184]
- [ 0.720019  0.239755]
- [ 0.224811  0.500214]]
-[ 0.  0.  0. ...,  1.  1.  0.]
-Ks_2sampResult(statistic=0.040000000000000036, pvalue=0.079503460372014709)
-Ks_2sampResult(statistic=0.026999999999999996, pvalue=0.45452388216954909)
-[-0.07950346 -0.45452388]
+ [ 0.749253  0.179813]
+ [ 0.649006  0.260877]
+ [ 0.22099   0.461602]]
+[ 1.  1.  1. ...,  1.  1.  0.]
+Ks_2sampResult(statistic=0.0015000000000000568, pvalue=0.99999999999999978)
+Ks_2sampResult(statistic=0.010500000000000065, pvalue=0.99988671512839344)
+[-1.         -0.99988672]

@@ -10,11 +10,17 @@ x=data[:50,0]
 y=data[:50,1]
 z=data[:50,2]
 cm = plt.cm.get_cmap('RdYlBu')
-print(len(x))
 fig= plt.figure()
 ax1= fig.add_subplot(1, 1, 1)
 
 sc = ax1.scatter(x,y,c=z,s=35,cmap=cm)
+
+print("z : ",z)
+index = np.argmin(z)
+print("index of max : ",index)
+print("values of max : ",x[index],y[index],z[index])
+ax1.scatter(x[index],y[index],c=z[index],s=50,cmap=cm)
+
 cb=plt.colorbar(sc)
 
 cb.set_label('p value')
