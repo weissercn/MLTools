@@ -1,9 +1,0 @@
-Job launching after 0.25 seconds in submission.
-Running python job.
-Changed into dir /Users/weisser/Dropbox (MIT)/MIT/Research/MLTools/Dalitz_simplified/spearmint/delete_example5
-Importing classifier_eval_wrapper.py
-Running classifier_eval_wrapper.main()
-/usr/local/lib/python2.7/site-packages/sklearn/svm/base.py:176: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-  (self.gamma == 'auto')):
-/usr/local/lib/python2.7/site-packages/sklearn/svm/base.py:179: FutureWarning: elementwise comparison failed; returning scalar instead, but in the future will perform elementwise comparison
-  elif self.gamma == 'auto':

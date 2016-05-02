@@ -16,7 +16,7 @@ import math
 
 number_of_files=100
 
-name           = "gaussian_samples"
+name           = "gaussian_samples_4l_1000n"
 sample1_name   = "mean_0_5"
 # You might have to change this to "seed_100_0"
 sample2_name   = "one_d_0_01"

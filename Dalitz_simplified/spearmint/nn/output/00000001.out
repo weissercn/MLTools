@@ -1,57 +1,0 @@
-Job launching after 0.28 seconds in submission.
-Running python job.
-Changed into dir /Users/weisser/Dropbox (MIT)/MIT/Research/MLTools/Dalitz_simplified/spearmint/nn
-Importing classifier_eval_wrapper.py
-Using Theano backend.
-/usr/local/lib/python2.7/site-packages/theano/tensor/signal/downsample.py:6: UserWarning: downsample module has been moved to the theano.tensor.signal.pool module.
-  "downsample module has been moved to the theano.tensor.signal.pool module.")
-Running classifier_eval_wrapper.main()
-/usr/local/lib/python2.7/site-packages/keras/initializations.py:13: VisibleDeprecationWarning: converting an array with ndim > 0 to an index will result in an error in the future
-  return K.variable(np.random.uniform(low=-scale, high=scale, size=shape),
-/usr/local/lib/python2.7/site-packages/keras/backend/theano_backend.py:70: VisibleDeprecationWarning: converting an array with ndim > 0 to an index will result in an error in the future
-  return variable(np.zeros(shape), dtype, name)
-
-This script can be used to get the p value for classifiers. It takes input files with column vectors corresponding to features and lables. 
-Then there are two different routes one can go down. When mode has a value of 1, then a grid search will be performed on 
-one set of input files. If it is 2, then the hyperparemeter search is performed by spearmint. When the mode is turned off (0), 
-then the p value is computed for multiple sets of input files and the p value distribution is plotted. One sets all the valiables 
-including the classifier in the "args" list. The classifier provided is ignored if keras_mode is on (1) in which case a keras neural 
-network is used.   
-
-Anything printed here will end up in the output directory for job #1
-{u'n_hidden_layers': array([1]), u'dimof_middle': array([10])}
-[('/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.0.0.txt', '/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.200.1.txt')]
-spearmint hyperparameter search mode
-Operating of files :/Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.0.0.txt   /Users/weisser/MIT_Dropbox/MIT/Research/MLTools/Dalitz/dpmodel/data/data_optimisation.200.1.txt
-X :  [[ 0.418985   0.448762 ]
- [ 0.62144    0.345589 ]
- [ 0.213215   0.437517 ]
- ..., 
- [ 0.753489   0.177061 ]
- [ 0.0779817  0.781046 ]
- [ 0.0707287  0.456712 ]]
-y :  [ 1.  0.  0. ...,  0.  1.  1.]
-Finished with setting up samples
-dimof_input :  2 dimof_output :  1
-Cross validation run  1
-X_train :  [[ 0.47182327  0.50920862]
- [ 1.41790405 -0.05812888]
- [-0.48974863  0.44737355]
- ..., 
- [ 0.53827861  0.89834343]
- [-0.83182     1.14511735]
- [ 1.83114585 -1.33777126]]
-y_train :  [ 1.  0.  0. ...,  0.  1.  0.]
- 128/4000 [..............................] - ETA: 0s 256/4000 [>.............................] - ETA: 0s 384/4000 [=>............................] - ETA: 0s 512/4000 [==>...........................] - ETA: 0s 640/4000 [===>..........................] - ETA: 0s 768/4000 [====>.........................] - ETA: 0s 896/4000 [=====>........................] - ETA: 0s1024/4000 [======>.......................] - ETA: 0s1152/4000 [=======>......................] - ETA: 0s1280/4000 [========>.....................] - ETA: 0s1408/4000 [=========>....................] - ETA: 0s1536/4000 [==========>...................] - ETA: 0s1664/4000 [===========>..................] - ETA: 0s1792/4000 [============>.................] - ETA: 0s1920/4000 [=============>................] - ETA: 0s2048/4000 [==============>...............] - ETA: 0s2176/4000 [===============>..............] - ETA: 0s2304/4000 [================>.............] - ETA: 0s2432/4000 [=================>............] - ETA: 0s2560/4000 [==================>...........] - ETA: 0s2688/4000 [===================>..........] - ETA: 0s2816/4000 [====================>.........] - ETA: 0s2944/4000 [=====================>........] - ETA: 0s3072/4000 [======================>.......] - ETA: 0s3200/4000 [=======================>......] - ETA: 0s3328/4000 [=======================>......] - ETA: 0s3456/4000 [========================>.....] - ETA: 0s3584/4000 [=========================>....] - ETA: 0s3712/4000 [==========================>...] - ETA: 0s3840/4000 [===========================>..] - ETA: 0s3968/4000 [============================>.] - ETA: 0s4000/4000 [==============================] - 0s     Got result 0.951909606711
-Completed successfully in 27.55 seconds. [{u'main': 0.95190960671074154}]
-
-prob_pred :  [[ 0.54273504]
- [ 0.50462312]
- [ 0.53093135]
- ..., 
- [ 0.44280902]
- [ 0.48986334]
- [ 0.54159588]]
-Plot
-Ks_2sampResult(statistic=0.016290796060265622, pvalue=0.95190960671074154)
-scores :  [0.95190960671074154]

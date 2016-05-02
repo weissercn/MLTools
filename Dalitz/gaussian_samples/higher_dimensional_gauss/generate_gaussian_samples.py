@@ -81,7 +81,7 @@ for dim in range(mean.shape[0]):
 
 print(full_cords)
 
-np.savetxt("gauss_data/data_high{0}Dgauss_".format(int(no_dim))+str(int(no_points))+"_"+str(original_mean)+"_"+str(original_std)+"_"+str(distance_of_centers)+"_"+str(int(label_no))+  ".txt",full_cords)
+np.savetxt("gauss_data/data_high{0}Dgauss_optimisation_".format(int(no_dim))+str(int(no_points))+"_"+str(original_mean)+"_"+str(original_std)+"_"+str(distance_of_centers)+"_"+str(int(label_no))+  ".txt",full_cords)
 #fo = open("gauss_data/data.manyDgauss_"+str(no_points)+"_"+str(x_mean)+"_"+str(x_std)+"_"+str(y_mean)+"_"+str(y_std)+"_"+str(label_no)+  ".txt", "w")
 
 #for i in range(len(x_values)):

@@ -71,7 +71,7 @@ def perm_test(T_comp,T_actual):
 print("Plotting p values directly")
 distrib_name= []
 for file in os.listdir("."):
-        if(file.startswith("test_statistics") and "dropout_5_epochs" in file and not file.endswith(".png") and not file.endswith(".pdf") ):
+        if(file.startswith("test_statistics") and "4l_100n" in file and not file.endswith(".png") and not file.endswith(".pdf") ):
                 distrib_name.append(file)
 
 # no cpv
@@ -90,7 +90,7 @@ T = []
 D = []
 p_Ks = []
 
-f_name='gaussian_dimensionality_analysis_nn'
+f_name='gaussian_dimensionality_analysis_nn_4l_100n'
 f = open(f_name, 'w')
 print("Writing to file ",f_name)
 
@@ -151,8 +151,9 @@ for i in range(no_files_permtest):
         
 	histo_plot_pvalue(p_CvM,50,"p value","Frequency","p value distribution CvM",distrib_name_permtest[i]+"_p_value_CvM")
 
-p_mir = np.loadtxt('gaussian_dimensionality_analysis_miranda')
-p_nn  = np.loadtxt('gaussian_dimensionality_analysis_nn')
+#p_mir = np.loadtxt('gaussian_dimensionality_analysis_miranda_2bins')
+p_mir = np.loadtxt('gaussian_dimensionality_analysis_nn')
+p_nn  = np.loadtxt('gaussian_dimensionality_analysis_nn_4l_100n')
 print(p_mir)
 print(p_mir[:,0])
 

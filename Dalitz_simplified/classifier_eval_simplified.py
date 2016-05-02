@@ -20,7 +20,6 @@ from matplotlib.colors import Normalize
 from sklearn import cross_validation
 from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler
-from sklearn.datasets import load_iris
 from sklearn.cross_validation import StratifiedShuffleSplit
 from sklearn.grid_search import GridSearchCV
 from scipy import stats
@@ -70,6 +69,9 @@ def histo_plot_pvalue(U_0,abins,axlabel,aylabel,atitle,aname):
 
         print(no_one_std_dev,no_two_std_dev,no_three_std_dev)
 
+	with open(aname+"_p_values_1_2_3_std_dev.txt",'w') as p_value_1_2_3_std_dev_file:
+        	p_value_1_2_3_std_dev_file.write(str(no_one_std_dev)+'\t'+str(no_two_std_dev)+'\t'+str(no_three_std_dev)+'\n')
+
         #plt.rc('text', usetex=True)
         textstr = '$1\sigma=%i$\n$2\sigma=%i$\n$3\sigma=%i$'%(no_one_std_dev, no_two_std_dev, no_three_std_dev)
 
@@ -90,7 +92,7 @@ def histo_plot_pvalue(U_0,abins,axlabel,aylabel,atitle,aname):
         ax1_pred_0.text(0.85, 0.95, textstr, transform=ax1_pred_0.transAxes, fontsize=14,
         verticalalignment='top', bbox=props)
 
-        fig_pred_0.savefig(aname+".png")
+        fig_pred_0.savefig(aname+"_p_values_plot.png")
         #fig_pred_0.show()
         plt.close(fig_pred_0) 
 
@@ -114,6 +116,11 @@ def classifier_eval(mode,keras_mode,args):
 	clf = args[6]
 	C_range = args[7]
 	gamma_range = args[8]
+
+	if len(args)>9:
+		AD_mode = args[9]
+	else:
+		AD_mode = 0
 
         if mode==0:
                 #For standard evaluation
@@ -197,8 +204,12 @@ def classifier_eval(mode,keras_mode,args):
 			# 10 is often helpful. Using a basis of 2, a finer
 			# tuning can be achieved but at a much higher cost.
 
+			if AD_mode==1:
+				grid = GridSearchCV(clf, scoring=p_value_scoring_object.p_value_scoring_object_AD ,param_grid=param_grid, cv=acv)
+			else:
+				grid = GridSearchCV(clf, scoring=p_value_scoring_object.p_value_scoring_object ,param_grid=param_grid, cv=acv)
+			
 
-			grid = GridSearchCV(clf, scoring=p_value_scoring_object.p_value_scoring_object ,param_grid=param_grid, cv=acv)
 			grid.fit(X, y)
 
 			print("The best parameters are %s with a score of %0.2f"
@@ -274,7 +285,8 @@ def classifier_eval(mode,keras_mode,args):
 				from keras.utils import np_utils, generic_utils
 
 				dimof_input = X.shape[1]
-				dimof_output =1
+				dimof_output =2
+				y = np_utils.to_categorical(y, dimof_output)
 				
 				print("dimof_input : ",dimof_input, "dimof_output : ", dimof_output)				
 				#y = np_utils.to_categorical(y, dimof_output)
@@ -289,10 +301,10 @@ def classifier_eval(mode,keras_mode,args):
 					print("y_train : ",y_train)
 
 					batch_size = 1 
-					dimof_middle = args[9] 
+					dimof_middle = args[10] 
 					dropout = 0.5 
 					countof_epoch = 5 
-					n_hidden_layers = args[10]
+					n_hidden_layers = args[11]
 
 					model = Sequential() 
 					model.add(Dense(input_dim=dimof_input, output_dim=dimof_middle, init="glorot_uniform",activation='tanh'))
@@ -310,7 +322,10 @@ def classifier_eval(mode,keras_mode,args):
 					prob_pred = model.predict_proba(X_test)
 					print("prob_pred : ", prob_pred)
 					assert (not (np.isnan(np.sum(prob_pred))))
-				
+		
+					# for y is 2D change dimof_output =2, add y = np_utils.to_categorical(y, dimof_output) and change the following line
+					prob_pred = [sublist[0] for sublist in prob_pred]		
+					y_test = [sublist[0] for sublist in y_test]  
 					#Just like in p_value_scoring_strategy.py
 				        y_test         = np.reshape(y_test,(1,y_test.shape[0]))
 					prob_pred = np.reshape(prob_pred,(1,prob_pred.shape[0]))
@@ -318,14 +333,23 @@ def classifier_eval(mode,keras_mode,args):
 					prob_1    = prob_pred[np.logical_or.reduce([y_test==1])]
 					if __debug__:
 						print("Plot")
-					p_KS=stats.ks_2samp(prob_0,prob_1)
-					print(p_KS)
-					scores.append(p_KS[1])
+					
+					if AD_mode==1:
+						p_AD_stat=stats.anderson_ksamp([prob_0,prob_1])
+						print(p_AD_stat)
+						scores.append(p_AD_stat[2])
+					else:
+						p_KS=stats.ks_2samp(prob_0,prob_1)
+						print(p_KS)
+						scores.append(p_KS[1])
 					counter +=1
 	
 					
 			else:
-				scores = (-1)*cross_validation.cross_val_score(clf,X,y,cv=acv,scoring=p_value_scoring_object.p_value_scoring_object)	
+				if AD_mode==1:
+					scores = (-1)*cross_validation.cross_val_score(clf,X,y,cv=acv,scoring=p_value_scoring_object.p_value_scoring_object_AD)
+				else:
+					scores = (-1)*cross_validation.cross_val_score(clf,X,y,cv=acv,scoring=p_value_scoring_object.p_value_scoring_object)	
 			print("scores : ",scores)
 			score_list.append(np.mean(scores))
 			if mode==2:
@@ -339,21 +363,53 @@ def classifier_eval(mode,keras_mode,args):
 	if mode==0:
 		# The score list has been computed. Let's plot the distribution
 		print(score_list)
-		print("I havent implemented plotting of the distribution")
 		with open(name+"_p_values",'w') as p_value_file:
 			for item in score_list:
 				p_value_file.write(str(item)+'\n')
-		histo_plot_pvalue(score_list,50,"p value","Frequency","p value distribution",name+"_p_values_plot")
+		histo_plot_pvalue(score_list,50,"p value","Frequency","p value distribution",name)
 	
 
 if __name__ == "__main__":
 	print("Executing classifier_eval_simplified as a stand-alone script")
 	print()
         comp_file_list=[]
+
+	from sklearn import tree
+	from sklearn.ensemble import AdaBoostClassifier
+	from sklearn.svm import SVC 
+
+	#clf = SVC(C=100,gamma=0.1,probability=True, cache_size=7000)
+	
+	####################################################################
+	# Dalitz operaton
+	####################################################################
+
 	for i in range(100):
 		comp_file_list.append((os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.{0}.0.txt".format(i), os.environ['MLToolsDir']+"/Dalitz/dpmodel/data/data.2{0}.1.txt".format(str(i).zfill(2))))
+	
+	clf = tree.DecisionTreeClassifier('gini','best',46, 100, 1, 0.0, None)
+	#clf = AdaBoostClassifier(base_estimator=tree.DecisionTreeClassifier(max_depth=2), learning_rate=0.95,n_estimators=440)
+	#clf = SVC(C=params['aC'],gamma=params['agamma'],probability=True, cache_size=7000)
+	args=["dalitz_dt","particle","antiparticle",100,comp_file_list,1,clf,np.logspace(-2, 10, 13),np.logspace(-9, 3, 13),1]
+	#For nn:
+	#args=["dalitz","particle","antiparticle",100,comp_file_list,1,clf,np.logspace(-2, 10, 13),np.logspace(-9, 3, 13),1,params['dimof_middle'],params['n_hidden_layers']]
+	
+	####################################################################
+	# Gaussian samples operation
+	####################################################################
 
-	clf = SVC(C=100,gamma=0.1,probability=True, cache_size=7000)
-	args=["dalitz_svc","particle","antiparticle",100,comp_file_list,1,clf,np.logspace(-2, 10, 13),np.logspace(-9, 3, 13)]
-	#classifier_eval_simplified(aC,agamma)
+	
+
+        #clf = tree.DecisionTreeClassifier('gini','best',37, 89, 1, 0.0, None)
+	#clf = AdaBoostClassifier(base_estimator=tree.DecisionTreeClassifier(max_depth=2), learning_rate=0.01,n_estimators=983)
+	#clf = SVC(C=params['aC'],gamma=params['agamma'],probability=True, cache_size=7000)
+	#args=["gauss_svc","particle","antiparticle",100,comp_file_list,1,clf,np.logspace(-2, 10, 13),np.logspace(-9, 3, 13)]
+	#For nn:
+	#args=["dalitz","particle","antiparticle",100,comp_file_list,1,clf,np.logspace(-2, 10, 13),np.logspace(-9, 3, 13),params['dimof_middle'],params['n_hidden_layers']]
+
+	####################################################################
+
+
 	classifier_eval(0,0,args)
+
+

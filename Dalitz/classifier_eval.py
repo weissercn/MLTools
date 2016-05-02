@@ -356,7 +356,6 @@ class twodim_miranda(gof_test):
 		print("self.no_bins:")
 		print(self.no_bins)
 		#self.no_bins=no_bins
-                assert self.no_bins.shape[0]==self.no_dim
         def get_results(self):
                 import numpy.matlib
 		#self.no_binsx=self.no_bins[0]
@@ -437,11 +436,9 @@ class twodim_miranda(gof_test):
 				#print("labels[i]: {0}".format(str(int(labels[i]))))
                 if __debug__:
                         print(self.bins_sample0)
-                        print(self.bins_sample0[1,1])
                         print(np.sum(self.bins_sample0))
 
                         print(self.bins_sample1)
-                        print(self.bins_sample1[1,1])
                         print(np.sum(self.bins_sample1))
 
                 #element wise subtraction and division

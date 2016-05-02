@@ -136,7 +136,7 @@ elif "keras" in classifier_name:
 	keras_example=classifier_eval.keras_classifier(data,40,0,name,sample1_name,sample2_name)
 	keras_example.get_results()
 elif "miranda" in classifier_name:
-	miranda_example=classifier_eval.twodim_miranda(data,40,0,3,name,sample1_name,sample2_name)
+	miranda_example=classifier_eval.twodim_miranda(data,40,0,2,name,sample1_name,sample2_name)
 	miranda_example.get_results()
 elif "etest" in classifier_name:
 	energy_test_example=classifier_eval.twodim_energy_test(data,40,0,0.15,features_0,features_1,name,sample1_name,sample2_name)
