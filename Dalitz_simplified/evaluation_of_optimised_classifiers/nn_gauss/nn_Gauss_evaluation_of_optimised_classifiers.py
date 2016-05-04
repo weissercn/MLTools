@@ -9,7 +9,7 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.svm import SVC
 
 
-for dim in range(2,3):
+for dim in range(3,11):
 	comp_file_list=[]
     
 	####################################################################
@@ -25,7 +25,7 @@ for dim in range(2,3):
         #args=[str(dim)+ "Dgauss_dt","particle","antiparticle",100,comp_file_list,1,clf,np.logspace(-2, 10, 13),np.logspace(-9, 3, 13)]
         #For nn:
         clf="This shouldnt be used as we are in Keras mode"
-	args=[str(dim)+"Dgauss_nn_4layers_100neurons_addedvalsplit0_2","particle","antiparticle",100,comp_file_list,1,clf,np.logspace(-2, 10, 13),np.logspace(-9, 3, 13),0,100,4]
+	args=[str(dim)+"Dgauss_nn_4layers_100neurons_onehot","particle","antiparticle",100,comp_file_list,1,clf,np.logspace(-2, 10, 13),np.logspace(-9, 3, 13),0,100,4]
 
         ####################################################################
 

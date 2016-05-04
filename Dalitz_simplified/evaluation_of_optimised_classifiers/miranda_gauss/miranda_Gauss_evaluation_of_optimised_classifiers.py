@@ -31,7 +31,7 @@ sample2_name="antiparticle"
 
 shuffling_seed = 100 
 
-single_no_bins_list=[3]
+single_no_bins_list=[2]
 
 
 
@@ -41,7 +41,8 @@ for dim_data in range(2,11):
 	print("We are now in "+str(dim_data) + " Dimensions")
 	comp_file_list=[]
 	for i in range(1,101):
-                comp_file_list.append((os.environ['MLToolsDir']+"/Dalitz/gaussian_samples/higher_dimensional_gauss/gauss_data/data_high" +str(dim_data)+"Dgauss_10000_0.5_0.1_0.0_{0}.txt".format(i),os.environ['MLToolsDir']+"/Dalitz/gaussian_samples/higher_dimensional_gauss/gauss_data/data_high"+str(dim_data)+"Dgauss_10000_0.5_0.1_0.01_{0}.txt".format(i))) 
+                #comp_file_list.append((os.environ['MLToolsDir']+"/Dalitz/gaussian_samples/higher_dimensional_gauss/gauss_data/data_high" +str(dim_data)+"Dgauss_10000_0.5_0.1_0.0_{0}.txt".format(i),os.environ['MLToolsDir']+"/Dalitz/gaussian_samples/higher_dimensional_gauss/gauss_data/data_high"+str(dim_data)+"Dgauss_10000_0.5_0.1_0.01_{0}.txt".format(i))) 
+		comp_file_list.append((os.environ['MLToolsDir']+"/Dalitz/gaussian_samples/double_gauss/gauss_data/data_double_high" +str(dim_data)+"Dgauss_10000_0.25_0.75_0.1_0.0_{0}.txt".format(i),os    .environ['MLToolsDir']+"/Dalitz/gaussian_samples/double_gauss/gauss_data/data_double_high"+str(dim_data)+"Dgauss_10000_0.25_0.75_0.1_0.1_{0}.txt".format(i))) 
 	print(comp_file_list)
 
 	for single_no_bins in single_no_bins_list:
@@ -164,11 +165,11 @@ for dim_data in range(2,11):
 			print("pvalue : {0}".format(str(pvalue)))
 			score_list.append(pvalue)
 
-		with open(str(dim_data)+"Dgauss_miranda_"+str(single_no_bins)+"bins_p_values", "wb") as test_statistics_file:
+		with open(str(dim_data)+"Dgauss_double_miranda_"+str(single_no_bins)+"bins_p_values", "wb") as test_statistics_file:
 			for score in score_list:
 				test_statistics_file.write(str(score)+"\n")
 
-		classifier_eval_simplified.histo_plot_pvalue(score_list,50,"p value","Frequency","p value distribution",str(dim_data)+"Dgauss_miranda_"+str(single_no_bins)+"bins")
+		classifier_eval_simplified.histo_plot_pvalue(score_list,50,"p value","Frequency","p value distribution",str(dim_data)+"Dgauss_doubl_miranda_"+str(single_no_bins)+"bins")
 
 
 

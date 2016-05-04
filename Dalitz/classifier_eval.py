@@ -677,6 +677,7 @@ class keras_classifier(classifier):
 		# Get dimensions of input and output
 		dimof_input = X.shape[1]
 		dimof_output = len(set(y.flat))
+		print("dimof_output : ",dimof_output)
 
 		# Set y categorical
 		y = np_utils.to_categorical(y, dimof_output)

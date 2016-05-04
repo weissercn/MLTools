@@ -21,7 +21,16 @@ for dim in range(2,11):
         temp1,temp2,temp3 = np.loadtxt("../bdt_gauss/"+str(dim)+'Dgauss_bdt_p_values_1_2_3_std_dev.txt')
         p_1_bdt.append(temp1), p_2_bdt.append(temp2), p_3_bdt.append(temp3)
 
-print("Boosted decision tree : ", p_1_dt,p_2_dt,p_3_dt)
+print("Boosted decision tree : ", p_1_bdt,p_2_bdt,p_3_bdt)
+
+p_1_bdt_AD = []
+p_2_bdt_AD = []
+p_3_bdt_AD = []
+for dim in range(2,11):
+        temp1,temp2,temp3 = np.loadtxt("../bdt_gauss/"+str(dim)+'Dgauss_bdt_AD_p_values_1_2_3_std_dev.txt')
+        p_1_bdt_AD.append(temp1), p_2_bdt_AD.append(temp2), p_3_bdt_AD.append(temp3)
+
+print("Boosted decision tree Anderson Darling : ", p_1_bdt_AD,p_2_bdt_AD,p_3_bdt_AD)
 
 p_1_svm = []
 p_2_svm = []
@@ -83,6 +92,7 @@ fig = plt.figure()
 ax  = fig.add_subplot(1,1,1)
 ax.plot(dimensions,p_2_dt,label="dt 2$\sigma$",color='black')
 ax.plot(dimensions,p_2_bdt,label="bdt 2$\sigma$",color='darkorange')
+#ax.plot(dimensions,p_2_bdt_AD,label="bdt AD 2$\sigma$",color='saddlebrown')
 ax.plot(dimensions,p_2_svm,label="svm 2$\sigma$",color='lawngreen')
 
 ax.plot(dimensions,p_2_nn_6_200,label="nn 6l 200n 2$\sigma$",color='blue')
@@ -92,10 +102,11 @@ ax.plot(dimensions,p_2_nn_4_100_old,label="nn 4l 100n old 2$\sigma$",color='cyan
 ax.plot(dimensions,p_2_miranda_2bins,label="Miranda 2bins 2$\sigma$",color='red')
 ax.plot(dimensions,p_2_miranda_3bins,label="Miranda 3bins 2$\sigma$",color='darkred')
 
+plt.ylim([0,100])
 ax.set_xlabel("Number of dimensions")
 ax.set_ylabel("Number of samples")
 ax.set_title("Dimensionality analysis")
-ax.legend(loc='lower left')
+ax.legend(loc='upper right')
 fig_name="dimensionality_analysis"
 fig.savefig(fig_name)
 fig.savefig("../dt_gauss/"+fig_name)
