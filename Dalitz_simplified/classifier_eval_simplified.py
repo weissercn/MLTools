@@ -324,8 +324,10 @@ def classifier_eval(mode,keras_mode,args):
 					assert (not (np.isnan(np.sum(prob_pred))))
 		
 					# for y is 2D change dimof_output =2, add y = np_utils.to_categorical(y, dimof_output) and change the following line
-					prob_pred = [sublist[0] for sublist in prob_pred]		
-					y_test = [sublist[0] for sublist in y_test]  
+					prob_pred = np.array([sublist[0] for sublist in prob_pred])		
+					y_test = np.array([sublist[0] for sublist in y_test]) 
+					print("y_test : ", y_test)
+					print("prob_pred : ", prob_pred)
 					#Just like in p_value_scoring_strategy.py
 				        y_test         = np.reshape(y_test,(1,y_test.shape[0]))
 					prob_pred = np.reshape(prob_pred,(1,prob_pred.shape[0]))
