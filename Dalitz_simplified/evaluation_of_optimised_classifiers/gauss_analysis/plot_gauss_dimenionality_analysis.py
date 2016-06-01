@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 
 dimensions=[2,3,4,5,6,7,8,9,10]
 
+print("Gaussian dimensional analysis \n")
+
 #Decision Tree
 p_1_dt = []
 p_2_dt = []
@@ -115,5 +117,91 @@ fig.savefig("../svm_gauss/"+fig_name)
 fig.savefig("../nn_gauss/"+fig_name)
 fig.savefig("../miranda_gauss/"+fig_name)
 print("Saved the figure as" , fig_name+".png")
+
+############################################################################################################################
+############################################################################################################################
+####################################################### Double Gauss #######################################################
+############################################################################################################################
+############################################################################################################################
+
+print("\n\nDouble gaussian dimensional analysis distance_to_original 0.1\n")
+
+p_1_miranda_2bins_double = []
+p_2_miranda_2bins_double = []
+p_3_miranda_2bins_double = []
+for dim in range(2,11):
+        temp1,temp2,temp3 = np.loadtxt("../miranda_gauss/"+str(dim)+'Dgauss_double_miranda_2bins_p_values_1_2_3_std_dev.txt')
+        p_1_miranda_2bins_double.append(temp1), p_2_miranda_2bins_double.append(temp2), p_3_miranda_2bins_double.append(temp3)
+
+print("Miranda 2 bins_double: ", p_1_miranda_2bins_double,p_2_miranda_2bins_double,p_3_miranda_2bins_double)
+
+p_1_miranda_3bins_double = []
+p_2_miranda_3bins_double = []
+p_3_miranda_3bins_double = []
+for dim in range(2,11):
+        temp1,temp2,temp3 = np.loadtxt("../miranda_gauss/"+str(dim)+'Dgauss_double_miranda_3bins_p_values_1_2_3_std_dev.txt')
+        p_1_miranda_3bins_double.append(temp1), p_2_miranda_3bins_double.append(temp2), p_3_miranda_3bins_double.append(temp3)
+
+print("Miranda 3 bins: ", p_1_miranda_3bins,p_2_miranda_3bins,p_3_miranda_3bins)
+
+fig = plt.figure()
+ax  = fig.add_subplot(1,1,1)
+ax.plot(dimensions,p_2_miranda_2bins_double,label="Miranda 2bins 2$\sigma$",color='red')
+ax.plot(dimensions,p_2_miranda_3bins_double,label="Miranda 3bins 2$\sigma$",color='darkred')
+
+plt.ylim([0,100])
+ax.set_xlabel("Number of dimensions")
+ax.set_ylabel("Number of samples")
+ax.set_title("Dimensionality analysis double gaussian dist 0.1")
+ax.legend(loc='upper right')
+fig_name="dimensionality_analysis_double"
+fig.savefig(fig_name)
+fig.savefig("../dt_gauss/"+fig_name)
+fig.savefig("../bdt_gauss/"+fig_name)
+fig.savefig("../svm_gauss/"+fig_name)
+fig.savefig("../nn_gauss/"+fig_name)
+fig.savefig("../miranda_gauss/"+fig_name)
+print("Saved the figure as" , fig_name+".png")
+
+############################################################################################################################
+print("\n\nDouble gaussian dimensional analysis distance_to_original 0.02\n")
+
+p_1_miranda_2bins_double_dist02 = []
+p_2_miranda_2bins_double_dist02 = []
+p_3_miranda_2bins_double_dist02 = []
+for dim in range(2,11):
+        temp1,temp2,temp3 = np.loadtxt("../miranda_gauss/"+str(dim)+'Dgauss_double_dist02_miranda_2bins_p_values_1_2_3_std_dev.txt')
+        p_1_miranda_2bins_double_dist02.append(temp1), p_2_miranda_2bins_double_dist02.append(temp2), p_3_miranda_2bins_double_dist02.append(temp3)
+
+print("Miranda 2 bins_double_dist02: ", p_1_miranda_2bins_double_dist02,p_2_miranda_2bins_double_dist02,p_3_miranda_2bins_double_dist02)
+
+p_1_miranda_3bins_double_dist02 = []
+p_2_miranda_3bins_double_dist02 = []
+p_3_miranda_3bins_double_dist02 = []
+for dim in range(2,11):
+        temp1,temp2,temp3 = np.loadtxt("../miranda_gauss/"+str(dim)+'Dgauss_double_dist02_miranda_3bins_p_values_1_2_3_std_dev.txt')
+        p_1_miranda_3bins_double_dist02.append(temp1), p_2_miranda_3bins_double_dist02.append(temp2), p_3_miranda_3bins_double_dist02.append(temp3)
+
+print("Miranda 2 bins_double_dist02: ", p_1_miranda_2bins_double_dist02,p_2_miranda_2bins_double_dist02,p_3_miranda_2bins_double_dist02)
+
+fig = plt.figure()
+ax  = fig.add_subplot(1,1,1)
+ax.plot(dimensions,p_2_miranda_2bins_double_dist02,label="Miranda 2bins 2$\sigma$",color='red')
+ax.plot(dimensions,p_2_miranda_3bins_double_dist02,label="Miranda 3bins 2$\sigma$",color='darkred')
+
+plt.ylim([0,100])
+ax.set_xlabel("Number of dimensions")
+ax.set_ylabel("Number of samples")
+ax.set_title("Dimensionality analysis double gaussian dist 0.02")
+ax.legend(loc='upper right')
+fig_name="dimensionality_analysis_double_dist02"
+fig.savefig(fig_name)
+fig.savefig("../dt_gauss/"+fig_name)
+fig.savefig("../bdt_gauss/"+fig_name)
+fig.savefig("../svm_gauss/"+fig_name)
+fig.savefig("../nn_gauss/"+fig_name)
+fig.savefig("../miranda_gauss/"+fig_name)
+print("Saved the figure as" , fig_name+".png")
+
 
 
