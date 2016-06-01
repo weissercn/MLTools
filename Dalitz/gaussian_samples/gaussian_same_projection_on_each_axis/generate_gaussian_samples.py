@@ -22,6 +22,8 @@ from numpy import matrix
 from numpy import linalg
 
 DEBUG = False
+GRAPHS = False
+REDEF_SIGMA_PERP = True
 
 args = str(sys.argv)
 #print ("Args list: %s " % args)
@@ -32,9 +34,15 @@ if(total==7):
 	no_points = int(sys.argv[1])
 	loc_centre = float(sys.argv[2])
 	sigma_parallel = float(sys.argv[3])
-	sigma_perp = float(sys.argv[4])
+	sigma_perp_orig = float(sys.argv[4])
 	no_dim = int(sys.argv[5])
 	label_no =float(sys.argv[6])
+	
+	if REDEF_SIGMA_PERP:
+                sigma_perp = np.divide(sigma_perp_orig,no_dim)
+        else:
+                sigma_perp = sigma_perp_orig
+	
 else:	
 	print("Using standard arguments")
 dist_origin_centre = loc_centre*np.sqrt(no_dim)
@@ -73,25 +81,30 @@ if DEBUG:
 	print("X[:,1] : ",X[:,1])
 
 
-name = "gaussian_same_projection_on_each_axis_"+str(int(no_dim))+"D_"+str(int(no_points))+"_"+str(loc_centre)+"_"+str(sigma_parallel)+"_"+str(sigma_perp)+"_"+str(int(label_no))
+name = "gaussian_same_projection_on_each_axis_"
+if REDEF_SIGMA_PERP:
+	name += "redefined_"
+name += str(int(no_dim))+"D_"+str(int(no_points))+"_"+str(loc_centre)+"_"+str(sigma_parallel)+"_"+str(sigma_perp_orig)+"_"+str(int(label_no))
+
 
 np.savetxt("gauss_data/"+name+".txt",X)
 
-plt.figure()
-plt.hist2d(X[:,0],X[:,1], bins=20, range=np.array([(0,1),(0,1)]))
-plt.title("Gauss Same Projection on each axis 2D Histogram")
-plt.xlim(0,1)
-plt.ylim(0,1)
-cb= plt.colorbar()
-cb.set_label("number of events")
-plt.savefig(name+"_2Dhist.png")
-print("plotting "+name+"_2Dhist.png")
+if GRAPHS:
+	plt.figure()
+	plt.hist2d(X[:,0],X[:,1], bins=20, range=np.array([(0,1),(0,1)]))
+	plt.title("Gauss Same Projection on each axis 2D Histogram")
+	plt.xlim(0,1)
+	plt.ylim(0,1)
+	cb= plt.colorbar()
+	cb.set_label("number of events")
+	plt.savefig(name+"_2Dhist.png")
+	print("plotting "+name+"_2Dhist.png")
 
-plt.figure()
-plt.hist(X[:,0], bins=100, facecolor='red', alpha=0.5)
-plt.title("Gauss Same Projection on each axis 1D Histogram")
-plt.xlim(0,1)
-plt.savefig(name+"_1Dhist.png")
-print("plotting "+name+"_1Dhist.png")
+	plt.figure()
+	plt.hist(X[:,0], bins=100, facecolor='red', alpha=0.5)
+	plt.title("Gauss Same Projection on each axis 1D Histogram")
+	plt.xlim(0,1)
+	plt.savefig(name+"_1Dhist.png")
+	print("plotting "+name+"_1Dhist.png")
 
-print("\n\n")
+	print("\n\n")

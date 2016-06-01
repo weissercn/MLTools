@@ -18,14 +18,14 @@ import math
 import numpy as np
 
 
-number_of_files=200
+number_of_files=100
 log_every_n = number_of_files // 10
 
 no_points=10000
 original_mean1=0.25
 original_mean2=0.75
 original_std=0.1
-distance_to_original = 0.1
+distance_to_original = 0.02
 #use 0.00 for the standard sample and say 0.03 for the cpv sample
 
 for no_dim in range(2,11):

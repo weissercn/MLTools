@@ -45,15 +45,50 @@ def Legendre_sum(x,contrib):
         prob = np.real(ampl* np.conjugate(ampl))
         return prob
 
-nsam=100
+def LegendreSqu_sum(x,contrib):
+        "Compute the sum of Legendre Polynomicals. Expect input (x1,x2,...xn) and ((AI,n1I,n2I,..),(AII,n1II,n2II,...),...)" 
+        ampl = 0 
+        ndim = contrib.shape[1]-1
+        ncontrib = contrib.shape[0]
+        #print("Number of dimensions : ", ndim )
+        assert x.shape[0]==ndim
+        #print("Number of contributions : ", ncontrib)
+        for c in range(ncontrib):
+                ampl_counting = contrib[c,0]
+                for d in range(ndim):
+                        ampl_counting= ampl_counting*np.square(legendre(contrib[c,d+1])(x[d]))
+                        #print("ampl_counting : ",ampl_counting)        
+                ampl += ampl_counting
+                #print("ampl : ",ampl)
+        prob = np.real(ampl* np.conjugate(ampl))
+        return prob
+
+def SinSqu(x,SinSqu_periods):
+	sin_contrib = np.square(np.sin(x*np.pi*SinSqu_periods/2.0))
+	#print("sin_contrib : ",sin_contrib)
+	return np.prod(np.square(np.sin(x*np.pi*SinSqu_periods/2.0)))
+
+
+
+nsam=200
 
 n_maxvalue_too_low_all_samples=0
 coefficients=[1,0.5,2,0.7]
 
 high_oscillation_mode=1
-order_of_poly_high_oscillation = 9
+order_of_poly_high_oscillation = 100
 
-for number_of_dimensions in range(1,11):
+# 'legendre', 'legendre_squared', 'sin', 'sin1diff'
+function_mode='sin1diff'
+#if 'sin'
+SinSqu_periods=39
+#if 'sin1diff'
+Sin1diff_normal_period = 5
+Sin1diff_diff_period   = 5
+
+
+
+for number_of_dimensions in range(10,11):
 
 	for i in range(len(coefficients)):
 		l = [coefficients[i]]
@@ -65,13 +100,11 @@ for number_of_dimensions in range(1,11):
 			contrib.append(l)
 
 	contrib=np.array(contrib)
-
 	if high_oscillation_mode==1:
 		l=[1]
 		for n in range(number_of_dimensions):
 			l.append(order_of_poly_high_oscillation)
 		contrib=np.array([l])
-	
 	print("contrib : ", contrib)
 
 
@@ -88,16 +121,29 @@ for number_of_dimensions in range(1,11):
 			for d in range(ndim):
 				x[d]=random.uniform(-1,1)
 			#print("x : ",x)
-			cutoff=Legendre_sum(x,contrib)
-			#print("cutoff : ", cutoff)
+			if function_mode=='legendre_squared':
+				cutoff=LegendreSqu_sum(x,contrib)
+			elif function_mode=='legendre':
+				cutoff=Legendre_sum(x,contrib)
+			elif function_mode=='sin':
+				cutoff=SinSqu(x,SinSqu_periods)
+			elif function_mode=='sin1diff':
+				periods = [Sin1diff_normal_period] * (number_of_dimensions -1)	
+				periods.append(Sin1diff_diff_period)
+				cutoff=SinSqu(x,periods)
+			else:
+				print("No valid mode was chosen")
+			#print("x : ",x," cutoff : ", cutoff)
 			# the maximum of each legendre polynomial between x [-1,1] is 1. Hence, the maximum amplitude is the sum of the coefficients
 			maxampl=0
 			for c in range(ncontrib):
 				maxampl += complex(abs(np.real(contrib[c,0])),abs(np.imag(contrib[c,0])))
 			maxvalue = np.real(maxampl*np.conjugate(maxampl))
+			if function_mode=='sin' or function_mode=='sin1diff':
+				maxvalue = 1.0 
 			random_number = random.uniform(0,maxvalue)
 			#print("random_number : ",random_number)
-			#print("x : ",x,"  Legendre_sum : ",cutoff,"  maxvalue : ", maxvalue, "  random_number : ", random_number)
+			#print("x : ",x,"  cutoff : ",cutoff,"  maxvalue : ", maxvalue, "  random_number : ", random_number)
 			if cutoff > maxvalue:
 				n_maxvalue_too_low +=1
 				print("The Lengendre sum value was bigger than the maxvalue expected. The probability distribution might not be correctly represented now.")
@@ -115,15 +161,20 @@ for number_of_dimensions in range(1,11):
 
 		n_maxvalue_too_low_all_samples += n_maxvalue_too_low
 		print("\n ######################################################## \n")
-		print("p_sh : ", p_sh)
+		print("p_sh[-5:] : ", p_sh[-5:])
 		print("n_maxvalue_too_low : ",n_maxvalue_too_low)
 		print("The inputs were: \n contrib : ", contrib)
 
-		name= "legendre_"
-		for c in range(ncontrib):
-			name+="contrib"+str(c)+"__"
-			for d in range(ndim+1):
-				name+=str(contrib[c,d]).replace(".", "_")+"__"
+		name= function_mode+ "_"
+		if function_mode=='sin':
+			name+= str(SinSqu_periods)+"_periods_"+str(number_of_dimensions)+"D_"
+		elif function_mode=='sin1diff':
+			name+= str(Sin1diff_normal_period) + "_and_" +str(Sin1diff_diff_period) + "_periods"+str(number_of_dimensions)+"D_"
+		else:
+			for c in range(ncontrib):
+				name+="contrib"+str(c)+"__"
+				for d in range(ndim+1):
+					name+=str(contrib[c,d]).replace(".", "_")+"__"
 		name+= "sample_"+str(nth_sample)
 		
 		data_name = "legendre_data/data_"+name+".txt"
@@ -134,7 +185,7 @@ for number_of_dimensions in range(1,11):
 
 			plt.figure()
 			plt.hist(p_sh[:,0], bins=100, facecolor='red', alpha=0.5)
-			plt.title("Legendre Polynomial 1D Histogram")
+			plt.title(name+" 1D Histogram")
 			plt.xlim(-1,1)
 			plt.savefig(name+"1Dhist.png")
 			print("plotting "+name+"1Dhist.png")
@@ -142,7 +193,7 @@ for number_of_dimensions in range(1,11):
 			if ndim >1:
 				plt.figure()
 				plt.hist2d(p_sh[:,0],p_sh[:,1], bins=20)
-				plt.title("Legendre Polynomial 2D Histogram")
+				plt.title(name+" 2D Histogram")
 				plt.xlim(-1,1)
 				plt.ylim(-1,1)
 				cb= plt.colorbar()
