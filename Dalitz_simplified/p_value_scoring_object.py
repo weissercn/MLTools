@@ -27,6 +27,64 @@ def p_value_scoring_object(clf, X, y):
 	p_KS=-p_KS_stat[1]
 	return p_KS
 
+def p_value_scoring_object_visualisation(clf, X, y): 
+        """ 
+        p_value_getter is a scoring callable that returns the negative p value from the KS test on the prediction probabilities for the particle and antiparticle samples.  
+        """
+	
+        #Finding out the prediction probabilities
+        prob_pred=clf.predict_proba(X)[:,1]
+        #print(prob_pred)
+
+        #making sure the inputs are row vectors
+        y         = np.reshape(y,(1,y.shape[0]))
+        prob_pred = np.reshape(prob_pred,(1,prob_pred.shape[0]))
+
+        #Separate prob into particle and antiparticle samples
+        prob_0    = prob_pred[np.logical_or.reduce([y==0])]
+        prob_1    = prob_pred[np.logical_or.reduce([y==1])]
+        #if __debug__:
+                #print("Plot")
+        p_KS_stat=stats.ks_2samp(prob_0,prob_1)
+
+	#http://scikit-learn.org/stable/auto_examples/tree/plot_iris.html#example-tree-plot-iris-py
+	import matplotlib.pyplot as plt
+	n_classes =2 
+        plot_colors = "br"
+
+	x_min, x_max = X[:, 0].min()*0.9 , X[:, 0].max() *1.1
+    	y_min, y_max = X[:, 1].min() * 0.9, X[:, 1].max() * 1.1
+	x_plot_step = (x_max - x_min)/20.0
+	y_plot_step = (y_max - y_min)/20.0
+	print("x_min : ", x_min, "x_max : ", x_max, "x_plot_step : ", x_plot_step)
+	print("y_min : ", y_min, "y_max : ", y_max, "y_plot_step : ", y_plot_step)
+	x_list=np.arange(x_min, x_max, x_plot_step)
+	#print("x_list : ",x_list)
+	y_list=np.arange(y_min, y_max, y_plot_step)
+	#print("y_list : ", y_list)
+    	xx, yy = np.meshgrid(x_list, y_list)
+
+	Z = clf.predict_proba(np.c_[xx.ravel(), yy.ravel()])
+	#print("Z : ",Z)
+	Z = np.array(Z)[:,0]
+	#print("Z : ",Z)
+	Z = Z.reshape(xx.shape)
+    	cs = plt.contourf(xx, yy, Z)
+	plt.colorbar()
+	plt.title("Visualisation of decision boundary")
+	plt.xlabel("x")
+	plt.ylabel("y")
+	plt.savefig("visualisation.png")
+
+	#plt.figure()
+	#plt.pcolor(xx,yy,Z)
+	#plt.colorbar()
+	#plt.savefig("visualisation2.png")
+	
+	print(p_KS_stat)
+        p_KS=-p_KS_stat[1]
+        return p_KS
+
 def p_value_scoring_object_AD(clf, X, y): 
         """ 
         p_value_getter is a scoring callable that returns the negative p value from the KS test on the prediction probabilities for the particle and antiparticle samples.  

@@ -118,6 +118,9 @@ def classifier_eval(mode,keras_mode,args):
 	gamma_range = args[8]
 
 	if len(args)>9:
+		#AD mode =1 : Anderson Darling test used instead of Kolmogorov Smirnov
+		#AD mode =2 : Visualisation of the decision boundary
+		#AD mode anything else: use KS and no visualisation
 		AD_mode = args[9]
 	else:
 		AD_mode = 0
@@ -191,8 +194,9 @@ def classifier_eval(mode,keras_mode,args):
 		# instead of fitting the transformation on the training set and
 		# just applying it on the test set.
 
-		scaler = StandardScaler()
-		X = scaler.fit_transform(X)
+		if AD_mode != 2:
+			scaler = StandardScaler()
+			X = scaler.fit_transform(X)
 
 		if mode==1:
 			##############################################################################
@@ -350,6 +354,11 @@ def classifier_eval(mode,keras_mode,args):
 			else:
 				if AD_mode==1:
 					scores = (-1)*cross_validation.cross_val_score(clf,X,y,cv=acv,scoring=p_value_scoring_object.p_value_scoring_object_AD)
+				elif AD_mode==2:
+					print("X[:,0].min() , ", X[:,0].min(), "X[:,0].max() : ", X[:,0].max())
+					scores = (-1)*cross_validation.cross_val_score(clf,X,y,cv=acv,scoring=p_value_scoring_object.p_value_scoring_object_visualisation)
+					import os
+					os.rename("visualisation.png",name+"_visualisation.png")
 				else:
 					scores = (-1)*cross_validation.cross_val_score(clf,X,y,cv=acv,scoring=p_value_scoring_object.p_value_scoring_object)	
 			print("scores : ",scores)
