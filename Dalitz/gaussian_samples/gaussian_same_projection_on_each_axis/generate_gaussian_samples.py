@@ -22,7 +22,7 @@ from numpy import matrix
 from numpy import linalg
 
 DEBUG = False
-GRAPHS = False
+GRAPHS = True
 REDEF_SIGMA_PERP = True
 
 args = str(sys.argv)
@@ -30,14 +30,15 @@ args = str(sys.argv)
 #The first argument is the name of this python file
 total = len(sys.argv)
 
-if(total==7):
+if(total==8):
 	no_points = int(sys.argv[1])
 	loc_centre = float(sys.argv[2])
 	sigma_parallel = float(sys.argv[3])
 	sigma_perp_orig = float(sys.argv[4])
 	no_dim = int(sys.argv[5])
 	label_no =float(sys.argv[6])
-	
+	optimisation_mode = float(sys.argv[7])
+
 	if REDEF_SIGMA_PERP:
                 sigma_perp = np.divide(sigma_perp_orig,no_dim)
         else:
@@ -84,8 +85,10 @@ if DEBUG:
 name = "gaussian_same_projection_on_each_axis_"
 if REDEF_SIGMA_PERP:
 	name += "redefined_"
-name += str(int(no_dim))+"D_"+str(int(no_points))+"_"+str(loc_centre)+"_"+str(sigma_parallel)+"_"+str(sigma_perp_orig)+"_"+str(int(label_no))
-
+name += str(int(no_dim))+"D_"+str(int(no_points))+"_"+str(loc_centre)+"_"+str(sigma_parallel)+"_"+str(sigma_perp_orig)
+if optimisation_mode==1:
+	name += "_optimisation"
+name += "_"+str(int(label_no))
 
 np.savetxt("gauss_data/"+name+".txt",X)
 

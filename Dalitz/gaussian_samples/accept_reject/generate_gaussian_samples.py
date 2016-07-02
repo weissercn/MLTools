@@ -95,6 +95,11 @@ def B_decay_K_mu_mu(tk,tl,p,dict_of_changes):
 
 nsam=100
 
+optimisation_mode=1 #if it is on nsam=1 and "optimisation" gets appended to the name
+
+if optimisation_mode==1:
+	nsam=1
+
 points_per_sample=1000
 
 dimensions=[2,3,4,5,6,7,8,9,10]
@@ -116,7 +121,7 @@ Sin1diff_diff_period   = 6
 adict_of_changes = {'AFB': -0.03}
 
 # acceptance mode =1: acceptance introduced and kept the same for all samples; =2: acceptance introduced and varied for each sample; =anything else: acceptance not introduced 
-acceptance_mode=2
+acceptance_mode=0
 acceptance_points_per_axis = 100
 
 
@@ -288,7 +293,10 @@ for number_of_dimensions in dimensions:
 			name+="acceptance_all_sample_"
 		elif acceptance_mode==2:
 			name+="acceptance_each_sample_"		
-
+		
+		if optimisation_mode==1:
+			name+="optimisation_"	
+	
 		name+= "sample_"+str(nth_sample)
 		
 		data_name = "legendre_data/data_"+name+".txt"
@@ -458,7 +466,7 @@ if 0:
 
 	print(full_cords)
 
-	np.savetxt("guss_data/data_double_high{0}Dgauss_".format(int(no_dim))+str(int(no_points))+"_"+str(original_mean1)+"_"+str(original_mean2)+"_"+str(original_std)+"_"+str(distance_to_original)+"_"+str(int(label_no))+  ".txt",full_cords)
+	np.savetxt("gauss_data/data_double_high{0}Dgauss_".format(int(no_dim))+str(int(no_points))+"_"+str(original_mean1)+"_"+str(original_mean2)+"_"+str(original_std)+"_"+str(distance_to_original)+"_"+str(int(label_no))+  ".txt",full_cords)
 
 
 

@@ -22,8 +22,10 @@ from sklearn.svm import SVC
 from sklearn.preprocessing import StandardScaler
 from sklearn.cross_validation import StratifiedShuffleSplit
 from sklearn.grid_search import GridSearchCV
+from keras.utils import np_utils
 from scipy import stats
 import math
+
 
 ##############################################################################
 # Utility function to move the midpoint of a colormap to be around
@@ -38,6 +40,42 @@ class MidpointNormalize(Normalize):
     def __call__(self, value, clip=None):
         x, y = [self.vmin, self.midpoint, self.vmax], [0, 0.5, 1]
         return np.ma.masked_array(np.interp(value, x, y)) 
+
+def Xy_to_keras_Xy(X,y):
+	print("X.shape : ",X.shape)
+	keras_X = X
+	keras_y = np_utils.to_categorical(y, 2)
+	return (keras_X, keras_y)
+
+def make_keras_model(n_hidden_layers, dimof_middle, dimof_input):
+	from keras.models import Sequential
+	from keras.layers import Dense, Dropout, Activation, Flatten
+	from keras.utils import np_utils, generic_utils
+	from keras.wrappers.scikit_learn import KerasClassifier
+
+	dimof_output =2
+
+	print("dimof_input : ",dimof_input, "dimof_output : ", dimof_output)
+
+	batch_size = 1 
+	dropout = 0.5 
+	countof_epoch = 5 
+
+	model = Sequential() 
+	model.add(Dense(input_dim=dimof_input, output_dim=dimof_middle, init="glorot_uniform",activation='tanh'))
+	model.add(Dropout(dropout))
+
+	for n in range(n_hidden_layers):
+		model.add(Dense(input_dim=dimof_middle, output_dim=dimof_middle, init="glorot_uniform",activation='tanh'))
+		model.add(Dropout(dropout))
+
+	model.add(Dense(input_dim=dimof_middle, output_dim=dimof_output, init="glorot_uniform",activation='sigmoid'))
+
+	#Compiling (might take longer)
+	model.compile(loss='categorical_crossentropy', optimizer='sgd')
+	
+	return model
+
 
 class Counter(object):
     # Creating a counter object to be able to perform cross validation with only one split
@@ -352,6 +390,8 @@ def classifier_eval(mode,keras_mode,args):
 	
 					
 			else:
+				if keras_mode==2:
+					X, y = Xy_to_keras_Xy(X,y)				
 				if AD_mode==1:
 					scores = (-1)*cross_validation.cross_val_score(clf,X,y,cv=acv,scoring=p_value_scoring_object.p_value_scoring_object_AD)
 				elif AD_mode==2:

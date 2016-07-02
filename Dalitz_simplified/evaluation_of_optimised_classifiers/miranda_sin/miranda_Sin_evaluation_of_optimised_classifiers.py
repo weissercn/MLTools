@@ -25,14 +25,14 @@ from sklearn.preprocessing import StandardScaler
 # Setting parameters
 #
 
-orig_name="sin1diff_5_and_5_periods_noCPV_p_value_distribution_miranda"
+orig_name="sin1diff_2_and_5_periods_CPV_p_value_distribution_miranda"
 sample1_name="particle"
 sample2_name="antiparticle"
 
 shuffling_seed = 100 
 
-single_no_bins_list=[8]
-dim_list = [10]
+single_no_bins_list=[2,3,4,5,6]
+dim_list = [2,3,4,5,6,7,8,9,10]
 
 DEBUG = False
 
@@ -44,7 +44,7 @@ for dim_data in dim_list:
 	for i in range(100):
                 #comp_file_list.append((os.environ['MLToolsDir']+"/Dalitz/gaussian_samples/higher_dimensional_gauss/gauss_data/data_high" +str(dim_data)+"Dgauss_10000_0.5_0.1_0.0_{0}.txt".format(i),os.environ['MLToolsDir']+"/Dalitz/gaussian_samples/higher_dimensional_gauss/gauss_data/data_high"+str(dim_data)+"Dgauss_10000_0.5_0.1_0.01_{0}.txt".format(i))) 
 		#comp_file_list.append((os.environ['MLToolsDir']+"/Dalitz/gaussian_samples/legendre/legendre_data/data_legendre_contrib0__1__10__sample_{0}.txt".format(i),os.environ['MLToolsDir']+"/Dalitz/gaussian_samples/legendre/legendre_data/data_legendre_contrib0__1__9__sample_{0}.txt".format(i)))
-		comp_file_list.append((os.environ['MLToolsDir']+"/Dalitz/gaussian_samples/legendre/legendre_data/data_sin1diff_5_and_5_periods{1}D_sample_{0}.txt".format(i,dim_data),os.environ['MLToolsDir']+"/Dalitz/gaussian_samples/legendre/legendre_data/data_sin1diff_5_and_5_periods{1}D_sample_1{0}.txt".format(str(i).zfill(2),dim_data)))
+		comp_file_list.append((os.environ['MLToolsDir']+"/Dalitz/gaussian_samples/accept_reject/legendre_data/data_sin1diff_2_and_2_periods{1}D_sample_{0}.txt".format(i,dim_data),os.environ['MLToolsDir']+"/Dalitz/gaussian_samples/accept_reject/legendre_data/data_sin1diff_2_and_5_periods{1}D_sample_{0}.txt".format(i,dim_data)))
 
 	print(comp_file_list)
 
