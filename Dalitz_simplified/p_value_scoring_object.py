@@ -12,7 +12,7 @@ def p_value_scoring_object(clf, X, y):
 
 	#Finding out the prediction probabilities
 	prob_pred=clf.predict_proba(X)[:,1]
-	print(prob_pred)
+	#print(prob_pred)
 
 	#This can be deleted if not using Keras
 	#For Keras turn cathegorical y back to normal y
