@@ -1,5 +1,7 @@
 # MLTools
-This python based project is aimed at building a coherent framework of Machine Learning Tools for Particle and Nuclear Physics. It uses scikit-learn, keras and tensorflow. We will look into MOE and hep_ml.
+
+THIS PROJECT SHOULD BE RENAMED ML_GoF and investigates how to use ML in Goodness-of-fit problems in particle physics. It is the old version of the learningml repository
+
 
 
 
